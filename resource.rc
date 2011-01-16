@@ -1,0 +1,36 @@
+#include "qpass-config.h"
+#include <winver.h>
+
+IDI_ICON1               ICON    DISCARDABLE     "qpass.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 	WIN_VERSION
+PRODUCTVERSION  WIN_VERSION
+#ifdef DEBUG
+FILEFLAGS	(VS_FF_DEBUG | VS_FF_PRERELEASE)
+#else
+FILEFLAGS	VS_FF_PRERELEASE
+#endif
+FILEOS		VOS__WINDOWS32
+FILETYPE	VFT_APP
+FILESUBTYPE	VFT2_UNKNOWN
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN 
+		BLOCK "040904E4"
+		BEGIN
+		VALUE "CompanyName",	"QPass"
+		VALUE "FileDescription",  "QPass password manager"
+		VALUE "LegalCopyright", "QPass"
+                VALUE "FileVersion", VERSION
+		VALUE "OriginalFilename", "qpass.exe"
+
+		VALUE "URL", "http://qpass.sourceforge.net/"
+		END
+	END
+
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x0409, 0x04E4
+	END
+END

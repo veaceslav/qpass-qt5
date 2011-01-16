@@ -1,0 +1,32 @@
+REQUIREMENTS:
+Qt4
+libgcrypt
+
+BUILD:
+The simplest way to build and install QPass is to type this commands in source directory:
+cmake ./
+make
+make install
+
+LICENSE:
+GPL v3 or newer
+
+AUTHOR:
+Mateusz Piêkos e-mail: mateuszpiekos@gmail.com
+
+If you have a questions, ideas to new features or want to report a bug e-mail me: mateuszpiekos@gmail.com
+
+Changelog:
+0.3.2:
+-changed about from qwindow to qdialog
+
+0.3.1
+-modified some design elements
+0.3:
+-Added import/export feature.
+
+0.2:
+-Changed mcrypt library to gcrypt.
+-Changed encryption method from AES128 to AES256.
+-Added translations feature.
+
