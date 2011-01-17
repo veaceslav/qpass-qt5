@@ -31,21 +31,9 @@ class DataAccess : public QObject
        * Constructs a new object to represent the file with the given name.
        *
        * @param path Path to database file.
-       */
-      DataAccess(QString &path);
-      /*! Opens a database.
-       *
-       * Opens a previous specified database with provided password.
-       * If database doesn't exist it is created.
-       *
        * @param password Password to database.
-       * @return 0 if operation was successful, -1 if password was incorrect, -2 other errors.
        */
-      int open(QString &password);
-      /*! Closes database opened before
-       *
-       */
-      void close();
+      DataAccess(QString &path, QString &password);
       /*! Returns stored data.
        * 
        * Returns stored decrypted data list.
@@ -61,6 +49,16 @@ class DataAccess : public QObject
        * @return True if operation was successful, otherwise false.
        */
       bool write(QList< QVector< QString> > &data);
+      /*! Checks if given file is database and password is correct.
+       *
+       * @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
+       */
+      int checkDatabase();
+      /*! Changes password used to encryption and decryption database.
+       *
+       * @param password New password.
+       */
+      void setPassword(QString &password);
    private:
       QString path; /**< Path to database. */
       QString password; 

@@ -15,18 +15,22 @@
 
 #include "MainWindow.h"
 #include "DataModel.h"
-#include "DataAccess.h"
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
    setupUi(this);
    
+   connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
+   connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeSelectedItem()));
+   
    previousPasswordDialog = NULL;
    newPasswordDialog = NULL;
    newDatabaseDialog = NULL;
+   
+   //Path to default database $HOME/.qpassdb
    path = getenv("HOME");
-   path += "/baza";
+   path += "/bazaa";
    
    if(QFile::exists(path))
       showPreviousPasswordDialog();
@@ -34,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
       showNewDatabaseDialog();
       
 }
+
 
 void MainWindow::showPreviousPasswordDialog()
 {
@@ -70,7 +75,8 @@ void MainWindow::showNewDatabaseDialog()
 
 void MainWindow::initWidgets(int result)
 {
-   if(QFile::exists(path))
+   bool dbExists = QFile::exists(path);
+   if(dbExists)
       password = previousPasswordDialog->value();
    else
    {
@@ -78,31 +84,44 @@ void MainWindow::initWidgets(int result)
       {
 	 showNewPasswordDialog();
 	 return;
-      }  
+      }
+      else if(result == 3)
+      {
+	 //code to handle database import
+      }
       password = newPasswordDialog->value();
    }
-   DataAccess data(path);
-   int res = data.open(password);
-   data.close();
-   if(res == -1)
+   if(dbExists)
    {
-      QMessageBox box;
-      box.setText( tr("Incorrect password.") );
-      box.setIcon(QMessageBox::Warning);
-      box.exec();
-      showPreviousPasswordDialog();
-      return;
+      int res = DataModel::checkDatabase(path, password);
+      if(res == -1)
+      {
+	 QMessageBox box;
+	 box.setText( tr("Incorrect password.") );
+	 box.setIcon(QMessageBox::Warning);
+	 box.exec();
+	 showPreviousPasswordDialog();
+	 return;
+      }
+      else if(res == -2)
+      {
+	 QMessageBox box;
+	 box.setText( tr("Error opening database.") );
+	 box.setIcon(QMessageBox::Critical);
+	 box.exec();
+	 qApp->quit();
+      }
    }
-   else if(res == -2)
-   {
-      QMessageBox box;
-      box.setText( tr("Error opening database.") );
-      box.setIcon(QMessageBox::Critical);
-      box.exec();
-      qApp->quit();
-   }
-   model = new DataModel(path, password, this);
+   model = new DataModel(path, password, dbExists, this);
    listView->setModel(model);
-   tableView->setModel(model);
    this->show();
+}
+
+void MainWindow::addItem()
+{
+   model->insertRows(model->rowCount(), 1);
+}
+
+void MainWindow::removeSelectedItem()
+{
 }

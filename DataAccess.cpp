@@ -13,21 +13,17 @@
 
 #include "DataAccess.h"
 
-DataAccess::DataAccess(QString &path)
+DataAccess::DataAccess(QString &path, QString &password)
 {
    this->path = path;
+   this->password = password;
    file = new QFile(path);
 }
 
-int DataAccess::open(QString &password)
+int DataAccess::checkDatabase()
 {
-   this->password = password;
    if(!file->open(QIODevice::ReadWrite))
    {
-      QMessageBox box;
-      box.setText( tr("Error opening database") );
-      box.setIcon(QMessageBox::Critical);
-      box.exec();
       return -2;
    }
    struct header head;
@@ -79,18 +75,25 @@ int DataAccess::open(QString &password)
       }
    }
    else
+   {
+      file->close();
       return -2;
-   return 0;
-}
-
-void DataAccess::close()
-{
+   }
    file->close();
+   return 0;
 }
 
 
 QList< QVector< QString> > DataAccess::read()
 {
+   if(!file->open(QIODevice::ReadWrite))
+   {
+      QMessageBox box;
+      box.setText( tr("Error opening database") );
+      box.setIcon(QMessageBox::Critical);
+      box.exec();
+      return QList< QVector< QString> >();
+   }
    QList< QVector< QString> > list;
    QVector< QString > tempVector(5); //In this version there is 5 columns
    file->seek(0);
@@ -212,12 +215,21 @@ QList< QVector< QString> > DataAccess::read()
 	 gcry_cipher_close(hd);
       }
    }
+   file->close();
    return list;
 }
 
 bool DataAccess::write(QList< QVector< QString> > &data)
 {
-   file->seek(0);
+   file->remove();
+   if(!file->open(QIODevice::ReadWrite))
+   {
+      QMessageBox box;
+      box.setText( tr("Error opening database") );
+      box.setIcon(QMessageBox::Critical);
+      box.exec();
+      return false;
+   }
    struct header head;
    head.id[0] = 'P';
    head.id[1] = 'A';
@@ -273,4 +285,11 @@ bool DataAccess::write(QList< QVector< QString> > &data)
       delete entry;
    }
    gcry_cipher_close(hd);
+   file->close();
+   return true;
+}
+
+void DataAccess::setPassword(QString &password)
+{
+   this->password = password;
 }

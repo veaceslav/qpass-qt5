@@ -30,18 +30,43 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
    Q_OBJECT
    public:
       MainWindow(QWidget *parent = 0);
-      void showPreviousPasswordDialog();
-      void showNewPasswordDialog();
-      void showNewDatabaseDialog();
    private:
+      /*! This function shows PreviousPasswordDialog.
+       *
+       * PreviousPasswordDialog is used to get a password to existing database from user.
+       */
+      void showPreviousPasswordDialog();
+      /*! This function shows NewPasswordDialog.
+       *
+       * NewPasswordDialog is used to get a password to new database from user.
+       */
+      void showNewPasswordDialog();
+      /*! This function shows NewDatabaseDialog.
+       *
+       * NewDatabaseDialog is used to determine how user want to create new database,
+       * he could create empty database or import existing database.
+       */
+      void showNewDatabaseDialog();
+      
       DataModel *model;
-      QString password;
       QString path;
+      QString password;
       PreviousPasswordDialog *previousPasswordDialog;
       NewPasswordDialog *newPasswordDialog;
       NewDatabaseDialog *newDatabaseDialog;
    private slots:
+      /*!
+       * This function inits widgets and shows MainWindow.
+       */
       void initWidgets(int result = 1);
+      /*!
+       * This slot uses insertRows function to add row to database.
+       */
+      void addItem();
+      /*!
+       * This slot removes selected item using removeRows function.
+       */
+      void removeSelectedItem();
 };
 
 

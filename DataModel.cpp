@@ -19,17 +19,16 @@
 
 #define COLUMNCOUNT 5 //There are columns: "Name", "URL", "Username", "Password", "Notes"
 
-DataModel::DataModel(QString &path, QString &password, QObject *parent) : QAbstractTableModel(parent)
+DataModel::DataModel(QString &path, QString &password, bool openExisting, QObject *parent) : QAbstractTableModel(parent)
 {
-   database = new DataAccess(path);
-   database->open(password);
-   dataList = database->read();
-
+   database = new DataAccess(path, password);
+   if(openExisting)
+      dataList = database->read();
 }
 
 DataModel::~DataModel()
 {
-   database->close();
+   database->write(dataList);
    delete database;
 }
 
@@ -106,4 +105,10 @@ bool DataModel::removeRows(int row, int count, const QModelIndex &parent)
    }
    endRemoveRows();
    return true;
+}
+
+int DataModel::checkDatabase(QString &path, QString &password)
+{
+   DataAccess database(path, password);
+   return database.checkDatabase();
 }
