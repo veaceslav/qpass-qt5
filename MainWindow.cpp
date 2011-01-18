@@ -16,13 +16,11 @@
 #include "MainWindow.h"
 #include "DataModel.h"
 
+#include <stdio.h>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-   setupUi(this);
    
-   connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
-   connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeSelectedItem()));
    
    previousPasswordDialog = NULL;
    newPasswordDialog = NULL;
@@ -35,8 +33,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    if(QFile::exists(path))
       showPreviousPasswordDialog();
    else
-      showNewDatabaseDialog();
-      
+      showNewDatabaseDialog();  
 }
 
 
@@ -112,16 +109,81 @@ void MainWindow::initWidgets(int result)
 	 qApp->quit();
       }
    }
+   setupUi(this);
+   
    model = new DataModel(path, password, dbExists, this);
    listView->setModel(model);
+   selectionModel = listView->selectionModel();
+   
+   connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
+   connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeSelectedItem()));
+   connect(selectionModel, SIGNAL(selectionChanged( const QItemSelection &, const QItemSelection &)), this, SLOT(showSelectedItem( const QItemSelection &, const QItemSelection &)));
+   connect(nameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+   connect(urlEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+   connect(userNameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+   connect(passwordEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+   connect(notesEdit, SIGNAL(textChanged()), this, SLOT(enableSaveButton()));
+   connect(saveButton, SIGNAL(clicked()), this, SLOT(saveItem()));
+   
    this->show();
 }
 
 void MainWindow::addItem()
 {
    model->insertRows(model->rowCount(), 1);
+   selectionModel->clearSelection();
+   selectionModel->setCurrentIndex( model->index( model->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
 void MainWindow::removeSelectedItem()
 {
+   QModelIndexList list = selectionModel->selection().indexes();
+   if(list.count() == 1)
+   {
+      QModelIndex model = list[0];
+      this->model->removeRows(model.row(), 1);
+   }
+}
+
+void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected )
+{
+   QModelIndexList list = selected.indexes();
+   if(list.count() == 1)
+   {
+      int row = list[0].row();
+      itemWidget->setEnabled(true);
+      nameEdit->setText( model->data( model->index( row, 0 ) ).toString() );
+      urlEdit->setText( model->data( model->index( row, 1 ) ).toString() );
+      userNameEdit->setText( model->data( model->index( row, 2 ) ).toString() );
+      passwordEdit->setText( model->data( model->index( row, 3 ) ).toString() );
+      notesEdit->setText( model->data( model->index( row, 4 ) ).toString() );
+      deleteButton->setEnabled(true);
+   }
+   else
+   {
+      itemWidget->setEnabled(false);
+      nameEdit->setText(QString());
+      urlEdit->setText(QString());
+      userNameEdit->setText(QString());
+      passwordEdit->setText(QString());
+      notesEdit->setText(QString());
+      deleteButton->setEnabled(false);
+   }
+   saveButton->setEnabled(false);
+}
+
+void MainWindow::enableSaveButton()
+{
+   saveButton->setEnabled(true);
+}
+
+void MainWindow::saveItem()
+{
+   int row = selectionModel->selection().indexes()[0].row();
+   model->setData( model->index( row, 0), nameEdit->text());
+   model->setData( model->index( row, 1), urlEdit->text());
+   model->setData( model->index( row, 2), userNameEdit->text());
+   model->setData( model->index( row, 3), passwordEdit->text());
+   model->setData( model->index( row, 4), notesEdit->toPlainText());
+   saveButton->setEnabled(false);
 }

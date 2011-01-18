@@ -49,6 +49,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       void showNewDatabaseDialog();
       
       DataModel *model;
+      QItemSelectionModel *selectionModel;
       QString path;
       QString password;
       PreviousPasswordDialog *previousPasswordDialog;
@@ -67,6 +68,15 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * This slot removes selected item using removeRows function.
        */
       void removeSelectedItem();
+      /*!
+       * This slot shows data from selected item.
+       */
+      void showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected );
+      void enableSaveButton();
+      /*!
+       * This slot saves changes from actually selected item
+       */
+      void saveItem();
 };
 
 
