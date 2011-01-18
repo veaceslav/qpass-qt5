@@ -60,8 +60,9 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>You don't have any database
-What would like to do?</string>
+            <string>You don't have any database.
+To store your personal
+data you need to create one.</string>
            </property>
           </widget>
          </item>
@@ -101,11 +102,17 @@ What would like to do?</string>
     <widget class="QWidget" name="widget_2" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="importButton">
-        <property name="text">
-         <string>Import existing atabase</string>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QPushButton" name="newButton">
@@ -114,6 +121,19 @@ What would like to do?</string>
         </property>
        </widget>
       </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
@@ -121,7 +141,6 @@ What would like to do?</string>
  </widget>
  <tabstops>
   <tabstop>newButton</tabstop>
-  <tabstop>importButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

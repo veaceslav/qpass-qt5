@@ -15,7 +15,6 @@
 #include <QFile>
 
 #include "MainWindow.h"
-#include "NewDatabaseDialog.h"
 
 int main(int argc, char *argv[])
 {

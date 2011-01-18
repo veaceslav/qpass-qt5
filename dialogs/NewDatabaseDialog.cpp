@@ -16,16 +16,5 @@
 NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
 {
    setupUi(this);
-   connect(newButton, SIGNAL(clicked()), this, SLOT(acceptNew()));
-   connect(importButton, SIGNAL(clicked()), this, SLOT(acceptImport()));
-}
-
-void NewDatabaseDialog::acceptNew()
-{
-   done(2);
-}
-
-void NewDatabaseDialog::acceptImport()
-{
-   done(3);
+   connect(newButton, SIGNAL(clicked()), this, SLOT(accept()));
 }

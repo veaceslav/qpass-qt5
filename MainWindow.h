@@ -31,6 +31,14 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
    public:
       MainWindow(QWidget *parent = 0);
    private:
+      DataModel *model;
+      QItemSelectionModel *selectionModel;
+      QString path;
+      QString password;
+      PreviousPasswordDialog *previousPasswordDialog;
+      NewPasswordDialog *newPasswordDialog;
+      NewDatabaseDialog *newDatabaseDialog;
+   private slots:
       /*! This function shows PreviousPasswordDialog.
        *
        * PreviousPasswordDialog is used to get a password to existing database from user.
@@ -47,19 +55,10 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * he could create empty database or import existing database.
        */
       void showNewDatabaseDialog();
-      
-      DataModel *model;
-      QItemSelectionModel *selectionModel;
-      QString path;
-      QString password;
-      PreviousPasswordDialog *previousPasswordDialog;
-      NewPasswordDialog *newPasswordDialog;
-      NewDatabaseDialog *newDatabaseDialog;
-   private slots:
       /*!
        * This function inits widgets and shows MainWindow.
        */
-      void initWidgets(int result = 1);
+      void init();
       /*!
        * This slot uses insertRows function to add row to database.
        */
@@ -77,6 +76,13 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * This slot saves changes from actually selected item
        */
       void saveItem();
+      void copyURL();
+      void copyUserName();
+      void copyPassword();
+      /*!
+       * This slot switches echo mode between normal and password for passwordEdit.
+       */
+      void switchEchoMode();
 };
 
 

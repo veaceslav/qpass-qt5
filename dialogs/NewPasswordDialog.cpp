@@ -28,11 +28,11 @@ void NewPasswordDialog::accept()
 {
    if(passwordEdit->text() != passwordEdit2->text())
    {
-      QMessageBox box;
+      QMessageBox box(this);
       box.setText( tr("Passwords does not match") );
       box.setIcon( QMessageBox::Warning );
       box.exec();
-      done(2);
+      //done(2);
    }
    else
       done(QDialog::Accepted);

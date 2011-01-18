@@ -224,7 +224,7 @@ bool DataAccess::write(QList< QVector< QString> > &data)
    file->remove();
    if(!file->open(QIODevice::ReadWrite))
    {
-      QMessageBox box;
+      QMessageBox box(this);
       box.setText( tr("Error opening database") );
       box.setIcon(QMessageBox::Critical);
       box.exec();

@@ -12,16 +12,13 @@
 
 #include <QMessageBox>
 #include <QFile>
+#include <QClipboard>
 
 #include "MainWindow.h"
 #include "DataModel.h"
 
-#include <stdio.h>
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-   
-   
    previousPasswordDialog = NULL;
    newPasswordDialog = NULL;
    newDatabaseDialog = NULL;
@@ -42,7 +39,7 @@ void MainWindow::showPreviousPasswordDialog()
    if(previousPasswordDialog == NULL)
    {
       previousPasswordDialog = new PreviousPasswordDialog(this);
-      connect(previousPasswordDialog, SIGNAL(accepted()), this, SLOT(initWidgets()));
+      connect(previousPasswordDialog, SIGNAL(accepted()), this, SLOT(init()));
       connect(previousPasswordDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
    }
    previousPasswordDialog->show();
@@ -53,7 +50,7 @@ void MainWindow::showNewPasswordDialog()
    if(newPasswordDialog == NULL)
    {
       newPasswordDialog = new NewPasswordDialog(this);
-      connect(newPasswordDialog, SIGNAL(finished(int)), this, SLOT(initWidgets(int)));
+      connect(newPasswordDialog, SIGNAL(accepted()), this, SLOT(init()));
       connect(newPasswordDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
    }
    newPasswordDialog->show();
@@ -64,36 +61,25 @@ void MainWindow::showNewDatabaseDialog()
    if(newDatabaseDialog == NULL)
    {
       newDatabaseDialog = new NewDatabaseDialog(this);
-      connect(newDatabaseDialog, SIGNAL(finished(int)), this, SLOT(initWidgets(int)));
+      connect(newDatabaseDialog, SIGNAL(accepted()), this, SLOT(showNewPasswordDialog()));
       connect(newDatabaseDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
    }
    newDatabaseDialog->show();
 }
 
-void MainWindow::initWidgets(int result)
+void MainWindow::init()
 {
    bool dbExists = QFile::exists(path);
    if(dbExists)
       password = previousPasswordDialog->value();
    else
-   {
-      if(result == 2)
-      {
-	 showNewPasswordDialog();
-	 return;
-      }
-      else if(result == 3)
-      {
-	 //code to handle database import
-      }
       password = newPasswordDialog->value();
-   }
    if(dbExists)
    {
       int res = DataModel::checkDatabase(path, password);
       if(res == -1)
       {
-	 QMessageBox box;
+	 QMessageBox box(this);
 	 box.setText( tr("Incorrect password.") );
 	 box.setIcon(QMessageBox::Warning);
 	 box.exec();
@@ -102,7 +88,7 @@ void MainWindow::initWidgets(int result)
       }
       else if(res == -2)
       {
-	 QMessageBox box;
+	 QMessageBox box(this);
 	 box.setText( tr("Error opening database.") );
 	 box.setIcon(QMessageBox::Critical);
 	 box.exec();
@@ -124,6 +110,10 @@ void MainWindow::initWidgets(int result)
    connect(passwordEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
    connect(notesEdit, SIGNAL(textChanged()), this, SLOT(enableSaveButton()));
    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveItem()));
+   connect(copyurlButton, SIGNAL(clicked()), this, SLOT(copyURL()));
+   connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
+   connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
+   connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
    
    this->show();
 }
@@ -186,4 +176,33 @@ void MainWindow::saveItem()
    model->setData( model->index( row, 3), passwordEdit->text());
    model->setData( model->index( row, 4), notesEdit->toPlainText());
    saveButton->setEnabled(false);
+}
+
+void MainWindow::copyURL()
+{
+   QApplication::clipboard()->setText(urlEdit->text());
+}
+
+void MainWindow::copyUserName()
+{
+   QApplication::clipboard()->setText(userNameEdit->text());
+}
+
+void MainWindow::copyPassword()
+{
+   QApplication::clipboard()->setText(passwordEdit->text());
+}
+
+void MainWindow::switchEchoMode()
+{
+   if(passwordEdit->echoMode() == QLineEdit::Password)
+   {
+      passwordEdit->setEchoMode( QLineEdit::Normal );
+      showPasswordButton->setText( tr("Hide password") );
+   }
+   else
+   {
+      passwordEdit->setEchoMode( QLineEdit::Password );
+      showPasswordButton->setText( tr("Show password") );
+   }
 }

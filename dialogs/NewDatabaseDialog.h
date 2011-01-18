@@ -25,15 +25,6 @@ class NewDatabaseDialog : public QDialog, private Ui::NewDatabaseDialog
    Q_OBJECT
    public:
       NewDatabaseDialog(QWidget *parent = 0);
-   private slots:
-      /*!
-       * This function sets result code to 2(Create new database was clicked).
-       */
-      void acceptNew();
-      /*!
-       * This function sets result code to 3(Import existing database was clicked).
-       */
-      void acceptImport();
 };
 
 
