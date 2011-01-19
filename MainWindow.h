@@ -18,7 +18,6 @@
 
 #include "DataModel.h"
 #include "ui_MainWindow.h"
-#include "NewPasswordDialog.h"
 #include "PreviousPasswordDialog.h"
 #include "NewDatabaseDialog.h"
 
@@ -36,7 +35,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       QString path;
       QString password;
       PreviousPasswordDialog *previousPasswordDialog;
-      NewPasswordDialog *newPasswordDialog;
       NewDatabaseDialog *newDatabaseDialog;
    private slots:
       /*! This function shows PreviousPasswordDialog.
@@ -44,11 +42,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * PreviousPasswordDialog is used to get a password to existing database from user.
        */
       void showPreviousPasswordDialog();
-      /*! This function shows NewPasswordDialog.
-       *
-       * NewPasswordDialog is used to get a password to new database from user.
-       */
-      void showNewPasswordDialog();
       /*! This function shows NewDatabaseDialog.
        *
        * NewDatabaseDialog is used to determine how user want to create new database,

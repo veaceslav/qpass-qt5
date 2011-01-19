@@ -12,9 +12,48 @@
 
 #include "NewDatabaseDialog.h"
 
+#include <QMessageBox>
 
 NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
 {
-   setupUi(this);
-   connect(newButton, SIGNAL(clicked()), this, SLOT(accept()));
+   welcomeWidget = new QWidget(this);
+   uiWelcome.setupUi(welcomeWidget);
+   passwordWidget = new QWidget(this);
+   uiPassword.setupUi(passwordWidget);
+   
+   stackedWidget = new QStackedWidget(this);
+   stackedWidget->addWidget(welcomeWidget);
+   stackedWidget->addWidget(passwordWidget);
+   
+   QVBoxLayout *layout = new QVBoxLayout(this);
+   layout->addWidget(stackedWidget);
+   this->setLayout(layout);
+   
+   connect(uiWelcome.newButton, SIGNAL(clicked()), this, SLOT(next()));
+   connect(uiPassword.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+   connect(uiPassword.buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+}
+
+QString NewDatabaseDialog::value()
+{
+   return uiPassword.passwordEdit->text();
+}
+
+void NewDatabaseDialog::next()
+{
+   if(stackedWidget->currentWidget() == welcomeWidget)
+      stackedWidget->setCurrentWidget(passwordWidget);
+}
+
+void NewDatabaseDialog::accept()
+{
+   if(uiPassword.passwordEdit->text() != uiPassword.passwordEdit2->text())
+   {
+      QMessageBox box(this);
+      box.setText( tr("Passwords does not match") );
+      box.setIcon( QMessageBox::Warning );
+      box.exec();
+   }
+   else
+      done(QDialog::Accepted);
 }

@@ -223,13 +223,7 @@ bool DataAccess::write(QList< QVector< QString> > &data)
 {
    file->remove();
    if(!file->open(QIODevice::ReadWrite))
-   {
-      QMessageBox box(this);
-      box.setText( tr("Error opening database") );
-      box.setIcon(QMessageBox::Critical);
-      box.exec();
       return false;
-   }
    struct header head;
    head.id[0] = 'P';
    head.id[1] = 'A';

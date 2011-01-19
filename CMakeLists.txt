@@ -19,26 +19,20 @@ set(QPass_SOURCES
    MainWindow.cpp 
    DataModel.cpp 
    DataAccess.cpp
-#   InitWindow.cpp
-#   App.cpp
    dialogs/PreviousPasswordDialog.cpp
-   dialogs/NewPasswordDialog.cpp
    dialogs/NewDatabaseDialog.cpp
 )
 set(QPass_HEADERS 
    MainWindow.h 
    DataModel.h 
-#   InitWindow.h
-#   App.h
    dialogs/PreviousPasswordDialog.h
-   dialogs/NewPasswordDialog.h
    dialogs/NewDatabaseDialog.h
 )
 set(QPass_UI 
    MainWindow.ui
    dialogs/PreviousPasswordDialog.ui
-   dialogs/NewPasswordDialog.ui
-   dialogs/NewDatabaseDialog.ui
+   dialogs/NewDatabaseDialogPage1.ui
+   dialogs/NewDatabaseDialogPage2.ui
 )
 include_directories(${INCLUDE_DIR})
 QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})

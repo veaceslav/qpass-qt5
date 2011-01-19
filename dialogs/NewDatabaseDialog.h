@@ -14,17 +14,31 @@
 #define NEWDATABASEDIALOG_H
 
 #include <QDialog>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QStackedWidget>
 
-#include "ui_NewDatabaseDialog.h"
+#include "ui_NewDatabaseDialogPage1.h"
+#include "ui_NewDatabaseDialogPage2.h"
 
 /*!
  * Provides dialog to prompt how to create new database.
  */
-class NewDatabaseDialog : public QDialog, private Ui::NewDatabaseDialog
+class NewDatabaseDialog : public QDialog//, private Ui::NewDatabaseDialog
 {
    Q_OBJECT
    public:
       NewDatabaseDialog(QWidget *parent = 0);
+      QString value();
+   private:
+      Ui::NewDatabaseDialogPage1 uiWelcome;
+      Ui::NewDatabaseDialogPage2 uiPassword;
+      QStackedWidget *stackedWidget;
+      QWidget *welcomeWidget;
+      QWidget *passwordWidget;
+   private slots:
+      void next();
+      void accept();
 };
 
 

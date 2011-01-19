@@ -14,8 +14,6 @@
 #include <QMessageBox>
 
 #include "DataModel.h"
-#include "PreviousPasswordDialog.h"
-#include "NewPasswordDialog.h"
 
 #define COLUMNCOUNT 5 //There are columns: "Name", "URL", "Username", "Password", "Notes"
 

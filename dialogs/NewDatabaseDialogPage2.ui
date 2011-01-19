@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NewPasswordDialog</class>
- <widget class="QDialog" name="NewPasswordDialog">
+ <class>NewDatabaseDialogPage2</class>
+ <widget class="QWidget" name="NewDatabaseDialogPage2">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -99,38 +99,5 @@
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>NewPasswordDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>NewPasswordDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>171</x>
-     <y>161</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>171</x>
-     <y>88</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

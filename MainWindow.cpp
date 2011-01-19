@@ -20,7 +20,6 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
    previousPasswordDialog = NULL;
-   newPasswordDialog = NULL;
    newDatabaseDialog = NULL;
    
    //Path to default database $HOME/.qpassdb
@@ -45,23 +44,12 @@ void MainWindow::showPreviousPasswordDialog()
    previousPasswordDialog->show();
 }
 
-void MainWindow::showNewPasswordDialog()
-{
-   if(newPasswordDialog == NULL)
-   {
-      newPasswordDialog = new NewPasswordDialog(this);
-      connect(newPasswordDialog, SIGNAL(accepted()), this, SLOT(init()));
-      connect(newPasswordDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
-   }
-   newPasswordDialog->show();
-}
-
 void MainWindow::showNewDatabaseDialog()
 {
    if(newDatabaseDialog == NULL)
    {
       newDatabaseDialog = new NewDatabaseDialog(this);
-      connect(newDatabaseDialog, SIGNAL(accepted()), this, SLOT(showNewPasswordDialog()));
+      connect(newDatabaseDialog, SIGNAL(accepted()), this, SLOT(init()));
       connect(newDatabaseDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
    }
    newDatabaseDialog->show();
@@ -73,7 +61,7 @@ void MainWindow::init()
    if(dbExists)
       password = previousPasswordDialog->value();
    else
-      password = newPasswordDialog->value();
+      password = newDatabaseDialog->value();
    if(dbExists)
    {
       int res = DataModel::checkDatabase(path, password);
