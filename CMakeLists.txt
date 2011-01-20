@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(Qt4 REQUIRED)
 
+SET(QPASS_VERSION 1.0.1)
+
 SET(INCLUDE_DIR
    ${CMAKE_CURRENT_BINARY_DIR}
    ${CMAKE_CURRENT_SOURCE_DIR}
@@ -20,24 +22,29 @@ set(QPass_SOURCES
    DataAccess.cpp
    dialogs/PreviousPasswordDialog.cpp
    dialogs/NewDatabaseDialog.cpp
+   dialogs/AboutDialog.cpp
 )
 set(QPass_HEADERS 
    MainWindow.h 
    DataModel.h 
    dialogs/PreviousPasswordDialog.h
    dialogs/NewDatabaseDialog.h
+   dialogs/AboutDialog.h
 )
 set(QPass_UI 
    MainWindow.ui
    dialogs/PreviousPasswordDialog.ui
    dialogs/NewDatabaseDialogPage1.ui
    dialogs/NewDatabaseDialogPage2.ui
+   dialogs/AboutDialog.ui
 )
 include_directories(${INCLUDE_DIR})
 QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
 QT4_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
+QT4_ADD_RESOURCES(QPass_RCC_SRCS qpass.qrc)
 
+configure_file (${CMAKE_SOURCE_DIR}/qpass-config.h.cmake ${CMAKE_BINARY_DIR}/qpass-config.h)
 
 ADD_DEFINITIONS(${QT_DEFINITIONS})
-ADD_EXECUTABLE(QPass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS})
+ADD_EXECUTABLE(QPass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS})
 TARGET_LINK_LIBRARIES(QPass ${QT_LIBRARIES} gcrypt gpg-error)

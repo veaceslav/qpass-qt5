@@ -20,6 +20,7 @@
 #include "ui_MainWindow.h"
 #include "PreviousPasswordDialog.h"
 #include "NewDatabaseDialog.h"
+#include "AboutDialog.h"
 
 /*! 
  * This is the main window widget.
@@ -48,6 +49,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * he could create empty database or import existing database.
        */
       void showNewDatabaseDialog();
+      void showAboutDialog();
       /*!
        * This function inits widgets and shows MainWindow.
        */

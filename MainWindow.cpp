@@ -55,6 +55,12 @@ void MainWindow::showNewDatabaseDialog()
    newDatabaseDialog->show();
 }
 
+void MainWindow::showAboutDialog()
+{
+   AboutDialog about(this);
+   about.exec();
+}
+
 void MainWindow::init()
 {
    bool dbExists = QFile::exists(path);
@@ -103,6 +109,8 @@ void MainWindow::init()
    connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
    connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
    connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
+   
+   connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
    
    this->show();
 }

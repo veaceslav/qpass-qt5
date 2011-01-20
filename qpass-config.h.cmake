@@ -1,0 +1,1 @@
+#define VERSION "${QPASS_VERSION}"
