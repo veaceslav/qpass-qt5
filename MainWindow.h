@@ -66,9 +66,11 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       void showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected );
       void enableSaveButton();
       /*!
-       * This slot saves changes from actually selected item
+       * This slot saves changes on actually selected item or provided item.
+       *
+       * @param item Item to save.
        */
-      void saveItem();
+      void saveItem(const QModelIndex &item = QModelIndex());
       void copyURL();
       void copyUserName();
       void copyPassword();

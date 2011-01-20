@@ -68,6 +68,7 @@ void MainWindow::init()
       if(res == -1)
       {
 	 QMessageBox box(this);
+	 box.setWindowTitle( tr("Incorrect password - QPass") );
 	 box.setText( tr("Incorrect password.") );
 	 box.setIcon(QMessageBox::Warning);
 	 box.exec();
@@ -118,13 +119,32 @@ void MainWindow::removeSelectedItem()
    QModelIndexList list = selectionModel->selection().indexes();
    if(list.count() == 1)
    {
-      QModelIndex model = list[0];
-      this->model->removeRows(model.row(), 1);
+      QMessageBox box(this);
+      box.setWindowTitle( tr("Item remove - QPass") );
+      box.setIcon( QMessageBox::Warning );
+      box.setStandardButtons( QMessageBox::Yes | QMessageBox::No);
+      box.setText( tr("Are you sure to delete selected entry?") );
+      if(box.exec() == QMessageBox::Yes)
+      {
+	 QModelIndex model = list[0];
+	 this->model->removeRows(model.row(), 1);
+      }
    }
 }
 
 void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected )
 {
+   if(saveButton->isEnabled())
+   {
+      QMessageBox box(this);
+      box.setWindowTitle( tr("Unsaved entry - QPass") );
+      box.setText( tr("Selected data entry has been modified\nDo you want to save your changes or discard them?") );
+      box.setStandardButtons( QMessageBox::Save | QMessageBox::Discard);
+      box.setIcon( QMessageBox::Warning );
+      int res = box.exec();
+      if(res == QMessageBox::Save)
+	 saveItem(deselected.indexes()[0]);	 
+   }
    QModelIndexList list = selected.indexes();
    if(list.count() == 1)
    {
@@ -155,9 +175,17 @@ void MainWindow::enableSaveButton()
    saveButton->setEnabled(true);
 }
 
-void MainWindow::saveItem()
+void MainWindow::saveItem(const QModelIndex &item)
 {
-   int row = selectionModel->selection().indexes()[0].row();
+   int row;
+   if(item.isValid())
+   {
+      row = item.row();
+      if(row >= model->rowCount())
+	 return;
+   }
+   else
+      row = selectionModel->selection().indexes()[0].row();
    model->setData( model->index( row, 0), nameEdit->text());
    model->setData( model->index( row, 1), urlEdit->text());
    model->setData( model->index( row, 2), userNameEdit->text());

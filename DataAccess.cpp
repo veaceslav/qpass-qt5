@@ -221,8 +221,7 @@ QList< QVector< QString> > DataAccess::read()
 
 bool DataAccess::write(QList< QVector< QString> > &data)
 {
-   file->remove();
-   if(!file->open(QIODevice::ReadWrite))
+   if(!file->open(QIODevice::Truncate | QIODevice::ReadWrite))
       return false;
    struct header head;
    head.id[0] = 'P';
