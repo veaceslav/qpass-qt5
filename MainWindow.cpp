@@ -16,6 +16,7 @@
 
 #include "MainWindow.h"
 #include "DataModel.h"
+#include "PredefinedSettings.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -23,8 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    newDatabaseDialog = NULL;
    
    //Path to default database $HOME/.qpassdb
-   path = getenv("HOME");
-   path += "/bazaa";
+   path = PredefinedSettings::databasePath();
    
    if(QFile::exists(path))
       showPreviousPasswordDialog();

@@ -1,1 +1,2 @@
 #define VERSION "${QPASS_VERSION}"
+#define DATAPATH "${QPASS_DATAPATH}"

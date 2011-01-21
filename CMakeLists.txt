@@ -20,6 +20,7 @@ set(QPass_SOURCES
    MainWindow.cpp 
    DataModel.cpp 
    DataAccess.cpp
+   PredefinedSettings.cpp
    dialogs/PreviousPasswordDialog.cpp
    dialogs/NewDatabaseDialog.cpp
    dialogs/AboutDialog.cpp
