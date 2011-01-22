@@ -18,6 +18,7 @@
 #include "MainWindow.h"
 #include "DataModel.h"
 #include "PredefinedSettings.h"
+#include "DatabaseExportDialog.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -83,6 +84,28 @@ void MainWindow::showAboutDialog()
    about.exec();
 }
 
+void MainWindow::showDatabaseExportDialog()
+{
+   DatabaseExportDialog exportDialog(this);
+   if(exportDialog.exec() == QDialog::Accepted)
+   {
+      QMessageBox box(this);
+      QString exportPath = exportDialog.getPath();
+      QString exportPassword = exportDialog.getPassword();
+      if(model->exportDatabase( exportPath, exportPassword ))
+      {
+	 box.setText( tr("Database exported successfully.") );
+	 box.setIcon(QMessageBox::Information);
+      }
+      else
+      {
+	 box.setText( tr("Error exporting database.") );
+	 box.setIcon(QMessageBox::Critical);
+      }
+      box.exec();
+   }
+}
+
 void MainWindow::init()
 {
    bool dbExists = QFile::exists(path);
@@ -135,7 +158,7 @@ void MainWindow::init()
    connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
    
    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
-   
+   connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseExportDialog()));
    this->show();
 }
 

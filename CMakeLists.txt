@@ -24,6 +24,7 @@ set(QPass_SOURCES
    dialogs/PreviousPasswordDialog.cpp
    dialogs/NewDatabaseDialog.cpp
    dialogs/AboutDialog.cpp
+   dialogs/DatabaseExportDialog.cpp
 )
 set(QPass_HEADERS 
    MainWindow.h 
@@ -31,6 +32,7 @@ set(QPass_HEADERS
    dialogs/PreviousPasswordDialog.h
    dialogs/NewDatabaseDialog.h
    dialogs/AboutDialog.h
+   dialogs/DatabaseExportDialog.h
 )
 set(QPass_UI 
    MainWindow.ui
@@ -38,6 +40,7 @@ set(QPass_UI
    dialogs/NewDatabaseDialogPage1.ui
    dialogs/NewDatabaseDialogPage2.ui
    dialogs/AboutDialog.ui
+   dialogs/DatabaseExportDialog.ui
 )
 include_directories(${INCLUDE_DIR})
 QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})

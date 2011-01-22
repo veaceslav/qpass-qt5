@@ -53,6 +53,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        */
       void showNewDatabaseDialog();
       void showAboutDialog();
+      void showDatabaseExportDialog();
       /*!
        * This function inits widgets and shows MainWindow.
        */

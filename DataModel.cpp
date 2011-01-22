@@ -110,3 +110,9 @@ int DataModel::checkDatabase(QString &path, QString &password)
    DataAccess database(path, password);
    return database.checkDatabase();
 }
+
+bool DataModel::exportDatabase(QString &path, QString &password)
+{
+   DataAccess newDatabase(path, password);
+   return newDatabase.write(dataList);
+}
