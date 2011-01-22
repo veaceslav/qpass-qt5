@@ -13,6 +13,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QClipboard>
+#include <QSettings>
 
 #include "MainWindow.h"
 #include "DataModel.h"
@@ -32,6 +33,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
       showNewDatabaseDialog();  
 }
 
+MainWindow::~MainWindow()
+{
+   writeSettings();
+}
+
+void MainWindow::writeSettings()
+{
+   QSettings settings;
+   settings.setValue("pos", pos());
+   settings.setValue("size", size());
+}
+
+void MainWindow::readSettings()
+{
+   QSettings settings;
+   QVariant pos = settings.value("pos");
+   if(pos.isValid())
+      move(pos.toPoint());
+   QSize size = settings.value("size", QSize(751, 594)).toSize();
+   resize(size);
+}
 
 void MainWindow::showPreviousPasswordDialog()
 {
@@ -91,6 +113,8 @@ void MainWindow::init()
       }
    }
    setupUi(this);
+   
+   readSettings();
    
    model = new DataModel(path, password, dbExists, this);
    listView->setModel(model);

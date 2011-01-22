@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
    QApplication app(argc, argv);
    
    QCoreApplication::setApplicationName("QPass");
-   QCoreApplication::setOrganizationName("Mateusz Piekos");
+   QCoreApplication::setOrganizationName("QPass");
    
    MainWindow mainWindow;
    
