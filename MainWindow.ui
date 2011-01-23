@@ -261,6 +261,7 @@
     <property name="title">
      <string>Database</string>
     </property>
+    <addaction name="actionChangePassword"/>
     <addaction name="actionExportDatabase"/>
     <addaction name="actionImportDatabase"/>
    </widget>
@@ -271,6 +272,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionChangePassword">
+   <property name="text">
+    <string>Change password</string>
    </property>
   </action>
   <action name="actionExportDatabase">

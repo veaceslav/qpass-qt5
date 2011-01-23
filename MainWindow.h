@@ -35,7 +35,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       DataModel *model;
       QItemSelectionModel *selectionModel;
       QString path;
-      QString password;
       PreviousPasswordDialog *previousPasswordDialog;
       NewDatabaseDialog *newDatabaseDialog;
       void writeSettings();
@@ -55,6 +54,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       void showAboutDialog();
       void showDatabaseExportDialog();
       void showDatabaseImportDialog();
+      void showPasswordChangeDialog();
       /*!
        * This function inits widgets and shows MainWindow.
        */

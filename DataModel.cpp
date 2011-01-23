@@ -17,7 +17,7 @@
 
 #define COLUMNCOUNT 5 //There are columns: "Name", "URL", "Username", "Password", "Notes"
 
-DataModel::DataModel(QString &path, QString &password, bool openExisting, QObject *parent) : QAbstractTableModel(parent)
+DataModel::DataModel(const QString &path,const QString &password, bool openExisting, QObject *parent) : QAbstractTableModel(parent)
 {
    database = new DataAccess(path, password);
    if(openExisting)
@@ -144,4 +144,15 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
       }
    }
    return 0;
+}
+
+QString DataModel::getPassword()
+{
+   return database->getPassword();
+}
+
+void DataModel::changePassword(const QString &newPassword)
+{
+   database->setPassword(newPassword);
+   database->write(dataList);
 }

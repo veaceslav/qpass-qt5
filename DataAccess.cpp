@@ -286,3 +286,8 @@ void DataAccess::setPassword(const QString &password)
 {
    this->password = password;
 }
+
+QString DataAccess::getPassword()
+{
+   return this->password;
+}

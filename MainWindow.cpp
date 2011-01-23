@@ -20,6 +20,7 @@
 #include "PredefinedSettings.h"
 #include "DatabaseExportDialog.h"
 #include "DatabaseImportDialog.h"
+#include "PasswordChangeDialog.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -131,8 +132,22 @@ void MainWindow::showDatabaseImportDialog()
    }
 }
 
+void MainWindow::showPasswordChangeDialog()
+{
+   PasswordChangeDialog passwordDialog(model->getPassword(), this);
+   if(passwordDialog.exec() == QDialog::Accepted)
+   {
+      model->changePassword( passwordDialog.getNewPassword() );
+      QMessageBox box(this);
+      box.setText( tr("Password has been changed successfully.") );
+      box.setIcon( QMessageBox::Information );
+      box.exec();
+   }
+}
+
 void MainWindow::init()
 {
+   QString password;
    bool dbExists = QFile::exists(path);
    if(dbExists)
       password = previousPasswordDialog->value();
@@ -185,6 +200,7 @@ void MainWindow::init()
    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
    connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseExportDialog()));
    connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseImportDialog()));
+   connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(showPasswordChangeDialog()));
    
    this->show();
 }

@@ -34,7 +34,7 @@ class DataModel : public QAbstractTableModel
        * @param openExisting If true model will use existing database, if false model will create new.
        * @param parent Parent.
        */
-      DataModel(QString &path, QString &password, bool openExisting = true, QObject *parent = 0);
+      DataModel(const QString &path,const QString &password, bool openExisting = true, QObject *parent = 0);
       ~DataModel();
       QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
       Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -55,6 +55,8 @@ class DataModel : public QAbstractTableModel
       static int checkDatabase(const QString &path, const QString &password);
       bool exportDatabase(const QString &path, const QString &password);
       int importDatabase(const QString &path,const QString &password, bool replaceExisting = false);
+      QString getPassword();
+      void changePassword(const QString &newPassword);
    private:
       QList< QVector< QString > > dataList;
       DataAccess *database;

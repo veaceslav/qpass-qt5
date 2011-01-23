@@ -59,6 +59,7 @@ class DataAccess : public QObject
        * @param password New password.
        */
       void setPassword(const QString &password);
+      QString getPassword();
    private:
       QString path; /**< Path to database. */
       QString password; 
