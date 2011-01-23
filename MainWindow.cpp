@@ -86,7 +86,7 @@ void MainWindow::showAboutDialog()
    about.exec();
 }
 
-void MainWindow::showDatabaseExportDialog()
+void MainWindow::exportDatabase()
 {
    DatabaseExportDialog exportDialog(this);
    if(exportDialog.exec() == QDialog::Accepted)
@@ -106,7 +106,7 @@ void MainWindow::showDatabaseExportDialog()
    }
 }
 
-void MainWindow::showDatabaseImportDialog()
+void MainWindow::importDatabase()
 {
    DatabaseImportDialog importDialog(this);
    if(importDialog.exec() == QDialog::Accepted)
@@ -132,7 +132,7 @@ void MainWindow::showDatabaseImportDialog()
    }
 }
 
-void MainWindow::showPasswordChangeDialog()
+void MainWindow::changePassword()
 {
    PasswordChangeDialog passwordDialog(model->getPassword(), this);
    if(passwordDialog.exec() == QDialog::Accepted)
@@ -198,9 +198,9 @@ void MainWindow::init()
    connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
    
    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
-   connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseExportDialog()));
-   connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseImportDialog()));
-   connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(showPasswordChangeDialog()));
+   connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
+   connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(importDatabase()));
+   connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
    
    this->show();
 }
