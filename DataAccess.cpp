@@ -13,7 +13,7 @@
 
 #include "DataAccess.h"
 
-DataAccess::DataAccess(QString &path, QString &password)
+DataAccess::DataAccess(const QString &path,const QString &password)
 {
    this->path = path;
    this->password = password;
@@ -219,7 +219,7 @@ QList< QVector< QString> > DataAccess::read()
    return list;
 }
 
-bool DataAccess::write(QList< QVector< QString> > &data)
+bool DataAccess::write(const QList< QVector< QString> > &data)
 {
    if(!file->open(QIODevice::Truncate | QIODevice::ReadWrite))
       return false;
@@ -282,7 +282,7 @@ bool DataAccess::write(QList< QVector< QString> > &data)
    return true;
 }
 
-void DataAccess::setPassword(QString &password)
+void DataAccess::setPassword(const QString &password)
 {
    this->password = password;
 }

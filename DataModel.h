@@ -52,8 +52,9 @@ class DataModel : public QAbstractTableModel
        * @param password Password to database.
        * @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
        */
-      static int checkDatabase(QString &path, QString &password);
-      bool exportDatabase(QString &path, QString &password);
+      static int checkDatabase(const QString &path, const QString &password);
+      bool exportDatabase(const QString &path, const QString &password);
+      int importDatabase(const QString &path,const QString &password, bool replaceExisting = false);
    private:
       QList< QVector< QString > > dataList;
       DataAccess *database;

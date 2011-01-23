@@ -33,7 +33,7 @@ class DataAccess : public QObject
        * @param path Path to database file.
        * @param password Password to database.
        */
-      DataAccess(QString &path, QString &password);
+      DataAccess(const QString &path,const QString &password);
       /*! Returns stored data.
        * 
        * Returns stored decrypted data list.
@@ -48,7 +48,7 @@ class DataAccess : public QObject
        * @param data Data to write.
        * @return True if operation was successful, otherwise false.
        */
-      bool write(QList< QVector< QString> > &data);
+      bool write(const QList< QVector< QString> > &data);
       /*! Checks if given file is database and password is correct.
        *
        * @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
@@ -58,7 +58,7 @@ class DataAccess : public QObject
        *
        * @param password New password.
        */
-      void setPassword(QString &password);
+      void setPassword(const QString &password);
    private:
       QString path; /**< Path to database. */
       QString password; 

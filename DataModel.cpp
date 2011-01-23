@@ -105,14 +105,43 @@ bool DataModel::removeRows(int row, int count, const QModelIndex &parent)
    return true;
 }
 
-int DataModel::checkDatabase(QString &path, QString &password)
+int DataModel::checkDatabase(const QString &path,const QString &password)
 {
    DataAccess database(path, password);
    return database.checkDatabase();
 }
 
-bool DataModel::exportDatabase(QString &path, QString &password)
+bool DataModel::exportDatabase(const QString &path,const QString &password)
 {
-   DataAccess newDatabase(path, password);
-   return newDatabase.write(dataList);
+   DataAccess databaseToExport(path, password);
+   return databaseToExport.write(dataList);
+}
+
+int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting)
+{
+   DataAccess databaseToImport(path, password);
+   int res = databaseToImport.checkDatabase();
+   if(res != 0)
+      return res;
+   QList< QVector< QString > > data;
+   data = databaseToImport.read();
+   if(data.count() > 0)
+   {
+      if(replaceExisting)
+      {
+	 if(data.count() > rowCount())
+	    insertRows(rowCount(), data.count()-rowCount());
+	 else if(data.count() < rowCount())
+	    removeRows(data.count(), rowCount()-data.count());
+	 dataList = data;
+	 dataChanged( index(0, 0), index( data.count()-1, COLUMNCOUNT));
+      }
+      else
+      {
+	 beginInsertRows(QModelIndex(), rowCount(), rowCount()+data.count()-1);
+	 dataList += data;
+	 endInsertRows();
+      }
+   }
+   return 0;
 }

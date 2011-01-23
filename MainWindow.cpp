@@ -19,6 +19,7 @@
 #include "DataModel.h"
 #include "PredefinedSettings.h"
 #include "DatabaseExportDialog.h"
+#include "DatabaseImportDialog.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -90,9 +91,7 @@ void MainWindow::showDatabaseExportDialog()
    if(exportDialog.exec() == QDialog::Accepted)
    {
       QMessageBox box(this);
-      QString exportPath = exportDialog.getPath();
-      QString exportPassword = exportDialog.getPassword();
-      if(model->exportDatabase( exportPath, exportPassword ))
+      if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword() ))
       {
 	 box.setText( tr("Database exported successfully.") );
 	 box.setIcon(QMessageBox::Information);
@@ -103,6 +102,32 @@ void MainWindow::showDatabaseExportDialog()
 	 box.setIcon(QMessageBox::Critical);
       }
       box.exec();
+   }
+}
+
+void MainWindow::showDatabaseImportDialog()
+{
+   DatabaseImportDialog importDialog(this);
+   if(importDialog.exec() == QDialog::Accepted)
+   {
+      QMessageBox box(this);
+      bool replace = false;
+      if(importDialog.getMode() == DatabaseImportDialog::Replace)
+	 replace = true;
+      int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace);
+      if( res == 0 )
+      {
+	 selectionModel->clearSelection();
+	 box.setText( tr("Database imported successfully.") );
+	 box.setIcon(QMessageBox::Information);
+	 box.exec();
+      }
+      else
+      {
+	 box.setText( tr("Error importing database.") );
+	 box.setIcon(QMessageBox::Critical);
+	 box.exec();
+      }
    }
 }
 
@@ -159,6 +184,8 @@ void MainWindow::init()
    
    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
    connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseExportDialog()));
+   connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(showDatabaseImportDialog()));
+   
    this->show();
 }
 

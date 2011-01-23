@@ -262,6 +262,7 @@
      <string>Database</string>
     </property>
     <addaction name="actionExportDatabase"/>
+    <addaction name="actionImportDatabase"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
@@ -275,6 +276,11 @@
   <action name="actionExportDatabase">
    <property name="text">
     <string>Export database</string>
+   </property>
+  </action>
+  <action name="actionImportDatabase">
+   <property name="text">
+    <string>Import database</string>
    </property>
   </action>
  </widget>

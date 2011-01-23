@@ -10,24 +10,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef DATABASEEXPORTDIALOG_H
-#define DATABASEEXPORTDIALOG_H
+#ifndef DATABASEIMPORTDIALOG_H
+#define DATABASEIMPORTDIALOG_H
 
 #include <QDialog>
 #include <QString>
 
-#include "ui_DatabaseExportDialog.h"
+#include "ui_DatabaseImportDialog.h"
 
-class DatabaseExportDialog : public QDialog, private Ui::DatabaseExportDialog
+class DatabaseImportDialog : public QDialog, private Ui::DatabaseImportDialog
 {
    Q_OBJECT
    public:
-      DatabaseExportDialog(QWidget *parent);
+      DatabaseImportDialog(QWidget *parent);
       QString getPassword();
       QString getPath();
+      int getMode();
+      enum mode
+      {
+	 Append,
+	 Replace
+      };
    private slots:
       void browse();
       void accept();
 };
 
-#endif //DATABASEEXPORTDIALOG_H
+#endif //DATABASEIMPORTDIALOG_H
