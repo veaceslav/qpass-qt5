@@ -21,6 +21,7 @@
 #include "PreviousPasswordDialog.h"
 #include "NewDatabaseDialog.h"
 #include "AboutDialog.h"
+#include "TrayIcon.h"
 
 /*! 
  * This is the main window widget.
@@ -37,8 +38,11 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       QString path;
       PreviousPasswordDialog *previousPasswordDialog;
       NewDatabaseDialog *newDatabaseDialog;
+      TrayIcon *trayIcon;
+      bool hideOnClose;
       void writeSettings();
       void readSettings();
+      void closeEvent(QCloseEvent * event);
    private slots:
       /*! This function shows PreviousPasswordDialog.
        *
@@ -55,6 +59,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       void exportDatabase();
       void importDatabase();
       void changePassword();
+      void showHideWindow();
       /*!
        * This function inits widgets and shows MainWindow.
        */
@@ -85,6 +90,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * This slot switches echo mode between normal and password for passwordEdit.
        */
       void switchEchoMode();
+      void switchHideOnClose(bool checked);
 };
 
 

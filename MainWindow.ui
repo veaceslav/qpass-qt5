@@ -264,6 +264,8 @@
     <addaction name="actionChangePassword"/>
     <addaction name="actionExportDatabase"/>
     <addaction name="actionImportDatabase"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
@@ -287,6 +289,11 @@
   <action name="actionImportDatabase">
    <property name="text">
     <string>Import database</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
    </property>
   </action>
  </widget>

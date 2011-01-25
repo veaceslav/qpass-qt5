@@ -10,28 +10,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef PASSWORDCHANGEDIALOG_H
-#define PASSWORDCHANGEDIALOG_H
+#ifndef TRAYICON_H
+#define TRAYICON_H
 
-#include "ui_PasswordChangeDialog.h"
+#include <QSystemTrayIcon>
+#include <QAbstractItemModel>
+#include <QAction>
+#include <QMenu>
 
-#include <QDialog>
-#include <QString>
-
-/*!
- * This dialog asks user for current password and new password
- * and verifies that data before accepting dialog.
- */
-class PasswordChangeDialog : public QDialog, private Ui::PasswordChangeDialog
+class TrayIcon : public QSystemTrayIcon
 {
    Q_OBJECT
    public:
-      PasswordChangeDialog(const QString &currentPassword, QWidget *parent);
-      QString getNewPassword();
+      TrayIcon(QAbstractItemModel *model, QObject *parent);
+      ~TrayIcon();
+      void setHideOnCloseChecked(bool checked);
    private:
-      QString currentPassword;
+      QAbstractItemModel *model;
+      QMenu *menu;
+      QAction *hideOnCloseAction;
+      QList<QAction *> actionList;
    private slots:
-      void accept();
+      void handleActivated(QSystemTrayIcon::ActivationReason reason);
+   signals:
+      void clicked();
+      void hideOnCloseTriggered(bool checked);
 };
-
-#endif //PASSWORDCHANGEDIALOG_H
+#endif //TRAYICON_H

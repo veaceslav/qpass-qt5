@@ -14,6 +14,7 @@
 #include <QFile>
 #include <QClipboard>
 #include <QSettings>
+#include <QCloseEvent>
 
 #include "MainWindow.h"
 #include "DataModel.h"
@@ -21,6 +22,8 @@
 #include "DatabaseExportDialog.h"
 #include "DatabaseImportDialog.h"
 #include "PasswordChangeDialog.h"
+
+#include <stdio.h>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -46,6 +49,7 @@ void MainWindow::writeSettings()
    QSettings settings;
    settings.setValue("pos", pos());
    settings.setValue("size", size());
+   settings.setValue("hideOnClose", hideOnClose);
 }
 
 void MainWindow::readSettings()
@@ -56,6 +60,19 @@ void MainWindow::readSettings()
       move(pos.toPoint());
    QSize size = settings.value("size", QSize(751, 594)).toSize();
    resize(size);
+   hideOnClose = settings.value("hideOnClose", false).toBool();
+}
+
+void MainWindow::closeEvent (QCloseEvent *event)  
+{
+   if(hideOnClose)
+   {
+      //writeSettings();
+      setVisible(false);
+      event->ignore();
+   }
+   else
+      event->accept();
 }
 
 void MainWindow::showPreviousPasswordDialog()
@@ -88,6 +105,7 @@ void MainWindow::showAboutDialog()
 
 void MainWindow::exportDatabase()
 {
+   selectionModel->clearSelection();
    DatabaseExportDialog exportDialog(this);
    if(exportDialog.exec() == QDialog::Accepted)
    {
@@ -108,6 +126,7 @@ void MainWindow::exportDatabase()
 
 void MainWindow::importDatabase()
 {
+   selectionModel->clearSelection();
    DatabaseImportDialog importDialog(this);
    if(importDialog.exec() == QDialog::Accepted)
    {
@@ -118,7 +137,6 @@ void MainWindow::importDatabase()
       int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace);
       if( res == 0 )
       {
-	 selectionModel->clearSelection();
 	 box.setText( tr("Database imported successfully.") );
 	 box.setIcon(QMessageBox::Information);
 	 box.exec();
@@ -143,6 +161,14 @@ void MainWindow::changePassword()
       box.setIcon( QMessageBox::Information );
       box.exec();
    }
+}
+
+void MainWindow::showHideWindow()
+{
+   if(isVisible())
+      hide();
+   else
+      show();
 }
 
 void MainWindow::init()
@@ -201,8 +227,15 @@ void MainWindow::init()
    connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
    connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(importDatabase()));
    connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
+   connect(actionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
    
    this->show();
+   
+   trayIcon = new TrayIcon(model, this);
+   connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
+   connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
+   trayIcon->setHideOnCloseChecked( hideOnClose );
+   trayIcon->setVisible(true);
 }
 
 void MainWindow::addItem()
@@ -319,4 +352,9 @@ void MainWindow::switchEchoMode()
       passwordEdit->setEchoMode( QLineEdit::Password );
       showPasswordButton->setText( tr("Show password") );
    }
+}
+
+void MainWindow::switchHideOnClose(bool checked)
+{
+   hideOnClose = checked;
 }

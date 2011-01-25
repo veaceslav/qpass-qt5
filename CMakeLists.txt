@@ -21,6 +21,7 @@ set(QPass_SOURCES
    DataModel.cpp 
    DataAccess.cpp
    PredefinedSettings.cpp
+   TrayIcon.cpp
    dialogs/PreviousPasswordDialog.cpp
    dialogs/NewDatabaseDialog.cpp
    dialogs/AboutDialog.cpp
@@ -31,6 +32,7 @@ set(QPass_SOURCES
 set(QPass_HEADERS 
    MainWindow.h 
    DataModel.h 
+   TrayIcon.h
    dialogs/PreviousPasswordDialog.h
    dialogs/NewDatabaseDialog.h
    dialogs/AboutDialog.h
