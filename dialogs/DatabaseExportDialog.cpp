@@ -33,7 +33,7 @@ QString DatabaseExportDialog::getPath()
 
 void DatabaseExportDialog::browse()
 {
-   pathEdit->setText( QFileDialog::getSaveFileName(this, tr("Exported database file"), QString(), tr("QPass database files (*.qpa);;All Files (*.*)")) );
+   pathEdit->setText( QFileDialog::getSaveFileName(this, QString(), QString(), tr("QPass database files (*.qpa);;All Files (*.*)")) );
 }
 
 void DatabaseExportDialog::accept()

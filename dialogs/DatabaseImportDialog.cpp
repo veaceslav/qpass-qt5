@@ -43,7 +43,7 @@ int DatabaseImportDialog::getMode()
 
 void DatabaseImportDialog::browse()
 {
-   QFileDialog dialog(this, tr("Exported database file"));
+   QFileDialog dialog(this);
    dialog.setFilter( tr("QPass database files (*.qpa);;All Files (*.*)") );
    dialog.setFileMode( QFileDialog::ExistingFile );
    if(dialog.exec() == QDialog::Accepted)

@@ -50,7 +50,11 @@ set(QPass_UI
    dialogs/DatabaseImportDialog.ui
    dialogs/PasswordChangeDialog.ui
 )
+set(QPass_TS
+   pl_PL.ts
+)
 include_directories(${INCLUDE_DIR})
+QT4_ADD_TRANSLATION(QPass_QM translations/${QPass_TS})
 QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
 QT4_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
 QT4_ADD_RESOURCES(QPass_RCC_SRCS qpass.qrc)
@@ -58,5 +62,5 @@ QT4_ADD_RESOURCES(QPass_RCC_SRCS qpass.qrc)
 configure_file (${CMAKE_SOURCE_DIR}/qpass-config.h.cmake ${CMAKE_BINARY_DIR}/qpass-config.h)
 
 ADD_DEFINITIONS(${QT_DEFINITIONS})
-ADD_EXECUTABLE(QPass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS})
+ADD_EXECUTABLE(QPass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
 TARGET_LINK_LIBRARIES(QPass ${QT_LIBRARIES} gcrypt gpg-error)

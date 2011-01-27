@@ -13,8 +13,12 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QFile>
+#include <QSharedMemory>
+#include <QObject>
+#include <QTranslator>
 
 #include "MainWindow.h"
+#include "PredefinedSettings.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +26,24 @@ int main(int argc, char *argv[])
    
    QCoreApplication::setApplicationName("QPass");
    QCoreApplication::setOrganizationName("QPass");
+      
+   QString locale = QLocale::system().name();
+   QTranslator translator;
+   //translator.load(PredefinedSettings::dataPath()+"translations/"+locale);
+   translator.load(QCoreApplication::applicationDirPath()+"/../translations/pl_PL");
+   app.installTranslator(&translator);
+   
+   //Code to check if there is any running instance of QPass
+   QSharedMemory memory("91628a41-6284-41a9-9b25-7b3cc365ced9"); 
+   if(!memory.create(1, QSharedMemory::ReadWrite))
+   {
+      QMessageBox box;
+      box.setText( QObject::tr("One instance of QPass is already running!") );
+      box.setIcon( QMessageBox::Critical );
+      box.exec();
+      return 0;
+   }
+
    
    MainWindow mainWindow;
    
