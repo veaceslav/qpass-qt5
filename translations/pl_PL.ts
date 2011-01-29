@@ -218,207 +218,227 @@ hasło do niej i tryb importu.</translation>
     <name>MainWindow</name>
     <message>
         <location filename="../MainWindow.ui" line="14"/>
-        <location filename="../build/ui_MainWindow.h" line="294"/>
+        <location filename="../build/ui_MainWindow.h" line="296"/>
         <source>QPass</source>
         <translation>QPass</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="55"/>
-        <location filename="../build/ui_MainWindow.h" line="300"/>
+        <location filename="../build/ui_MainWindow.h" line="302"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="65"/>
-        <location filename="../build/ui_MainWindow.h" line="301"/>
+        <location filename="../build/ui_MainWindow.h" line="303"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="90"/>
-        <location filename="../build/ui_MainWindow.h" line="302"/>
+        <location filename="../build/ui_MainWindow.h" line="304"/>
         <source>Name:</source>
         <translation>Nazwa:</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="104"/>
-        <location filename="../build/ui_MainWindow.h" line="303"/>
+        <location filename="../build/ui_MainWindow.h" line="305"/>
         <source>Website URL:</source>
         <translation>Adres URL:</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="118"/>
-        <location filename="../build/ui_MainWindow.h" line="304"/>
+        <location filename="../build/ui_MainWindow.h" line="306"/>
         <source>Copy URL</source>
         <translation>Kopiuj URL</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="125"/>
-        <location filename="../build/ui_MainWindow.h" line="305"/>
+        <location filename="../build/ui_MainWindow.h" line="307"/>
         <source>User name:</source>
         <translation>Nazwa użytkownika:</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="139"/>
-        <location filename="../build/ui_MainWindow.h" line="306"/>
+        <location filename="../build/ui_MainWindow.h" line="308"/>
         <source>Copy user name</source>
         <translation>Kopiuj nazwę użytkownika</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="146"/>
-        <location filename="../build/ui_MainWindow.h" line="307"/>
+        <location filename="../build/ui_MainWindow.h" line="309"/>
         <source>Password:</source>
         <translation>Hasło:</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="172"/>
-        <location filename="../build/ui_MainWindow.h" line="308"/>
+        <location filename="../MainWindow.ui" line="178"/>
+        <location filename="../build/ui_MainWindow.h" line="310"/>
         <source>Copy password</source>
         <translation>Kopiuj hasło</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="185"/>
-        <location filename="../build/ui_MainWindow.h" line="309"/>
+        <location filename="../MainWindow.ui" line="191"/>
+        <location filename="../build/ui_MainWindow.h" line="311"/>
         <source>Show Password</source>
         <translation>Pokaż hasło</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="198"/>
-        <location filename="../build/ui_MainWindow.h" line="310"/>
+        <location filename="../build/ui_MainWindow.h" line="312"/>
+        <source>Generate password</source>
+        <translation>Generuj hasło</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="211"/>
+        <location filename="../build/ui_MainWindow.h" line="313"/>
         <source>Notes:</source>
         <translation>Notatki:</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="233"/>
-        <location filename="../build/ui_MainWindow.h" line="311"/>
+        <location filename="../MainWindow.ui" line="246"/>
+        <location filename="../build/ui_MainWindow.h" line="314"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="256"/>
-        <location filename="../build/ui_MainWindow.h" line="312"/>
+        <location filename="../MainWindow.ui" line="269"/>
+        <location filename="../build/ui_MainWindow.h" line="315"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="262"/>
-        <location filename="../build/ui_MainWindow.h" line="313"/>
+        <location filename="../MainWindow.ui" line="275"/>
+        <location filename="../build/ui_MainWindow.h" line="316"/>
         <source>Database</source>
         <translation>Baza danych</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="276"/>
-        <location filename="../build/ui_MainWindow.h" line="295"/>
+        <location filename="../MainWindow.ui" line="288"/>
+        <location filename="../build/ui_MainWindow.h" line="297"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="281"/>
-        <location filename="../build/ui_MainWindow.h" line="296"/>
+        <location filename="../MainWindow.ui" line="293"/>
+        <location filename="../build/ui_MainWindow.h" line="298"/>
         <source>Change password</source>
         <translation>Zmień hasło</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="286"/>
-        <location filename="../build/ui_MainWindow.h" line="297"/>
+        <location filename="../MainWindow.ui" line="298"/>
+        <location filename="../build/ui_MainWindow.h" line="299"/>
         <source>Export database</source>
         <translation>Eksportuj bazę danych</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="291"/>
-        <location filename="../build/ui_MainWindow.h" line="298"/>
+        <location filename="../MainWindow.ui" line="303"/>
+        <location filename="../build/ui_MainWindow.h" line="300"/>
         <source>Import database</source>
         <translation>Importuj bazę danych</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="296"/>
-        <location filename="../build/ui_MainWindow.h" line="299"/>
+        <location filename="../MainWindow.ui" line="308"/>
+        <location filename="../build/ui_MainWindow.h" line="301"/>
         <source>Quit</source>
         <translation>Wyjście</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="115"/>
-        <location filename="../MainWindow.cpp~" line="115"/>
+        <location filename="../MainWindow.cpp" line="134"/>
+        <location filename="../MainWindow.cpp~" line="134"/>
         <source>Database exported successfully.</source>
         <translation>Baza danych została wyeksportowana pomyślnie.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="120"/>
-        <location filename="../MainWindow.cpp~" line="120"/>
+        <location filename="../MainWindow.cpp" line="139"/>
+        <location filename="../MainWindow.cpp~" line="139"/>
         <source>Error exporting database.</source>
         <translation>Błąd eksportowania bazy danych.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="140"/>
-        <location filename="../MainWindow.cpp~" line="140"/>
+        <location filename="../MainWindow.cpp" line="159"/>
+        <location filename="../MainWindow.cpp~" line="159"/>
         <source>Database imported successfully.</source>
         <translation>Baza danych zaimportowana pomyślnie.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="146"/>
-        <location filename="../MainWindow.cpp~" line="146"/>
+        <location filename="../MainWindow.cpp" line="165"/>
+        <location filename="../MainWindow.cpp~" line="165"/>
         <source>Error importing database.</source>
         <translation>Błąd przy importowaniu bazy danych.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="160"/>
-        <location filename="../MainWindow.cpp~" line="160"/>
+        <location filename="../MainWindow.cpp" line="179"/>
+        <location filename="../MainWindow.cpp~" line="179"/>
         <source>Password has been changed successfully.</source>
         <translation>Hasło zostało zmienione pomyślnie.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="188"/>
-        <location filename="../MainWindow.cpp~" line="188"/>
+        <location filename="../MainWindow.cpp" line="201"/>
+        <location filename="../MainWindow.cpp~" line="201"/>
+        <source>Current password is not empty. Are you sure you want to overwrite it?</source>
+        <translation>Aktualne hasło nie jest puste. Czy jesteś pewnien, że chcesz je nadpisać?</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="244"/>
+        <location filename="../MainWindow.cpp~" line="243"/>
         <source>Incorrect password - QPass</source>
         <translation>Niepoprawne hasło - QPass</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="189"/>
-        <location filename="../MainWindow.cpp~" line="189"/>
+        <location filename="../MainWindow.cpp" line="245"/>
+        <location filename="../MainWindow.cpp~" line="244"/>
         <source>Incorrect password.</source>
         <translation>Niepoprawne hasło.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="198"/>
-        <location filename="../MainWindow.cpp~" line="198"/>
+        <location filename="../MainWindow.cpp" line="254"/>
+        <location filename="../MainWindow.cpp~" line="253"/>
         <source>Error opening database.</source>
         <translation>Błąd przy otwieraniu bazy danych.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="254"/>
-        <location filename="../MainWindow.cpp~" line="254"/>
+        <location filename="../MainWindow.cpp" line="312"/>
+        <location filename="../MainWindow.cpp~" line="311"/>
         <source>Item remove - QPass</source>
         <translation>Usunięcie elementu - QPass</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="257"/>
-        <location filename="../MainWindow.cpp~" line="257"/>
+        <location filename="../MainWindow.cpp" line="315"/>
+        <location filename="../MainWindow.cpp~" line="314"/>
         <source>Are you sure to delete selected entry?</source>
         <translation>Czy jesteś pewien, że chcesz usunąć wybrany wpis?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="271"/>
-        <location filename="../MainWindow.cpp~" line="271"/>
+        <location filename="../MainWindow.cpp" line="80"/>
+        <location filename="../MainWindow.cpp" line="218"/>
+        <location filename="../MainWindow.cpp" line="329"/>
+        <location filename="../MainWindow.cpp~" line="80"/>
+        <location filename="../MainWindow.cpp~" line="217"/>
+        <location filename="../MainWindow.cpp~" line="328"/>
         <source>Unsaved entry - QPass</source>
         <translation>Niezapisany wpis - QPass</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="272"/>
-        <location filename="../MainWindow.cpp~" line="272"/>
+        <location filename="../MainWindow.cpp" line="81"/>
+        <location filename="../MainWindow.cpp" line="219"/>
+        <location filename="../MainWindow.cpp" line="330"/>
+        <location filename="../MainWindow.cpp~" line="81"/>
+        <location filename="../MainWindow.cpp~" line="218"/>
+        <location filename="../MainWindow.cpp~" line="329"/>
         <source>Selected data entry has been modified
 Do you want to save your changes or discard them?</source>
         <translation>Wybrany wpis został zmieniony
 Czy chcesz zapisać zmiany czy odrzucić je?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="348"/>
-        <location filename="../MainWindow.cpp~" line="348"/>
+        <location filename="../MainWindow.cpp" line="406"/>
+        <location filename="../MainWindow.cpp~" line="405"/>
         <source>Hide password</source>
         <translation>Ukryj hasło</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="353"/>
-        <location filename="../MainWindow.cpp~" line="353"/>
+        <location filename="../MainWindow.cpp" line="411"/>
+        <location filename="../MainWindow.cpp~" line="410"/>
         <source>Show password</source>
         <translation>Pokaż hasło</translation>
     </message>
@@ -555,6 +575,159 @@ nowe hasło dwa razy w celu weryfikacji.</translation>
     </message>
 </context>
 <context>
+    <name>PasswordGeneratorDialog</name>
+    <message>
+        <source>Password Generator - QPass</source>
+        <translation type="obsolete">Generator haseł-QPass</translation>
+    </message>
+    <message>
+        <source>To generate password please
+define it&apos;s length and character set. </source>
+        <translation type="obsolete">Aby wygenerować hasło wybierz jego długość i zestaw znaków.</translation>
+    </message>
+    <message>
+        <source>Length: </source>
+        <translation type="obsolete">Długość:</translation>
+    </message>
+    <message>
+        <source>Character set:</source>
+        <translation type="obsolete">Zestaw znaków:</translation>
+    </message>
+    <message>
+        <source>Small characters</source>
+        <translation type="obsolete">Małe litery</translation>
+    </message>
+    <message>
+        <source>Big characters</source>
+        <translation type="obsolete">Wielkie litery</translation>
+    </message>
+    <message>
+        <source>Digits</source>
+        <translation type="obsolete">Cyfry</translation>
+    </message>
+    <message>
+        <source>Special characters</source>
+        <translation type="obsolete">Znaki specjalne</translation>
+    </message>
+    <message>
+        <source>To generate random characters please
+move your mouse cursor randomly
+on image below</source>
+        <translation type="obsolete">Aby wygenerować losowe znaki ruszaj kursorem myszy losowo po obrazku poniżej</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="56"/>
+        <source>Generation progress:</source>
+        <translation>Postęp:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="73"/>
+        <source>Back</source>
+        <translation>Wstecz</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="77"/>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="108"/>
+        <source>Next</source>
+        <translation>Dalej</translation>
+    </message>
+    <message>
+        <source>To generate password please define it&apos;s length and character set. </source>
+        <translation type="obsolete">Aby wygenerować hasło zdefiniuj jego długośći zestaw znaków.</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="36"/>
+        <source>To generate random characters please move your mouse cursor randomly on image below</source>
+        <translation>Aby wygenerować losowe znaki ruszaj kursorem myszy losowo po obrazku poniżej</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="128"/>
+        <source>You have to select character set!</source>
+        <translation>Musisz wybrać zestaw znaków!</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialog.cpp" line="143"/>
+        <source>Finish</source>
+        <translation>Zakończ</translation>
+    </message>
+</context>
+<context>
+    <name>PasswordGeneratorDialogPage1</name>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="14"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="129"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="26"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="130"/>
+        <source>To generate password please define it&apos;s length and character set. </source>
+        <translation>Aby wygenerować hasło zdefiniuj jego długość i zestaw znaków.</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="54"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="131"/>
+        <source>Length: </source>
+        <translation>Długość:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="61"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="132"/>
+        <source>Character set:</source>
+        <translation>Zestaw znaków:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="71"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="133"/>
+        <source>Small characters</source>
+        <translation>Małe litery</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="78"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="134"/>
+        <source>Big characters</source>
+        <translation>Wielkie litery</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="85"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="135"/>
+        <source>Digits</source>
+        <translation>Cyfry</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage1.ui" line="92"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage1.h" line="136"/>
+        <source>Special characters</source>
+        <translation>Znaki specjalne</translation>
+    </message>
+</context>
+<context>
+    <name>PasswordGeneratorDialogPage3</name>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage3.ui" line="14"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage3.h" line="81"/>
+        <source>Form</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage3.ui" line="33"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage3.h" line="82"/>
+        <source>Generated password:</source>
+        <translation>Wygenerowane hasło:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/PasswordGeneratorDialogPage3.ui" line="60"/>
+        <location filename="../build/ui_PasswordGeneratorDialogPage3.h" line="83"/>
+        <source>By clicking Finish you will change password in selected entry to generated password.
+
+To left current password unchanged close this window. </source>
+        <translation>Przez kliknięcie przycisku &quot;Zakończ&quot; zmienisz hasło w wybranym wpisie na aktualnie wygenerowane hasło.
+
+Aby pozostawić aktualnie hasło niezmienione zamknij to okno.</translation>
+    </message>
+</context>
+<context>
     <name>PreviousPasswordDialog</name>
     <message>
         <source>QPass - database password</source>
@@ -582,8 +755,7 @@ nowe hasło dwa razy w celu weryfikacji.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../main.cpp" line="41"/>
-        <location filename="../main.cpp~" line="47"/>
+        <location filename="../main.cpp~" line="40"/>
         <source>One instance of QPass is already running!</source>
         <translation>Jedna instancja programu jest aktualnie uruchomiona!</translation>
     </message>

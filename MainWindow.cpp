@@ -22,6 +22,7 @@
 #include "DatabaseExportDialog.h"
 #include "DatabaseImportDialog.h"
 #include "PasswordChangeDialog.h"
+#include "PasswordGeneratorDialog.h"
 
 #include <stdio.h>
 
@@ -72,7 +73,25 @@ void MainWindow::closeEvent (QCloseEvent *event)
       event->ignore();
    }
    else
-      event->accept();
+   {
+      if(saveButton->isEnabled())
+      {
+	 QMessageBox box(this);
+	 box.setWindowTitle( tr("Unsaved entry - QPass") );
+	 box.setText( tr("Selected data entry has been modified\nDo you want to save your changes or discard them?") );
+	 box.setStandardButtons( QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+	 box.setIcon( QMessageBox::Warning );
+	 int res = box.exec();
+	 if(res == QMessageBox::Save)
+	    saveItem();
+	 else if(res == QMessageBox::Cancel)
+	 {
+	    event->ignore();
+	    return;
+	 }
+      }
+      event->accept(); 
+   }
 }
 
 void MainWindow::showPreviousPasswordDialog()
@@ -171,6 +190,43 @@ void MainWindow::showHideWindow()
       show();
 }
 
+void MainWindow::generatePassword()
+{
+   PasswordGeneratorDialog dialog(this);
+   if(dialog.exec() == QDialog::Accepted)
+   {
+      if(!passwordEdit->text().isEmpty())
+      {
+	 QMessageBox box(this);
+	 box.setText( tr("Current password is not empty. Are you sure you want to overwrite it?") );
+	 box.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
+	 box.setIcon( QMessageBox::Question );
+	 if(box.exec() == QMessageBox::No)
+	    return;
+      }
+      passwordEdit->setText( dialog.getResult() );
+      enableSaveButton();
+   }
+}
+
+void MainWindow::quit()
+{
+   show();
+   if(saveButton->isEnabled())
+   {
+      QMessageBox box(this);
+      box.setWindowTitle( tr("Unsaved entry - QPass") );
+      box.setText( tr("Selected data entry has been modified\nDo you want to save your changes or discard them?") );
+      box.setStandardButtons( QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+      box.setIcon( QMessageBox::Warning );
+      int res = box.exec();
+      if(res == QMessageBox::Save)
+	 saveItem();
+      else if(res == QMessageBox::Cancel)
+	 return;
+   }
+   qApp->quit();
+}
 void MainWindow::init()
 {
    QString password;
@@ -222,18 +278,20 @@ void MainWindow::init()
    connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
    connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
    connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
+   connect(generatePasswordButton, SIGNAL(clicked()), this, SLOT(generatePassword()));
    
    connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
    connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
    connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(importDatabase()));
    connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
-   connect(actionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
+   connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
    
    this->show();
    
    trayIcon = new TrayIcon(model, this);
    connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
    connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
+   connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
    trayIcon->setHideOnCloseChecked( hideOnClose );
    trayIcon->setVisible(true);
 }

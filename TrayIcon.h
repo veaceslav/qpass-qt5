@@ -35,5 +35,6 @@ class TrayIcon : public QSystemTrayIcon
    signals:
       void clicked();
       void hideOnCloseTriggered(bool checked);
+      void quitClicked();
 };
 #endif //TRAYICON_H

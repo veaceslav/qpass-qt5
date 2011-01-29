@@ -42,7 +42,6 @@ int main(int argc, char *argv[])
       box.exec();
       return 0;
    }
-
    
    MainWindow mainWindow;
    

@@ -60,6 +60,8 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       void importDatabase();
       void changePassword();
       void showHideWindow();
+      void generatePassword();
+      void quit();
       /*!
        * This function inits widgets and shows MainWindow.
        */

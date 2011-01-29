@@ -30,7 +30,7 @@ TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon
    menu->addAction(quitAction);
    setContextMenu(menu);
    connect(hideOnCloseAction, SIGNAL(triggered(bool)), this, SIGNAL(hideOnCloseTriggered(bool)));
-   connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+   connect(quitAction, SIGNAL(triggered()), this, SIGNAL(quitClicked()));
    connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(handleActivated(QSystemTrayIcon::ActivationReason)));
 }
 
