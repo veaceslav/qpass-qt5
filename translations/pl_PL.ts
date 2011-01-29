@@ -63,6 +63,15 @@ p, li { white-space: pre-wrap; }
         <source>Authors</source>
         <translation>Autorzy</translation>
     </message>
+    <message>
+        <source>version: </source>
+        <translation type="obsolete">wersja:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/AboutDialog.cpp" line="63"/>
+        <source>version </source>
+        <translation>wersja</translation>
+    </message>
 </context>
 <context>
     <name>DataAccess</name>
