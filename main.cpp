@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
       
    QString locale = QLocale::system().name();
    QTranslator translator;
-   translator.load(PredefinedSettings::dataPath()+"translations/"+locale);
+   translator.load(PredefinedSettings::dataPath()+"/translations/"+locale);
    app.installTranslator(&translator);
    
    //Code to check if there is any running instance of QPass

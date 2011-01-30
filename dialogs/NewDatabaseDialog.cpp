@@ -53,7 +53,15 @@ void NewDatabaseDialog::accept()
       box.setText( tr("Passwords does not match") );
       box.setIcon( QMessageBox::Warning );
       box.exec();
+      return;
    }
-   else
-      done(QDialog::Accepted);
+   if(uiPassword.passwordEdit->text().isEmpty())
+   {
+      QMessageBox box(this);
+      box.setText( tr("Password can't be empty!") );
+      box.setIcon( QMessageBox::Warning );
+      box.exec();
+      return;
+   }
+   done(QDialog::Accepted);
 }

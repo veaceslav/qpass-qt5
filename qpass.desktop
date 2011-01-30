@@ -1,10 +1,9 @@
 [Desktop Entry]
-Version=1.0.1
 Name=QPass
 Type=Application
 Icon=qpass.png
 Exec=qpass
-Categories=Network;Qt;
+Categories=Application;Network;Qt;
 Terminal=false
 GenericName=QPass password manager
 Comment=QPass password manager

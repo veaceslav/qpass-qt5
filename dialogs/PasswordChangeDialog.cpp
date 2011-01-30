@@ -43,5 +43,13 @@ void PasswordChangeDialog::accept()
       box.exec();
       return;
    }
+   if(newPasswordEdit1->text().isEmpty())
+   {
+      QMessageBox box(this);
+      box.setText( tr("New password can't be empty.") );
+      box.setIcon(QMessageBox::Warning);
+      box.exec();
+      return;
+   }
    done(QDialog::Accepted);
 }

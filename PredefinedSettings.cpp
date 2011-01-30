@@ -14,15 +14,14 @@
 #include <QDir>
 
 #include "PredefinedSettings.h"
-#include "qpass-config.h"
 
 QString PredefinedSettings::dataPath()
 {
-   QString path(DATAPATH);
+   QString path;
    if(path.isEmpty())
    {
 #ifdef Q_WS_X11
-      path = QCoreApplication::applicationDirPath()+"/../share";
+      path = QCoreApplication::applicationDirPath()+"/../share/qpass";
 #endif
 #ifdef Q_WS_WIN
       path = QCoreApplication::applicationDirPath();
@@ -36,7 +35,7 @@ QString PredefinedSettings::databasePath()
 {
    QDir dir;
 #ifdef Q_WS_X11
-   return dir.homePath()+"/bazaa";
+   return dir.homePath()+"/.qpassdb";
 #endif
 #ifdef Q_WS_WIN
    return dir.homePath()+"/qpassdb";

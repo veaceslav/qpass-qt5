@@ -49,6 +49,9 @@ type password to it.</string>
      <item row="0" column="1">
       <widget class="QWidget" name="widget" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QLineEdit" name="pathEdit">
           <property name="readOnly">

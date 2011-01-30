@@ -93,6 +93,9 @@ to it and importing mode. </string>
      <item row="0" column="1">
       <widget class="QWidget" name="widget_2" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QLineEdit" name="pathEdit">
           <property name="readOnly">

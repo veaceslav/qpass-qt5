@@ -31,7 +31,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
    Q_OBJECT
    public:
       MainWindow(QWidget *parent = 0);
-      ~MainWindow();
    private:
       DataModel *model;
       QItemSelectionModel *selectionModel;
@@ -42,7 +41,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       bool hideOnClose;
       void writeSettings();
       void readSettings();
+   protected:
       void closeEvent(QCloseEvent * event);
+      void hideEvent ( QHideEvent * event );
    private slots:
       /*! This function shows PreviousPasswordDialog.
        *

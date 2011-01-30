@@ -41,11 +41,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
       showNewDatabaseDialog();  
 }
 
-MainWindow::~MainWindow()
-{
-   writeSettings();
-}
-
 void MainWindow::writeSettings()
 {
    QSettings settings;
@@ -69,7 +64,6 @@ void MainWindow::closeEvent (QCloseEvent *event)
 {
    if(hideOnClose)
    {
-      //writeSettings();
       setVisible(false);
       event->ignore();
    }
@@ -93,6 +87,11 @@ void MainWindow::closeEvent (QCloseEvent *event)
       }
       event->accept(); 
    }
+}
+
+void MainWindow::hideEvent ( QHideEvent * event )
+{
+   writeSettings();
 }
 
 void MainWindow::showPreviousPasswordDialog()
@@ -186,7 +185,9 @@ void MainWindow::changePassword()
 void MainWindow::showHideWindow()
 {
    if(isVisible())
+   {
       hide();
+   }
    else
       show();
 }
@@ -212,9 +213,9 @@ void MainWindow::generatePassword()
 
 void MainWindow::quit()
 {
-   show();
    if(saveButton->isEnabled())
    {
+      show();
       QMessageBox box(this);
       box.setWindowTitle( tr("Unsaved entry - QPass") );
       box.setText( tr("Selected data entry has been modified\nDo you want to save your changes or discard them?") );
@@ -226,8 +227,11 @@ void MainWindow::quit()
       else if(res == QMessageBox::Cancel)
 	 return;
    }
+   if(isVisible())
+      writeSettings();
    qApp->quit();
 }
+
 void MainWindow::init()
 {
    QString password;
@@ -316,6 +320,7 @@ void MainWindow::removeSelectedItem()
       box.setText( tr("Are you sure to delete selected entry?") );
       if(box.exec() == QMessageBox::Yes)
       {
+	 saveButton->setEnabled(false);
 	 QModelIndex model = list[0];
 	 this->model->removeRows(model.row(), 1);
       }

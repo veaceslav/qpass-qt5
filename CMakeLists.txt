@@ -64,6 +64,15 @@ QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
 QT4_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
 QT4_ADD_RESOURCES(QPass_RCC_SRCS images/qpass.qrc)
 
+#if you are going to change below values look and change values in PredefinedSettings.cpp if necessary
+if(WIN32)
+	set(QPASS_BIN_DIR ".")
+	set(QPASS_DATA_DIR ".")
+else(WIN32)
+	set(QPASS_BIN_DIR "bin")
+	set(QPASS_DATA_DIR "share/qpass")
+endif(WIN32)
+
 configure_file (${CMAKE_SOURCE_DIR}/qpass-config.h.cmake ${CMAKE_BINARY_DIR}/qpass-config.h)
 
 ADD_DEFINITIONS(${QT_DEFINITIONS})
@@ -82,14 +91,6 @@ endif(WIN32)
 
 TARGET_LINK_LIBRARIES(qpass ${QT_LIBRARIES} gcrypt gpg-error)
 
-
-if(WIN32)
-	set(QPASS_BIN_DIR ".")
-	set(QPASS_DATA_DIR ".")
-else(WIN32)
-	set(QPASS_BIN_DIR "bin")
-	set(QPASS_DATA_DIR "share/qpass")
-endif(WIN32)
 
 install(TARGETS qpass DESTINATION ${QPASS_BIN_DIR})
 install(FILES ${QPass_QM} DESTINATION ${QPASS_DATA_DIR}/translations)
