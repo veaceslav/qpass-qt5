@@ -28,6 +28,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
+   setWindowIcon(QIcon(":/icons/qpass.png"));
    previousPasswordDialog = NULL;
    newDatabaseDialog = NULL;
    

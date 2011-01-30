@@ -21,7 +21,7 @@
 #include <QPushButton>
 #include <QMouseEvent>
 #include <QProgressBar>
-#include <QGraphicsView>
+#include <QPixmap>
 
 #include "ui_PasswordGeneratorDialogPage1.h"
 #include "ui_PasswordGeneratorDialogPage3.h"
@@ -69,7 +69,7 @@ class PasswordGeneratorDialog : public QDialog
  * This class provides a generator which calculates random values
  * based on mouse moves.
  */
-class GraphicGenerator : public QGraphicsView
+class GraphicGenerator : public QLabel
 {
    Q_OBJECT
    public:

@@ -33,7 +33,7 @@ PasswordGeneratorDialog::PasswordGeneratorDialog(QWidget *parent) : QDialog(pare
    QVBoxLayout *generatorWidgetLayout = new QVBoxLayout(generatorWidget);
    
    QLabel *label = new QLabel( this );
-   label->setText( tr("To generate random characters please move your mouse cursor randomly on image below") );
+   label->setText( tr("To generate random characters please move your mouse cursor randomly on check below") );
    label->setWordWrap( true );
    generatorWidgetLayout->addWidget(label);
    
@@ -149,9 +149,10 @@ void PasswordGeneratorDialog::next()
    }
 }
 
-GraphicGenerator::GraphicGenerator(QProgressBar *progressBar, QWidget *parent) : QGraphicsView(parent)
+GraphicGenerator::GraphicGenerator(QProgressBar *progressBar, QWidget *parent) : QLabel(parent)
 {
    this->progressBar = progressBar;
+   setPixmap( QPixmap(":/images/check.png") );
 }
 
 void GraphicGenerator::initGenerator(int size, int characterSet)

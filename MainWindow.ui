@@ -320,6 +320,7 @@
   <tabstop>copyUserNameButton</tabstop>
   <tabstop>copyPasswordButton</tabstop>
   <tabstop>showPasswordButton</tabstop>
+  <tabstop>generatePasswordButton</tabstop>
   <tabstop>saveButton</tabstop>
   <tabstop>addButton</tabstop>
   <tabstop>deleteButton</tabstop>

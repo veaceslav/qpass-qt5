@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 2.8)
 FIND_PACKAGE(Qt4 REQUIRED)
 
 SET(QPASS_VERSION 1.0.1)
+SET(QPASS_WIN_VERSION 1,0,1,0)
 
 SET(INCLUDE_DIR
    ${CMAKE_CURRENT_BINARY_DIR}
@@ -61,10 +62,45 @@ include_directories(${INCLUDE_DIR})
 QT4_ADD_TRANSLATION(QPass_QM translations/${QPass_TS})
 QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
 QT4_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
-QT4_ADD_RESOURCES(QPass_RCC_SRCS qpass.qrc)
+QT4_ADD_RESOURCES(QPass_RCC_SRCS images/qpass.qrc)
 
 configure_file (${CMAKE_SOURCE_DIR}/qpass-config.h.cmake ${CMAKE_BINARY_DIR}/qpass-config.h)
 
 ADD_DEFINITIONS(${QT_DEFINITIONS})
-ADD_EXECUTABLE(QPass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
-TARGET_LINK_LIBRARIES(QPass ${QT_LIBRARIES} gcrypt gpg-error)
+
+if(WIN32)
+    if(MINGW)
+    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/win_res.o
+    COMMAND windres.exe -I"${CMAKE_CURRENT_BINARY_DIR}"
+    -i ${CMAKE_CURRENT_SOURCE_DIR}/win_res.rc
+    -o ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
+    add_executable(qpass WIN32 ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM} ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
+    endif(MINGW)
+else(WIN32)
+ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
+endif(WIN32)
+
+TARGET_LINK_LIBRARIES(qpass ${QT_LIBRARIES} gcrypt gpg-error)
+
+
+if(WIN32)
+	set(QPASS_BIN_DIR ".")
+	set(QPASS_DATA_DIR ".")
+else(WIN32)
+	set(QPASS_BIN_DIR "bin")
+	set(QPASS_DATA_DIR "share/qpass")
+endif(WIN32)
+
+install(TARGETS qpass DESTINATION ${QPASS_BIN_DIR})
+install(FILES ${QPass_QM} DESTINATION ${QPASS_DATA_DIR}/translations)
+install(FILES COPYING DESTINATION ${QPASS_DATA_DIR})
+
+if (UNIX AND NOT APPLE)
+	install (FILES images/hi16-app-qpass.png DESTINATION "share/icons/hicolor/16x16/apps" RENAME qpass.png)
+	install (FILES images/hi22-app-qpass.png DESTINATION "share/icons/hicolor/22x22/apps" RENAME qpass.png)
+	install (FILES images/hi24-app-qpass.png DESTINATION "share/icons/hicolor/24x24/apps" RENAME qpass.png)
+	install (FILES images/hi32-app-qpass.png DESTINATION "share/icons/hicolor/32x32/apps" RENAME qpass.png)
+	install (FILES images/hi48-app-qpass.png DESTINATION "share/icons/hicolor/48x48/apps" RENAME qpass.png)
+	install (FILES images/hi48-app-qpass.png DESTINATION "share/pixmaps" RENAME qpass.png)
+	install (FILES qpass.desktop DESTINATION "share/applications" RENAME qpass.desktop)
+endif(UNIX AND NOT APPLE)
