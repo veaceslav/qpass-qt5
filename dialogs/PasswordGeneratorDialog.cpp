@@ -33,7 +33,7 @@ PasswordGeneratorDialog::PasswordGeneratorDialog(QWidget *parent) : QDialog(pare
    QVBoxLayout *generatorWidgetLayout = new QVBoxLayout(generatorWidget);
    
    QLabel *label = new QLabel( this );
-   label->setText( tr("To generate random characters please move your mouse cursor randomly on check below") );
+   label->setText( tr("To generate random characters please move your mouse cursor randomly on checkered pattern below") );
    label->setWordWrap( true );
    generatorWidgetLayout->addWidget(label);
    

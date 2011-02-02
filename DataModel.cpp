@@ -26,7 +26,6 @@ DataModel::DataModel(const QString &path,const QString &password, bool openExist
 
 DataModel::~DataModel()
 {
-   database->write(dataList);
    delete database;
 }
 
@@ -74,7 +73,9 @@ bool DataModel::setData(const QModelIndex &index, const QVariant &value, int rol
    {
       dataList[ index.row()][ index.column() ] = value.toString();
       emit dataChanged(index, index);
-      database->write(dataList);
+      if( !database->write(dataList) )
+	 return false;
+      
       return true;
    }
    else
@@ -89,6 +90,9 @@ bool DataModel::insertRows(int row, int count, const QModelIndex &parent)
    for(int i = 0; i < count; i++)
       dataList.insert(row, QVector<QString>(COLUMNCOUNT));
    endInsertRows();
+   if( !database->write(dataList) )
+      return false;
+   
    return true;
 }
 
@@ -102,6 +106,9 @@ bool DataModel::removeRows(int row, int count, const QModelIndex &parent)
       dataList.removeAt(row);
    }
    endRemoveRows();
+   if( !database->write(dataList) )
+      return false;
+   
    return true;
 }
 
@@ -143,6 +150,9 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 	 endInsertRows();
       }
    }
+   if( !database->write(dataList) )
+      return -3;
+   
    return 0;
 }
 
@@ -151,8 +161,8 @@ QString DataModel::getPassword()
    return database->getPassword();
 }
 
-void DataModel::changePassword(const QString &newPassword)
+bool DataModel::changePassword(const QString &newPassword)
 {
    database->setPassword(newPassword);
-   database->write(dataList);
+   return database->write(dataList);
 }

@@ -15,6 +15,11 @@
 
 #include "PredefinedSettings.h"
 
+#ifdef Q_WS_WIN
+#include <windows.h>
+#include <shlobj.h>
+#endif
+
 QString PredefinedSettings::dataPath()
 {
    QString path;
@@ -38,6 +43,13 @@ QString PredefinedSettings::databasePath()
    return dir.homePath()+"/.qpassdb";
 #endif
 #ifdef Q_WS_WIN
-   return dir.homePath()+"/qpassdb";
+   char szPath[MAX_PATH];
+   SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath);
+   QString path = QString(szPath)+"\\QPass";
+   if(!dir.exists(path))
+   {
+      dir.mkdir(path);
+   }
+   return path+"\\database";
 #endif
 }

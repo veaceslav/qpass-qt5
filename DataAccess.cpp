@@ -20,6 +20,11 @@ DataAccess::DataAccess(const QString &path,const QString &password)
    file = new QFile(path);
 }
 
+DataAccess::~DataAccess()
+{
+   delete file;
+}
+
 int DataAccess::checkDatabase()
 {
    if(!file->open(QIODevice::ReadWrite))

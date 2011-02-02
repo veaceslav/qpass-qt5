@@ -34,6 +34,7 @@ class DataAccess : public QObject
        * @param password Password to database.
        */
       DataAccess(const QString &path,const QString &password);
+      ~DataAccess();
       /*! Returns stored data.
        * 
        * Returns stored decrypted data list.

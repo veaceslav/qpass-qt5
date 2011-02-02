@@ -24,8 +24,6 @@
 #include "PasswordChangeDialog.h"
 #include "PasswordGeneratorDialog.h"
 
-#include <stdio.h>
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
    setWindowIcon(QIcon(":/icons/qpass.png"));
@@ -158,14 +156,13 @@ void MainWindow::importDatabase()
       {
 	 box.setText( tr("Database imported successfully.") );
 	 box.setIcon(QMessageBox::Information);
-	 box.exec();
       }
       else
       {
 	 box.setText( tr("Error importing database.") );
 	 box.setIcon(QMessageBox::Critical);
-	 box.exec();
       }
+      box.exec();
    }
 }
 
@@ -174,10 +171,17 @@ void MainWindow::changePassword()
    PasswordChangeDialog passwordDialog(model->getPassword(), this);
    if(passwordDialog.exec() == QDialog::Accepted)
    {
-      model->changePassword( passwordDialog.getNewPassword() );
       QMessageBox box(this);
-      box.setText( tr("Password has been changed successfully.") );
-      box.setIcon( QMessageBox::Information );
+      if( model->changePassword( passwordDialog.getNewPassword() ) )
+      {
+	 box.setText( tr("Password has been changed successfully.") );
+	 box.setIcon( QMessageBox::Information ); 
+      }
+      else
+      {
+	 box.setText( tr("Error changing password.") );
+	 box.setIcon( QMessageBox::Critical ); 
+      }
       box.exec();
    }
 }
@@ -303,7 +307,13 @@ void MainWindow::init()
 
 void MainWindow::addItem()
 {
-   model->insertRows(model->rowCount(), 1);
+   if( !model->insertRows(model->rowCount(), 1) )
+   {
+      QMessageBox box(this);
+      box.setText( tr("Error adding row") );
+      box.setIcon( QMessageBox::Critical );
+      box.exec();
+   }
    selectionModel->clearSelection();
    selectionModel->setCurrentIndex( model->index( model->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
 }
@@ -322,7 +332,13 @@ void MainWindow::removeSelectedItem()
       {
 	 saveButton->setEnabled(false);
 	 QModelIndex model = list[0];
-	 this->model->removeRows(model.row(), 1);
+	 if( !this->model->removeRows(model.row(), 1) )
+	 {
+	    QMessageBox box(this);
+	    box.setText( tr("Error removing rows") );
+	    box.setIcon( QMessageBox::Critical );
+	    box.exec();
+	 }
       }
    }
 }
@@ -338,7 +354,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
       box.setIcon( QMessageBox::Warning );
       int res = box.exec();
       if(res == QMessageBox::Save)
-	 saveItem(deselected.indexes()[0]);	 
+	 saveItem(deselected.indexes()[0]);
    }
    QModelIndexList list = selected.indexes();
    if(list.count() == 1)
@@ -381,7 +397,13 @@ void MainWindow::saveItem(const QModelIndex &item)
    }
    else
       row = selectionModel->selection().indexes()[0].row();
-   model->setData( model->index( row, 0), nameEdit->text());
+   if( !model->setData( model->index( row, 0), nameEdit->text()) )
+   {
+      QMessageBox box(this);
+      box.setText("Error writing entry!");
+      box.setIcon( QMessageBox::Critical );
+      box.exec();
+   }
    model->setData( model->index( row, 1), urlEdit->text());
    model->setData( model->index( row, 2), userNameEdit->text());
    model->setData( model->index( row, 3), passwordEdit->text());
