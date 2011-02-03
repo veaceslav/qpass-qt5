@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -23,15 +23,14 @@ class PredefinedSettings
    public:
       /*! This function returns path to directory to store data.
        *
-       * If DATAPATH is set, it is used as default value.
-       * The default value in linux is ../share/.
+       * Returned value depends on platform.
        *
        * @return Data directory path.
        */
       static QString dataPath();
       /*! This functions returns path to database.
        * 
-       * By default database is stored in home directory which path depends varies platforms.
+       * Returned value depends on platform.
        *
        * @return Path to database.
        */

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,13 +19,16 @@
 #include "ui_PreviousPasswordDialog.h"
 
 /*!
- * Provides previous password entry dialog.
+ * Provides current password entry dialog.
  */
 class PreviousPasswordDialog : public QDialog, private Ui::PreviousPasswordDialog
 {
    Q_OBJECT
    public:
       PreviousPasswordDialog(QWidget *parent = 0);
+      /*! 
+       * Returns password provided by the user.
+       */
       QString value();
 };
 

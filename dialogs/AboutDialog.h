@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,6 +17,10 @@
 
 #include "ui_AboutDialog.h"
 
+/*! 
+ * This dialog provides information about program and it's
+ * authors, version etc.
+ */
 class AboutDialog : public QDialog, private Ui::AboutDialog
 {
    Q_OBJECT

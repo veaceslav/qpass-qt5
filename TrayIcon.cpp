@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,9 +14,8 @@
 
 #include <QApplication>
 
-TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon(parent)
+TrayIcon::TrayIcon(QObject *parent) : QSystemTrayIcon(parent)
 {
-   this->model = model;
    setIcon( QIcon(":/icons/qpass.png") );
    setToolTip( tr("QPass password manager") );
    menu = new QMenu();

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -36,8 +36,9 @@ enum characterSetValues
    specialCharacters = 8
 };
 
-/*!
- * This class provides a password generator.
+/*! This class provides a password generator.
+ * 
+ * It uses GraphicGenerator class to generate random data.
  */
 class PasswordGeneratorDialog : public QDialog
 {
@@ -66,13 +67,21 @@ class PasswordGeneratorDialog : public QDialog
 };
 
 /*!
- * This class provides a generator which calculates random values
+ * This class provides a widget generator which is used to calculate random values
  * based on mouse moves.
  */
 class GraphicGenerator : public QLabel
 {
    Q_OBJECT
    public:
+      /*! Constructor of GraphicGenerator
+       * 
+       * As one of argument it takes progessBar to show progress of
+       * generation to user.
+       * 
+       * @param progressBar progress bar to present progress of generation
+       * @param parent parent of generator
+       */
       GraphicGenerator(QProgressBar *progressBar, QWidget *parent);
       /*! This function initializes generator.
        * 

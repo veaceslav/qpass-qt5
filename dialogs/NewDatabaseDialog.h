@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,6 +29,14 @@ class NewDatabaseDialog : public QDialog//, private Ui::NewDatabaseDialog
    Q_OBJECT
    public:
       NewDatabaseDialog(QWidget *parent = 0);
+      /*! Returns password to new database.
+       * 
+       * Returned password is ready to use becouse dialog
+       * take care of user mistakes by askings for password twice
+       * and checks if password is not empty.
+       * 
+       * @return password to new database.
+       */
       QString value();
    private:
       Ui::NewDatabaseDialogPage1 uiWelcome;

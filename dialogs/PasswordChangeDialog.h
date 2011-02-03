@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,7 +26,18 @@ class PasswordChangeDialog : public QDialog, private Ui::PasswordChangeDialog
 {
    Q_OBJECT
    public:
+      /*! Constructor of dialog.
+       * 
+       * It takes current password to check if current password provided by user
+       * now match current password.
+       */
       PasswordChangeDialog(const QString &currentPassword, QWidget *parent);
+      /*! Function returns new password.
+       * 
+       * Returned password is ready to use.
+       * 
+       * @return new password.
+       */
       QString getNewPassword();
    private:
       QString currentPassword;

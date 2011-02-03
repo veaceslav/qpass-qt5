@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,8 +20,11 @@
 
 #include "DataAccess.h"
 
-/*!
- * Model which represents data from encrypted database.
+/*! Model which represents data from encrypted database.
+ * 
+ * This model uses DataAccess class to have access to database files.
+ * Some functions are implementation of QAbstractTableModel class and they
+ * are undocumented here.
  */
 class DataModel : public QAbstractTableModel
 {

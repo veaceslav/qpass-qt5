@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,23 +18,39 @@
 #include <QAction>
 #include <QMenu>
 
+/*! 
+ * This class provides a icon in system tray.
+ */
 class TrayIcon : public QSystemTrayIcon
 {
    Q_OBJECT
    public:
-      TrayIcon(QAbstractItemModel *model, QObject *parent);
+      TrayIcon(QObject *parent);
       ~TrayIcon();
+      /*! Changed state of "Hide on close" checkbox.
+       * 
+       * @param checked State of "Hide on close"
+       */
       void setHideOnCloseChecked(bool checked);
    private:
-      QAbstractItemModel *model;
       QMenu *menu;
       QAction *hideOnCloseAction;
       QList<QAction *> actionList;
    private slots:
       void handleActivated(QSystemTrayIcon::ActivationReason reason);
    signals:
+      /*! 
+       * Signal emmited when user clicks tray icon.
+       */
       void clicked();
+      /*!Signal emmited when users change state of "Hide on close" checkbox.
+       * 
+       * @param checked State of checkbox.
+       */
       void hideOnCloseTriggered(bool checked);
+      /*! 
+       * Signal emmited when user clicks quit action.
+       */
       void quitClicked();
 };
 #endif //TRAYICON_H

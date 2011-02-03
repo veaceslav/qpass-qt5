@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -60,6 +60,10 @@ class DataAccess : public QObject
        * @param password New password.
        */
       void setPassword(const QString &password);
+      /*! Returns password used to encrypt and decrypt.
+       * 
+       * @return password used to encrypt and decrypt.
+       */
       QString getPassword();
    private:
       QString path; /**< Path to database. */

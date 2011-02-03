@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2011 Mateusz Piękos <mateuszpiekos@gmail.com>           *
+ *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -297,7 +297,7 @@ void MainWindow::init()
    
    this->show();
    
-   trayIcon = new TrayIcon(model, this);
+   trayIcon = new TrayIcon(this);
    connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
    connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
    connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
@@ -310,7 +310,7 @@ void MainWindow::addItem()
    if( !model->insertRows(model->rowCount(), 1) )
    {
       QMessageBox box(this);
-      box.setText( tr("Error adding row") );
+      box.setText( tr("Error adding entry.") );
       box.setIcon( QMessageBox::Critical );
       box.exec();
    }
@@ -335,7 +335,7 @@ void MainWindow::removeSelectedItem()
 	 if( !this->model->removeRows(model.row(), 1) )
 	 {
 	    QMessageBox box(this);
-	    box.setText( tr("Error removing rows") );
+	    box.setText( tr("Error removing entry.") );
 	    box.setIcon( QMessageBox::Critical );
 	    box.exec();
 	 }
