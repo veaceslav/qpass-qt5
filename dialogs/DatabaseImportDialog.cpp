@@ -55,6 +55,7 @@ void DatabaseImportDialog::accept()
    if(pathEdit->text().isEmpty())
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       box.setText( tr("File path can not be empty") );
       box.setIcon( QMessageBox::Warning );
       box.exec();
@@ -63,6 +64,7 @@ void DatabaseImportDialog::accept()
    if(DataModel::checkDatabase( getPath(), getPassword() ))
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       box.setText( tr("Incorrect password.") );
       box.setIcon(QMessageBox::Warning);
       box.exec();

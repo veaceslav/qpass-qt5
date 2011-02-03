@@ -17,6 +17,7 @@
 NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
 {
    setWindowTitle( tr("New database - QPass") );
+   
    welcomeWidget = new QWidget(this);
    uiWelcome.setupUi(welcomeWidget);
    passwordWidget = new QWidget(this);

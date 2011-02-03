@@ -41,6 +41,7 @@ void DatabaseExportDialog::accept()
    if(passwordEdit1->text() != passwordEdit2->text())
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       box.setText( tr("Passwords does not match") );
       box.setIcon( QMessageBox::Warning );
       box.exec();
@@ -49,6 +50,7 @@ void DatabaseExportDialog::accept()
    if(pathEdit->text().isEmpty())
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       box.setText( tr("File path can not be empty") );
       box.setIcon( QMessageBox::Warning );
       box.exec();

@@ -127,6 +127,7 @@ void MainWindow::exportDatabase()
    if(exportDialog.exec() == QDialog::Accepted)
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword() ))
       {
 	 box.setText( tr("Database exported successfully.") );
@@ -148,6 +149,7 @@ void MainWindow::importDatabase()
    if(importDialog.exec() == QDialog::Accepted)
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       bool replace = false;
       if(importDialog.getMode() == DatabaseImportDialog::Replace)
 	 replace = true;
@@ -172,6 +174,7 @@ void MainWindow::changePassword()
    if(passwordDialog.exec() == QDialog::Accepted)
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       if( model->changePassword( passwordDialog.getNewPassword() ) )
       {
 	 box.setText( tr("Password has been changed successfully.") );
@@ -204,6 +207,7 @@ void MainWindow::generatePassword()
       if(!passwordEdit->text().isEmpty())
       {
 	 QMessageBox box(this);
+	 box.setWindowTitle( tr("QPass") );
 	 box.setText( tr("Current password is not empty. Are you sure you want to overwrite it?") );
 	 box.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
 	 box.setIcon( QMessageBox::Question );
@@ -260,6 +264,7 @@ void MainWindow::init()
       else if(res == -2)
       {
 	 QMessageBox box(this);
+	 box.setWindowTitle( tr("QPass") );
 	 box.setText( tr("Error opening database.") );
 	 box.setIcon(QMessageBox::Critical);
 	 box.exec();
@@ -310,6 +315,7 @@ void MainWindow::addItem()
    if( !model->insertRows(model->rowCount(), 1) )
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       box.setText( tr("Error adding entry.") );
       box.setIcon( QMessageBox::Critical );
       box.exec();
@@ -334,10 +340,11 @@ void MainWindow::removeSelectedItem()
 	 QModelIndex model = list[0];
 	 if( !this->model->removeRows(model.row(), 1) )
 	 {
-	    QMessageBox box(this);
-	    box.setText( tr("Error removing entry.") );
-	    box.setIcon( QMessageBox::Critical );
-	    box.exec();
+	    QMessageBox box1(this);
+	    box1.setWindowTitle( tr("QPass") );
+	    box1.setText( tr("Error removing entry.") );
+	    box1.setIcon( QMessageBox::Critical );
+	    box1.exec();
 	 }
       }
    }
@@ -400,6 +407,7 @@ void MainWindow::saveItem(const QModelIndex &item)
    if( !model->setData( model->index( row, 0), nameEdit->text()) )
    {
       QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
       box.setText("Error writing entry!");
       box.setIcon( QMessageBox::Critical );
       box.exec();

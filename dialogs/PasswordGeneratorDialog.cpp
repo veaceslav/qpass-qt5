@@ -20,6 +20,7 @@
 PasswordGeneratorDialog::PasswordGeneratorDialog(QWidget *parent) : QDialog(parent)
 {
    resize(411, 423);
+   setWindowTitle( tr("Password generator - QPass") );
    
    QVBoxLayout *layout = new QVBoxLayout(this);
    
@@ -125,6 +126,7 @@ void PasswordGeneratorDialog::next()
       if(characterSet == 0)
       {
 	 QMessageBox box(this);
+	 box.setWindowTitle( tr("QPass") );
 	 box.setText( tr("You have to select character set!") );
 	 box.setIcon( QMessageBox::Warning );
 	 box.exec();
