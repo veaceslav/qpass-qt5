@@ -10,9 +10,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include <QApplication>
-#include <QMessageBox>
-
 #include "DataModel.h"
 
 #define COLUMNCOUNT 5 //There are columns: "Name", "URL", "Username", "Password", "Notes"

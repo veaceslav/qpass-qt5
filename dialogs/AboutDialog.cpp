@@ -14,7 +14,6 @@
 
 #include <QList>
 #include <QStringList>
-#include <QMessageBox>
 
 #include "qpass-config.h"
 

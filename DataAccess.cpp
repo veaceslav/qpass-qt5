@@ -94,6 +94,7 @@ QList< QVector< QString> > DataAccess::read()
    if(!file->open(QIODevice::ReadWrite))
    {
       QMessageBox box;
+      box.setWindowTitle( tr("QPass") );
       box.setText( tr("Error opening database") );
       box.setIcon(QMessageBox::Critical);
       box.exec();

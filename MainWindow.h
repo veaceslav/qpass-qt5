@@ -65,6 +65,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       void quit();
       /*!
        * This function inits widgets and shows MainWindow.
+       * 
+       * It is executed after previousPasswordDialog or newDatabaseDialog
+       * emit accept().
        */
       void init();
       /*!
@@ -79,6 +82,10 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
        * This slot shows data from selected item.
        */
       void showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected );
+      /*! Enables save button
+       * 
+       * State of save button is used to determine if entry was edited or not.
+       */
       void enableSaveButton();
       /*!
        * This slot saves changes on actually selected item or provided item.

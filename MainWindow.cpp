@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
    previousPasswordDialog = NULL;
    newDatabaseDialog = NULL;
    
-   //Path to default database $HOME/.qpassdb
    path = PredefinedSettings::databasePath();
    
    if(QFile::exists(path))
@@ -271,6 +270,18 @@ void MainWindow::init()
 	 qApp->quit();
       }
    }
+   
+   if(previousPasswordDialog != NULL)
+   {
+      delete previousPasswordDialog;
+      previousPasswordDialog = NULL;
+   }
+   if(newDatabaseDialog != NULL)
+   {
+      delete newDatabaseDialog;
+      newDatabaseDialog = NULL;
+   }
+   
    setupUi(this);
    
    readSettings();

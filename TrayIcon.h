@@ -14,7 +14,6 @@
 #define TRAYICON_H
 
 #include <QSystemTrayIcon>
-#include <QAbstractItemModel>
 #include <QAction>
 #include <QMenu>
 
@@ -35,7 +34,6 @@ class TrayIcon : public QSystemTrayIcon
    private:
       QMenu *menu;
       QAction *hideOnCloseAction;
-      QList<QAction *> actionList;
    private slots:
       void handleActivated(QSystemTrayIcon::ActivationReason reason);
    signals:
