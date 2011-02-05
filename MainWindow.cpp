@@ -41,12 +41,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 void MainWindow::writeSettings()
 {
    QSettings settings;
-   settings.setValue("pos", pos());
-   settings.setValue("size", size());
    settings.setValue("hideOnClose", hideOnClose);
 }
 
+void MainWindow::writeWindowState()
+{
+   QSettings settings;
+   settings.setValue("pos", pos());
+   settings.setValue("size", size());
+}
+
 void MainWindow::readSettings()
+{
+   QSettings settings;
+   hideOnClose = settings.value("hideOnClose", false).toBool();
+}
+
+void MainWindow::readWindowState()
 {
    QSettings settings;
    QVariant pos = settings.value("pos");
@@ -54,7 +65,6 @@ void MainWindow::readSettings()
       move(pos.toPoint());
    QSize size = settings.value("size", QSize(751, 594)).toSize();
    resize(size);
-   hideOnClose = settings.value("hideOnClose", false).toBool();
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)  
@@ -82,13 +92,14 @@ void MainWindow::closeEvent (QCloseEvent *event)
 	    return;
 	 }
       }
+      writeSettings();
       event->accept(); 
    }
 }
 
 void MainWindow::hideEvent ( QHideEvent * event )
 {
-   writeSettings();
+   writeWindowState();
 }
 
 void MainWindow::showPreviousPasswordDialog()
@@ -235,7 +246,8 @@ void MainWindow::quit()
 	 return;
    }
    if(isVisible())
-      writeSettings();
+      writeWindowState();
+   writeSettings();
    qApp->quit();
 }
 
@@ -285,6 +297,7 @@ void MainWindow::init()
    setupUi(this);
    
    readSettings();
+   readWindowState();
    
    model = new DataModel(path, password, dbExists, this);
    listView->setModel(model);

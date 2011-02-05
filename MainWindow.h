@@ -40,7 +40,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
       TrayIcon *trayIcon;
       bool hideOnClose;
       void writeSettings();
+      void writeWindowState();
       void readSettings();
+      void readWindowState();
    protected:
       void closeEvent(QCloseEvent * event);
       void hideEvent ( QHideEvent * event );

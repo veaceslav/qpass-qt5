@@ -32,15 +32,27 @@ int main(int argc, char *argv[])
    translator.load(PredefinedSettings::dataPath()+"/translations/"+locale);
    app.installTranslator(&translator);
    
-   //Code to check if there is any running instance of QPass
+   //Code to check if there is any running instance of QPass.
+   //It works very good on windows but on UNIX when you kill qpass
+   //process it doesn't remove this shared memory.
    QSharedMemory memory("91628a41-6284-41a9-9b25-7b3cc365ced9"); 
    if(!memory.create(1, QSharedMemory::ReadWrite))
    {
+#ifndef Q_OS_UNIX
       QMessageBox box;
       box.setText( QObject::tr("One instance of QPass is already running!") );
-      box.setIcon( QMessageBox::Critical );
+      box.setIcon( QMessageBox::Warning );
       box.exec();
       return 0;
+#endif
+#ifdef Q_OS_UNIX
+      QMessageBox box;
+      box.setText( QObject::tr("One instance of QPass is already running!\nIf you are sure that it isn't(it could occur when you kill process or application crashed) you can ignore this message, but it is dangerous to your database to have more than one instance running!") );
+      box.setStandardButtons( QMessageBox::Close | QMessageBox::Ignore);
+      box.setIcon( QMessageBox::Warning );
+      if(box.exec() == QMessageBox::Close)
+	 return 0;
+#endif
    }
    
    MainWindow mainWindow;
