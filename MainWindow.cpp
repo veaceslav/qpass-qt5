@@ -409,6 +409,11 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
       notesEdit->setText(QString());
       deleteButton->setEnabled(false);
    }
+   
+   //Hides passwords
+   passwordEdit->setEchoMode( QLineEdit::Password );
+   showPasswordButton->setText( tr("Show password") );
+   
    saveButton->setEnabled(false);
 }
 

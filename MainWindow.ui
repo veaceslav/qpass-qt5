@@ -185,7 +185,7 @@
            <widget class="QWidget" name="widget_2" native="true">
             <property name="minimumSize">
              <size>
-              <width>425</width>
+              <width>0</width>
               <height>0</height>
              </size>
             </property>
@@ -221,6 +221,12 @@
              </item>
              <item>
               <widget class="QPushButton" name="generatePasswordButton">
+               <property name="minimumSize">
+                <size>
+                 <width>142</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="text">
                 <string>Generate password</string>
                </property>
