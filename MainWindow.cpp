@@ -140,7 +140,7 @@ void MainWindow::exportDatabase()
       box.setWindowTitle( tr("QPass") );
       if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword() ))
       {
-	 box.setText( tr("Database exported successfully.") );
+	 box.setText( tr("Database has been exported successfully.") );
 	 box.setIcon(QMessageBox::Information);
       }
       else
@@ -166,7 +166,7 @@ void MainWindow::importDatabase()
       int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace);
       if( res == 0 )
       {
-	 box.setText( tr("Database imported successfully.") );
+	 box.setText( tr("Database has been imported successfully.") );
 	 box.setIcon(QMessageBox::Information);
       }
       else

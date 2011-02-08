@@ -1,9 +1,9 @@
 [Desktop Entry]
 Name=QPass
 Type=Application
-Icon=qpass.png
+Icon=qpass
 Exec=qpass
-Categories=Application;Network;Qt;
+Categories=Network;Qt;
 Terminal=false
 GenericName=QPass password manager
-Comment=QPass password manager
+Comment=Easy to use password manager

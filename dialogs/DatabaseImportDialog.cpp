@@ -44,7 +44,7 @@ int DatabaseImportDialog::getMode()
 void DatabaseImportDialog::browse()
 {
    QFileDialog dialog(this);
-   dialog.setFilter( tr("QPass database files (*.qpa);;All Files (*.*)") );
+   dialog.setFilter( tr("QPass database files (*.qpa);;All Files (*)") );
    dialog.setFileMode( QFileDialog::ExistingFile );
    if(dialog.exec() == QDialog::Accepted)
       pathEdit->setText( dialog.selectedFiles().at(0));
@@ -61,11 +61,20 @@ void DatabaseImportDialog::accept()
       box.exec();
       return;
    }
-   if(DataModel::checkDatabase( getPath(), getPassword() ))
+   if(DataModel::checkDatabase( getPath(), getPassword() ) == -1)
    {
       QMessageBox box(this);
       box.setWindowTitle( tr("QPass") );
       box.setText( tr("Incorrect password.") );
+      box.setIcon(QMessageBox::Warning);
+      box.exec();
+      return;
+   }
+   if(DataModel::checkDatabase( getPath(), getPassword() ) == -2)
+   {
+      QMessageBox box(this);
+      box.setWindowTitle( tr("QPass") );
+      box.setText( tr("Selected database is corrupted or it is not a qpass database.") );
       box.setIcon(QMessageBox::Warning);
       box.exec();
       return;
