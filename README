@@ -1,0 +1,35 @@
+This is QPass password manager. It is open source application which enables you to store
+your data in encrypted database and have this data close at hand. 
+This version has a password generator which can generate random passwords based on mouse moves.
+
+More information can be found on http://qpass.sourceforge.net
+
+If you have questions, ideas to new features or want to report a bug write to me at: mateuszpiekos@gmail.com
+
+Changelog:
+1.0.2:
+-Added searching feature
+-Added keys shortcuts
+-Corrected import/export messageboxes
+
+1.0.1:
+-This version was written from scratch and now source code is more logical which gives less bugs.
+-Windows version has self installer.
+-Changed database path on windows(now database is stored in application data direcory).
+-Added password generator.
+-Added messageboxes to ask user before, for example, deleting entry.
+-Source code is more documented.
+-Fixed saving state of window.
+-Fixed known minor bugs.
+
+0.3.1:
+-modified some design elements
+
+0.3:
+-added import/export database feature
+
+0.2:
+-Changed mcrypt library to gcrypt.
+-Changed encryption method from AES128 to AES256.
+-Added translations feature.
+
