@@ -15,6 +15,7 @@
 
 #include <QMainWindow>
 #include <QAbstractItemModel>
+#include <QSortFilterProxyModel>
 
 #include "DataModel.h"
 #include "ui_MainWindow.h"
@@ -24,85 +25,89 @@
 #include "TrayIcon.h"
 
 /*! 
- * This is the main window widget.
- */
+* This is the main window widget.
+*/
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
-   Q_OBJECT
-   public:
-      MainWindow(QWidget *parent = 0);
-   private:
-      DataModel *model;
-      QItemSelectionModel *selectionModel;
-      QString path;
-      PreviousPasswordDialog *previousPasswordDialog;
-      NewDatabaseDialog *newDatabaseDialog;
-      TrayIcon *trayIcon;
-      bool hideOnClose;
-      void writeSettings();
-      void writeWindowState();
-      void readSettings();
-      void readWindowState();
-   protected:
-      void closeEvent(QCloseEvent * event);
-      void hideEvent ( QHideEvent * event );
-   private slots:
-      /*! This function shows PreviousPasswordDialog.
-       *
-       * PreviousPasswordDialog is used to get a password to existing database from user.
-       */
-      void showPreviousPasswordDialog();
-      /*! This function shows NewDatabaseDialog.
-       *
-       * NewDatabaseDialog is used to determine how user want to create new database,
-       * he could create empty database or import existing database.
-       */
-      void showNewDatabaseDialog();
-      void showAboutDialog();
-      void exportDatabase();
-      void importDatabase();
-      void changePassword();
-      void showHideWindow();
-      void generatePassword();
-      void quit();
-      /*!
-       * This function inits widgets and shows MainWindow.
-       * 
-       * It is executed after previousPasswordDialog or newDatabaseDialog
-       * emit accept().
-       */
-      void init();
-      /*!
-       * This slot uses insertRows function to add row to database.
-       */
-      void addItem();
-      /*!
-       * This slot removes selected item using removeRows function.
-       */
-      void removeSelectedItem();
-      /*!
-       * This slot shows data from selected item.
-       */
-      void showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected );
-      /*! Enables save button
-       * 
-       * State of save button is used to determine if entry was edited or not.
-       */
-      void enableSaveButton();
-      /*!
-       * This slot saves changes on actually selected item or provided item.
-       *
-       * @param item Item to save.
-       */
-      void saveItem(const QModelIndex &item = QModelIndex());
-      void copyURL();
-      void copyUserName();
-      void copyPassword();
-      /*!
-       * This slot switches echo mode between normal and password for passwordEdit.
-       */
-      void switchEchoMode();
-      void switchHideOnClose(bool checked);
+	Q_OBJECT
+	public:
+		MainWindow(QWidget *parent = 0);
+	private:
+		/*! All data should be accesed through proxyModel, only functions such as exportDatabase,
+		 * importDatabase, changePassword etc. should be accessed directly through model.
+		 */
+		DataModel *model;
+		QSortFilterProxyModel *proxyModel;
+		QItemSelectionModel *selectionModel;
+		QString path;
+		PreviousPasswordDialog *previousPasswordDialog;
+		NewDatabaseDialog *newDatabaseDialog;
+		TrayIcon *trayIcon;
+		bool hideOnClose;
+		void writeSettings();
+		void writeWindowState();
+		void readSettings();
+		void readWindowState();
+	protected:
+		void closeEvent(QCloseEvent * event);
+		void hideEvent ( QHideEvent * event );
+	private slots:
+		/*! This function shows PreviousPasswordDialog.
+		*
+		* PreviousPasswordDialog is used to get a password to existing database from user.
+		*/
+		void showPreviousPasswordDialog();
+		/*! This function shows NewDatabaseDialog.
+		*
+		* NewDatabaseDialog is used to determine how user want to create new database,
+		* he could create empty database or import existing database.
+		*/
+		void showNewDatabaseDialog();
+		void showAboutDialog();
+		void exportDatabase();
+		void importDatabase();
+		void changePassword();
+		void showHideWindow();
+		void generatePassword();
+		void quit();
+		/*!
+		* This function inits widgets and shows MainWindow.
+		* 
+		* It is executed after previousPasswordDialog or newDatabaseDialog
+		* emit accept().
+		*/
+		void init();
+		/*!
+		* This slot uses insertRows function to add row to database.
+		*/
+		void addItem();
+		/*!
+		* This slot removes selected item using removeRows function.
+		*/
+		void removeSelectedItem();
+		/*!
+		* This slot shows data from selected item.
+		*/
+		void showSelectedItem( const QItemSelection & selected, const QItemSelection & deselected );
+		/*! Enables save button
+		* 
+		* State of save button is used to determine if entry was edited or not.
+		*/
+		void enableSaveButton();
+		/*!
+		* This slot saves changes on actually selected item or provided item.
+		*
+		* @param item Item to save.
+		*/
+		void saveItem(const QModelIndex &item = QModelIndex());
+		void copyURL();
+		void copyUserName();
+		void copyPassword();
+		/*!
+		* This slot switches echo mode between normal and password for passwordEdit.
+		*/
+		void switchEchoMode();
+		void switchHideOnClose(bool checked);
 };
 
 

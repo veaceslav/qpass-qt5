@@ -25,6 +25,22 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QLineEdit" name="searchEdit">
+         <property name="whatsThis">
+          <string/>
+         </property>
+         <property name="inputMask">
+          <string notr="true"/>
+         </property>
+         <property name="maxLength">
+          <number>100</number>
+         </property>
+         <property name="placeholderText">
+          <string>Search entries</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QListView" name="listView">
          <property name="minimumSize">
           <size>
@@ -64,7 +80,7 @@
           <item>
            <widget class="QPushButton" name="addButton">
             <property name="text">
-             <string>Add</string>
+             <string>&amp;Add</string>
             </property>
            </widget>
           </item>
@@ -74,7 +90,7 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Delete</string>
+             <string>&amp;Delete</string>
             </property>
            </widget>
           </item>
@@ -105,7 +121,10 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Name:</string>
+             <string>&amp;Name:</string>
+            </property>
+            <property name="buddy">
+             <cstring>nameEdit</cstring>
             </property>
            </widget>
           </item>
@@ -119,7 +138,10 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>Website URL:</string>
+             <string>&amp;Website URL:</string>
+            </property>
+            <property name="buddy">
+             <cstring>urlEdit</cstring>
             </property>
            </widget>
           </item>
@@ -140,7 +162,10 @@
           <item row="3" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>User name:</string>
+             <string>&amp;User name:</string>
+            </property>
+            <property name="buddy">
+             <cstring>userNameEdit</cstring>
             </property>
            </widget>
           </item>
@@ -167,7 +192,10 @@
           <item row="5" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Password:</string>
+             <string>&amp;Password:</string>
+            </property>
+            <property name="buddy">
+             <cstring>passwordEdit</cstring>
             </property>
            </widget>
           </item>
@@ -248,7 +276,10 @@
           <item row="7" column="0">
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>Notes:</string>
+             <string>N&amp;otes:</string>
+            </property>
+            <property name="buddy">
+             <cstring>notesEdit</cstring>
             </property>
            </widget>
           </item>
@@ -283,7 +314,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Save</string>
+             <string>&amp;Save</string>
             </property>
            </widget>
           </item>
@@ -306,13 +337,13 @@
    </property>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>&amp;Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Database</string>
+     <string>&amp;Database</string>
     </property>
     <addaction name="actionChangePassword"/>
     <addaction name="actionExportDatabase"/>
@@ -330,40 +361,41 @@
   </action>
   <action name="actionChangePassword">
    <property name="text">
-    <string>Change password</string>
+    <string>&amp;Change password</string>
    </property>
   </action>
   <action name="actionExportDatabase">
    <property name="text">
-    <string>Export database</string>
+    <string>&amp;Export database</string>
    </property>
   </action>
   <action name="actionImportDatabase">
    <property name="text">
-    <string>Import database</string>
+    <string>&amp;Import database</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="text">
-    <string>Quit</string>
+    <string>&amp;Quit</string>
    </property>
   </action>
  </widget>
  <tabstops>
   <tabstop>listView</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>deleteButton</tabstop>
   <tabstop>nameEdit</tabstop>
   <tabstop>urlEdit</tabstop>
-  <tabstop>userNameEdit</tabstop>
-  <tabstop>passwordEdit</tabstop>
-  <tabstop>notesEdit</tabstop>
   <tabstop>copyurlButton</tabstop>
+  <tabstop>userNameEdit</tabstop>
   <tabstop>copyUserNameButton</tabstop>
+  <tabstop>passwordEdit</tabstop>
   <tabstop>copyPasswordButton</tabstop>
   <tabstop>showPasswordButton</tabstop>
   <tabstop>generatePasswordButton</tabstop>
+  <tabstop>notesEdit</tabstop>
   <tabstop>saveButton</tabstop>
-  <tabstop>addButton</tabstop>
-  <tabstop>deleteButton</tabstop>
+  <tabstop>searchEdit</tabstop>
  </tabstops>
  <resources/>
  <connections/>
