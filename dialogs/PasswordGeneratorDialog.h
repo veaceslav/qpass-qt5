@@ -30,88 +30,88 @@ class GraphicGenerator;
 
 enum characterSetValues
 {
-   smallCharacters = 1,
-   bigCharacters = 2,
-   digits = 4,
-   specialCharacters = 8
+	smallCharacters = 1,
+	bigCharacters = 2,
+	digits = 4,
+	specialCharacters = 8
 };
 
 /*! This class provides a password generator.
- * 
- * It uses GraphicGenerator class to generate random data.
- */
+* 
+* It uses GraphicGenerator class to generate random data.
+*/
 class PasswordGeneratorDialog : public QDialog
 {
-   Q_OBJECT
-   public:
-      PasswordGeneratorDialog(QWidget *parent);
-      /*! 
-       * Function returns generated value.
-       */
-      QString getResult();
-   private:
-      Ui::PasswordGeneratorDialogPage1 uiSettings;
-      Ui::PasswordGeneratorDialogPage3 uiResult;
-      QStackedWidget *stackedWidget;
-      QWidget *settingsWidget;
-      QWidget *resultWidget;
-      QWidget *generatorWidget;
-      QWidget *buttonsWidget;
-      QPushButton *nextButton;
-      QPushButton *backButton;
-      GraphicGenerator *generator;
-      QProgressBar *progressBar;
-   private slots:
-      void back();
-      void next();
+	Q_OBJECT
+	public:
+		PasswordGeneratorDialog(QWidget *parent);
+		/*! 
+		* Function returns generated value.
+		*/
+		QString getResult();
+	private:
+		Ui::PasswordGeneratorDialogPage1 uiSettings;
+		Ui::PasswordGeneratorDialogPage3 uiResult;
+		QStackedWidget *stackedWidget;
+		QWidget *settingsWidget;
+		QWidget *resultWidget;
+		QWidget *generatorWidget;
+		QWidget *buttonsWidget;
+		QPushButton *nextButton;
+		QPushButton *backButton;
+		GraphicGenerator *generator;
+		QProgressBar *progressBar;
+	private slots:
+		void back();
+		void next();
 };
 
 /*!
- * This class provides a widget generator which is used to calculate random values
- * based on mouse moves.
- */
+* This class provides a widget generator which is used to calculate random values
+* based on mouse moves.
+*/
 class GraphicGenerator : public QLabel
 {
-   Q_OBJECT
-   public:
-      /*! Constructor of GraphicGenerator
-       * 
-       * As one of argument it takes progessBar to show progress of
-       * generation to user.
-       * 
-       * @param progressBar progress bar to present progress of generation
-       * @param parent parent of generator
-       */
-      GraphicGenerator(QProgressBar *progressBar, QWidget *parent);
-      /*! This function initializes generator.
-       * 
-       * This function calculates character set map,
-       * calculates pseudo random table and initializes variables.
-       * 
-       * @param size Size of string to generate.
-       * @param characterSet Combination of characterSetValues.
-       */
-      void initGenerator(int size, int characterSet);
-      /*! 
-       * Function returns generated value.
-       */
-      QString getResult();
-   protected:
-      void mouseMoveEvent( QMouseEvent *event);
-   private:
-      QProgressBar *progressBar;
-      int count;
-      int size;
-      int value;
-      int table[IMAGE_WIDTH][IMAGE_HEIGHT];
-      char characterMap[128];
-      int characterMapCount;
-      QString result;
-   signals:
-      /*!
-       * Signal emitted when generation is complete
-       */
-      void generatingEnd();
+	Q_OBJECT
+	public:
+		/*! Constructor of GraphicGenerator
+		* 
+		* As one of argument it takes progessBar to show progress of
+		* generation to user.
+		* 
+		* @param progressBar progress bar to present progress of generation
+		* @param parent parent of generator
+		*/
+		GraphicGenerator(QProgressBar *progressBar, QWidget *parent);
+		/*! This function initializes generator.
+		* 
+		* This function calculates character set map,
+		* calculates pseudo random table and initializes variables.
+		* 
+		* @param size Size of string to generate.
+		* @param characterSet Combination of characterSetValues.
+		*/
+		void initGenerator(int size, int characterSet);
+		/*! 
+		* Function returns generated value.
+		*/
+		QString getResult();
+	protected:
+		void mouseMoveEvent( QMouseEvent *event);
+	private:
+		QProgressBar *progressBar;
+		int count;
+		int size;
+		int value;
+		int table[IMAGE_WIDTH][IMAGE_HEIGHT];
+		char characterMap[128];
+		int characterMapCount;
+		QString result;
+	signals:
+		/*!
+		* Signal emitted when generation is complete
+		*/
+		void generatingEnd();
 };
 
 #endif //PASSWORDGENERATORDIALOG_H

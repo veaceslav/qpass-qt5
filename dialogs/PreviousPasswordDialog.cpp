@@ -14,10 +14,10 @@
 
 PreviousPasswordDialog::PreviousPasswordDialog(QWidget *parent) : QDialog(parent)
 {
-   setupUi(this);
+	setupUi(this);
 }
 
 QString PreviousPasswordDialog::value()
 {
-   return passwordEdit->text();
+	return passwordEdit->text();
 }

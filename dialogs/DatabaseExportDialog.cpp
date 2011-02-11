@@ -17,44 +17,44 @@
 
 DatabaseExportDialog::DatabaseExportDialog(QWidget *parent) : QDialog(parent)
 {
-   setupUi(this);
-   connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	setupUi(this);
+	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 }
 
 QString DatabaseExportDialog::getPassword()
 {
-   return passwordEdit1->text();
+	return passwordEdit1->text();
 }
 
 QString DatabaseExportDialog::getPath()
 {
-   return pathEdit->text();
+	return pathEdit->text();
 }
 
 void DatabaseExportDialog::browse()
 {
-   pathEdit->setText( QFileDialog::getSaveFileName(this, QString(), QString(), tr("QPass database files (*.qpa);;All Files (*)")) );
+	pathEdit->setText( QFileDialog::getSaveFileName(this, QString(), QString(), tr("QPass database files (*.qpa);;All Files (*)")) );
 }
 
 void DatabaseExportDialog::accept()
 {
-   if(passwordEdit1->text() != passwordEdit2->text())
-   {
-      QMessageBox box(this);
-      box.setWindowTitle( tr("QPass") );
-      box.setText( tr("Passwords does not match") );
-      box.setIcon( QMessageBox::Warning );
-      box.exec();
-      return;
-   }
-   if(pathEdit->text().isEmpty())
-   {
-      QMessageBox box(this);
-      box.setWindowTitle( tr("QPass") );
-      box.setText( tr("File path can not be empty") );
-      box.setIcon( QMessageBox::Warning );
-      box.exec();
-      return;
-   }
-   done(QDialog::Accepted);
+	if(passwordEdit1->text() != passwordEdit2->text())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("Passwords does not match") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+		return;
+	}
+	if(pathEdit->text().isEmpty())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("File path can not be empty") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+		return;
+	}
+	done(QDialog::Accepted);
 }

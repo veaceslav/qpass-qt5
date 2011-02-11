@@ -22,34 +22,34 @@
 
 QString PredefinedSettings::dataPath()
 {
-   QString path;
-   if(path.isEmpty())
-   {
+	QString path;
+	if(path.isEmpty())
+	{
 #ifdef Q_WS_X11
-      path = QCoreApplication::applicationDirPath()+"/../share/qpass";
+		path = QCoreApplication::applicationDirPath()+"/../share/qpass";
 #endif
 #ifdef Q_WS_WIN
-      path = QCoreApplication::applicationDirPath();
+		path = QCoreApplication::applicationDirPath();
 #endif
-   }
-   QDir p(path);
-   return p.absolutePath();
+	}
+	QDir p(path);
+	return p.absolutePath();
 }
 
 QString PredefinedSettings::databasePath()
 {
-   QDir dir;
+	QDir dir;
 #ifdef Q_WS_X11
-   return dir.homePath()+"/.qpassdb";
+	return dir.homePath()+"/.qpassdb";
 #endif
 #ifdef Q_WS_WIN
-   char szPath[MAX_PATH];
-   SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath);
-   QString path = QString(szPath)+"\\QPass";
-   if(!dir.exists(path))
-   {
-      dir.mkdir(path);
-   }
-   return path+"\\database";
+	char szPath[MAX_PATH];
+	SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath);
+	QString path = QString(szPath)+"\\QPass";
+	if(!dir.exists(path))
+	{
+		dir.mkdir(path);
+	}
+	return path+"\\database";
 #endif
 }

@@ -18,37 +18,37 @@
 #include <QMenu>
 
 /*! 
- * This class provides a icon in system tray.
- */
+* This class provides a icon in system tray.
+*/
 class TrayIcon : public QSystemTrayIcon
 {
-   Q_OBJECT
-   public:
-      TrayIcon(QObject *parent);
-      ~TrayIcon();
-      /*! Changed state of "Hide on close" checkbox.
-       * 
-       * @param checked State of "Hide on close"
-       */
-      void setHideOnCloseChecked(bool checked);
-   private:
-      QMenu *menu;
-      QAction *hideOnCloseAction;
-   private slots:
-      void handleActivated(QSystemTrayIcon::ActivationReason reason);
-   signals:
-      /*! 
-       * Signal emmited when user clicks tray icon.
-       */
-      void clicked();
-      /*!Signal emmited when users change state of "Hide on close" checkbox.
-       * 
-       * @param checked State of checkbox.
-       */
-      void hideOnCloseTriggered(bool checked);
-      /*! 
-       * Signal emmited when user clicks quit action.
-       */
-      void quitClicked();
+	Q_OBJECT
+	public:
+		TrayIcon(QObject *parent);
+		~TrayIcon();
+		/*! Changed state of "Hide on close" checkbox.
+		* 
+		* @param checked State of "Hide on close"
+		*/
+		void setHideOnCloseChecked(bool checked);
+	private:
+		QMenu *menu;
+		QAction *hideOnCloseAction;
+	private slots:
+		void handleActivated(QSystemTrayIcon::ActivationReason reason);
+	signals:
+		/*! 
+		* Signal emmited when user clicks tray icon.
+		*/
+		void clicked();
+		/*!Signal emmited when users change state of "Hide on close" checkbox.
+		* 
+		* @param checked State of checkbox.
+		*/
+		void hideOnCloseTriggered(bool checked);
+		/*! 
+		* Signal emmited when user clicks quit action.
+		*/
+		void quitClicked();
 };
 #endif //TRAYICON_H

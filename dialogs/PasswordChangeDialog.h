@@ -24,25 +24,25 @@
  */
 class PasswordChangeDialog : public QDialog, private Ui::PasswordChangeDialog
 {
-   Q_OBJECT
-   public:
-      /*! Constructor of dialog.
-       * 
-       * It takes current password to check if current password provided by user
-       * now match current password.
-       */
-      PasswordChangeDialog(const QString &currentPassword, QWidget *parent);
-      /*! Function returns new password.
-       * 
-       * Returned password is ready to use.
-       * 
-       * @return new password.
-       */
-      QString getNewPassword();
-   private:
-      QString currentPassword;
-   private slots:
-      void accept();
+	Q_OBJECT
+	public:
+		/*! Constructor of dialog.
+		* 
+		* It takes current password to check if current password provided by user
+		* now match current password.
+		*/
+		PasswordChangeDialog(const QString &currentPassword, QWidget *parent);
+		/*! Function returns new password.
+		* 
+		* Returned password is ready to use.
+		* 
+		* @return new password.
+		*/
+		QString getNewPassword();
+	private:
+		QString currentPassword;
+	private slots:
+		void accept();
 };
 
 #endif //PASSWORDCHANGEDIALOG_H

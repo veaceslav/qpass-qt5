@@ -16,25 +16,25 @@
 #include <QString>
 
 /*!
- * This class provides functions returning values such as default paths.
- */
+* This class provides functions returning values such as default paths.
+*/
 class PredefinedSettings
 {
-   public:
-      /*! This function returns path to directory to store data.
-       *
-       * Returned value depends on platform.
-       *
-       * @return Data directory path.
-       */
-      static QString dataPath();
-      /*! This functions returns path to database.
-       * 
-       * Returned value depends on platform.
-       *
-       * @return Path to database.
-       */
-      static QString databasePath();
+	public:
+		/*! This function returns path to directory to store data.
+		*
+		* Returned value depends on platform.
+		*
+		* @return Data directory path.
+		*/
+		static QString dataPath();
+		/*! This functions returns path to database.
+		* 
+		* Returned value depends on platform.
+		*
+		* @return Path to database.
+		*/
+		static QString databasePath();
 };
 
 #endif

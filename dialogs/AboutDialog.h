@@ -23,9 +23,9 @@
  */
 class AboutDialog : public QDialog, private Ui::AboutDialog
 {
-   Q_OBJECT
-   public:
-      AboutDialog(QWidget *parent);
+	Q_OBJECT
+	public:
+		AboutDialog(QWidget *parent);
 };
 
 #endif //ABOUTDIALOG_H

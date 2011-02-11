@@ -14,35 +14,35 @@
 
 TrayIcon::TrayIcon(QObject *parent) : QSystemTrayIcon(parent)
 {
-   setIcon( QIcon(":/icons/qpass.png") );
-   setToolTip( tr("QPass password manager") );
-   menu = new QMenu();
-   hideOnCloseAction = new QAction(this);
-   hideOnCloseAction->setText( tr("Hide on close") );
-   hideOnCloseAction->setCheckable(true);
-   menu->addAction(hideOnCloseAction);
-   menu->addSeparator();
-   QAction *quitAction = new QAction(this);
-   quitAction->setText( tr("Quit") );
-   menu->addAction(quitAction);
-   setContextMenu(menu);
-   connect(hideOnCloseAction, SIGNAL(triggered(bool)), this, SIGNAL(hideOnCloseTriggered(bool)));
-   connect(quitAction, SIGNAL(triggered()), this, SIGNAL(quitClicked()));
-   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(handleActivated(QSystemTrayIcon::ActivationReason)));
+	setIcon( QIcon(":/icons/qpass.png") );
+	setToolTip( tr("QPass password manager") );
+	menu = new QMenu();
+	hideOnCloseAction = new QAction(this);
+	hideOnCloseAction->setText( tr("Hide on close") );
+	hideOnCloseAction->setCheckable(true);
+	menu->addAction(hideOnCloseAction);
+	menu->addSeparator();
+	QAction *quitAction = new QAction(this);
+	quitAction->setText( tr("Quit") );
+	menu->addAction(quitAction);
+	setContextMenu(menu);
+	connect(hideOnCloseAction, SIGNAL(triggered(bool)), this, SIGNAL(hideOnCloseTriggered(bool)));
+	connect(quitAction, SIGNAL(triggered()), this, SIGNAL(quitClicked()));
+	connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(handleActivated(QSystemTrayIcon::ActivationReason)));
 }
 
 TrayIcon::~TrayIcon()
 {
-   delete menu;
+	delete menu;
 }
 
 void TrayIcon::setHideOnCloseChecked(bool checked)
 {
-   hideOnCloseAction->setChecked(checked);
+	hideOnCloseAction->setChecked(checked);
 }
 
 void TrayIcon::handleActivated(QSystemTrayIcon::ActivationReason reason)
 {
-   if(reason == QSystemTrayIcon::Trigger)
-      emit clicked();
+	if(reason == QSystemTrayIcon::Trigger)
+		emit clicked();
 }

@@ -23,13 +23,13 @@
  */
 class PreviousPasswordDialog : public QDialog, private Ui::PreviousPasswordDialog
 {
-   Q_OBJECT
-   public:
-      PreviousPasswordDialog(QWidget *parent = 0);
-      /*! 
-       * Returns password provided by the user.
-       */
-      QString value();
+	Q_OBJECT
+	public:
+		PreviousPasswordDialog(QWidget *parent = 0);
+		/*! 
+		* Returns password provided by the user.
+		*/
+		QString value();
 };
 
 #endif //PREVIOUSPASSWORDDIALOG_H

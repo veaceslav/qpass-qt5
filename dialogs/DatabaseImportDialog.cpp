@@ -19,65 +19,65 @@
 
 DatabaseImportDialog::DatabaseImportDialog(QWidget *parent) : QDialog(parent)
 {
-   setupUi(this);
-   connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	setupUi(this);
+	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
 }
 
 QString DatabaseImportDialog::getPassword()
 {
-   return passwordEdit->text();
+	return passwordEdit->text();
 }
 
 QString DatabaseImportDialog::getPath()
 {
-   return pathEdit->text();
+	return pathEdit->text();
 }
 
 int DatabaseImportDialog::getMode()
 {
-   if(appendButton->isChecked())
-      return DatabaseImportDialog::Append;
-   else if(replaceButton->isChecked())
-      return DatabaseImportDialog::Replace;
+	if(appendButton->isChecked())
+		return DatabaseImportDialog::Append;
+	else if(replaceButton->isChecked())
+		return DatabaseImportDialog::Replace;
 }
 
 void DatabaseImportDialog::browse()
 {
-   QFileDialog dialog(this);
-   dialog.setFilter( tr("QPass database files (*.qpa);;All Files (*)") );
-   dialog.setFileMode( QFileDialog::ExistingFile );
-   if(dialog.exec() == QDialog::Accepted)
-      pathEdit->setText( dialog.selectedFiles().at(0));
+	QFileDialog dialog(this);
+	dialog.setFilter( tr("QPass database files (*.qpa);;All Files (*)") );
+	dialog.setFileMode( QFileDialog::ExistingFile );
+	if(dialog.exec() == QDialog::Accepted)
+		pathEdit->setText( dialog.selectedFiles().at(0));
 }
 
 void DatabaseImportDialog::accept()
 {
-   if(pathEdit->text().isEmpty())
-   {
-      QMessageBox box(this);
-      box.setWindowTitle( tr("QPass") );
-      box.setText( tr("File path can not be empty") );
-      box.setIcon( QMessageBox::Warning );
-      box.exec();
-      return;
-   }
-   if(DataModel::checkDatabase( getPath(), getPassword() ) == -1)
-   {
-      QMessageBox box(this);
-      box.setWindowTitle( tr("QPass") );
-      box.setText( tr("Incorrect password.") );
-      box.setIcon(QMessageBox::Warning);
-      box.exec();
-      return;
-   }
-   if(DataModel::checkDatabase( getPath(), getPassword() ) == -2)
-   {
-      QMessageBox box(this);
-      box.setWindowTitle( tr("QPass") );
-      box.setText( tr("Selected database is corrupted or it is not a qpass database.") );
-      box.setIcon(QMessageBox::Warning);
-      box.exec();
-      return;
-   }
-   done(QDialog::Accepted);
+	if(pathEdit->text().isEmpty())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("File path can not be empty") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+		return;
+	}
+	if(DataModel::checkDatabase( getPath(), getPassword() ) == -1)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("Incorrect password.") );
+		box.setIcon(QMessageBox::Warning);
+		box.exec();
+		return;
+	}
+	if(DataModel::checkDatabase( getPath(), getPassword() ) == -2)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("Selected database is corrupted or it is not a qpass database.") );
+		box.setIcon(QMessageBox::Warning);
+		box.exec();
+		return;
+	}
+	done(QDialog::Accepted);
 }
