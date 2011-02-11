@@ -4,59 +4,59 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(Qt4 REQUIRED)
 
-SET(QPASS_VERSION 1.0.1)
-SET(QPASS_WIN_VERSION 1,0,1,0)
+SET(QPASS_VERSION 1.0.2)
+SET(QPASS_WIN_VERSION 1,0,2,0)
 
 SET(INCLUDE_DIR
-   ${CMAKE_CURRENT_BINARY_DIR}
-   ${CMAKE_CURRENT_SOURCE_DIR}
-   dialogs
-   ${QT_INCLUDE_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_CURRENT_SOURCE_DIR}
+	dialogs
+	${QT_INCLUDE_DIR}
 )
 
 INCLUDE(${QT_USE_FILE})
 
 set(QPass_SOURCES 
-   main.cpp 
-   MainWindow.cpp 
-   DataModel.cpp 
-   DataAccess.cpp
-   PredefinedSettings.cpp
-   TrayIcon.cpp
-   dialogs/PreviousPasswordDialog.cpp
-   dialogs/NewDatabaseDialog.cpp
-   dialogs/AboutDialog.cpp
-   dialogs/DatabaseExportDialog.cpp
-   dialogs/DatabaseImportDialog.cpp
-   dialogs/PasswordChangeDialog.cpp
-   dialogs/PasswordGeneratorDialog.cpp
+	main.cpp 
+	MainWindow.cpp 
+	DataModel.cpp 
+	DataAccess.cpp
+	PredefinedSettings.cpp
+	TrayIcon.cpp
+	dialogs/PreviousPasswordDialog.cpp
+	dialogs/NewDatabaseDialog.cpp
+	dialogs/AboutDialog.cpp
+	dialogs/DatabaseExportDialog.cpp
+	dialogs/DatabaseImportDialog.cpp
+	dialogs/PasswordChangeDialog.cpp
+	dialogs/PasswordGeneratorDialog.cpp
 )
 set(QPass_HEADERS 
-   MainWindow.h 
-   DataModel.h 
-   TrayIcon.h
-   dialogs/PreviousPasswordDialog.h
-   dialogs/NewDatabaseDialog.h
-   dialogs/AboutDialog.h
-   dialogs/DatabaseExportDialog.h
-   dialogs/DatabaseImportDialog.h
-   dialogs/PasswordChangeDialog.h
-   dialogs/PasswordGeneratorDialog.h
+	MainWindow.h 
+	DataModel.h 
+	TrayIcon.h
+	dialogs/PreviousPasswordDialog.h
+	dialogs/NewDatabaseDialog.h
+	dialogs/AboutDialog.h
+	dialogs/DatabaseExportDialog.h
+	dialogs/DatabaseImportDialog.h
+	dialogs/PasswordChangeDialog.h
+	dialogs/PasswordGeneratorDialog.h
 )
 set(QPass_UI 
-   MainWindow.ui
-   dialogs/PreviousPasswordDialog.ui
-   dialogs/NewDatabaseDialogPage1.ui
-   dialogs/NewDatabaseDialogPage2.ui
-   dialogs/AboutDialog.ui
-   dialogs/DatabaseExportDialog.ui
-   dialogs/DatabaseImportDialog.ui
-   dialogs/PasswordChangeDialog.ui
-   dialogs/PasswordGeneratorDialogPage1.ui
-   dialogs/PasswordGeneratorDialogPage3.ui
+	MainWindow.ui
+	dialogs/PreviousPasswordDialog.ui
+	dialogs/NewDatabaseDialogPage1.ui
+	dialogs/NewDatabaseDialogPage2.ui
+	dialogs/AboutDialog.ui
+	dialogs/DatabaseExportDialog.ui
+	dialogs/DatabaseImportDialog.ui
+	dialogs/PasswordChangeDialog.ui
+	dialogs/PasswordGeneratorDialogPage1.ui
+	dialogs/PasswordGeneratorDialogPage3.ui
 )
 set(QPass_TS
-   pl_PL.ts
+	pl_PL.ts
 )
 include_directories(${INCLUDE_DIR})
 QT4_ADD_TRANSLATION(QPass_QM translations/${QPass_TS})
@@ -78,13 +78,13 @@ configure_file (${CMAKE_SOURCE_DIR}/qpass-config.h.cmake ${CMAKE_BINARY_DIR}/qpa
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 if(WIN32)
-    if(MINGW)
-    ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/win_res.o
-    COMMAND windres.exe -I"${CMAKE_CURRENT_BINARY_DIR}"
-    -i ${CMAKE_CURRENT_SOURCE_DIR}/win_res.rc
-    -o ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
-    add_executable(qpass WIN32 ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM} ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
-    endif(MINGW)
+	if(MINGW)
+	ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/win_res.o
+	COMMAND windres.exe -I"${CMAKE_CURRENT_BINARY_DIR}"
+	-i ${CMAKE_CURRENT_SOURCE_DIR}/win_res.rc
+	-o ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
+	add_executable(qpass WIN32 ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM} ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
+	endif(MINGW)
 else(WIN32)
 ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
 endif(WIN32)
