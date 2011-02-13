@@ -258,21 +258,22 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 	gcry_cipher_encrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 	if( file->write((char*)&chead, sizeof(cryptedHeader)) == -1 )
 		return false;
+
 	for(int i = 0; i < data.count(); i++)
 	{
 		struct entryHeader e;
-		e.entryLength = data[i][0].toUtf8().size()+data[i][1].toUtf8().size()+data[i][2].toUtf8().size()+data[i][3].toUtf8().size()+data[i][4].toUtf8().size();
-		e.entryLength = ((e.entryLength/16)+1)*16;
 		e.nameLength = data[i][0].toUtf8().size();
 		e.urlLength = data[i][1].toUtf8().size();
 		e.usernameLength = data[i][2].toUtf8().size();
 		e.passwordLength = data[i][3].toUtf8().size();
 		e.notesLength = data[i][4].toUtf8().size();
+		e.entryLength = e.nameLength + e.urlLength + e.usernameLength + e.passwordLength + e.notesLength;
+		e.entryLength = ((e.entryLength/16)+1)*16;
 		char *entry = (char*)malloc(e.entryLength);
 		int start = 0;
 		for(int j = 0; j < 5; j++)
 		{
-			memcpy(entry+start, data[i][j].toUtf8(), data[i][j].toUtf8().size());
+			memcpy(entry+start, data[i][j].toUtf8().constData(), data[i][j].toUtf8().size());
 			start += data[i][j].toUtf8().size();
 		}
 		int length = e.entryLength;

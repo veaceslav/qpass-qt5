@@ -36,7 +36,7 @@
           <number>100</number>
          </property>
          <property name="placeholderText">
-          <string>Search entries</string>
+          <string>Search for entries</string>
          </property>
         </widget>
        </item>
@@ -382,8 +382,6 @@
  </widget>
  <tabstops>
   <tabstop>listView</tabstop>
-  <tabstop>addButton</tabstop>
-  <tabstop>deleteButton</tabstop>
   <tabstop>nameEdit</tabstop>
   <tabstop>urlEdit</tabstop>
   <tabstop>copyurlButton</tabstop>
@@ -395,6 +393,8 @@
   <tabstop>generatePasswordButton</tabstop>
   <tabstop>notesEdit</tabstop>
   <tabstop>saveButton</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>deleteButton</tabstop>
   <tabstop>searchEdit</tabstop>
  </tabstops>
  <resources/>
