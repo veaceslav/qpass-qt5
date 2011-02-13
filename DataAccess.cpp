@@ -159,7 +159,7 @@ QList< QVector< QString> > DataAccess::read()
 					temp[e.notesLength] = 0;
 					tempVector[4] = temp;
 					list.append(tempVector);
-					delete entry;
+					free(entry);
 				}
 			}
 			gcry_cipher_close(hd);
@@ -193,29 +193,30 @@ QList< QVector< QString> > DataAccess::read()
 					start += e.nameLength;
 					temp[e.nameLength] = 0;
 					//templist.append(temp);
-					tempVector[0] = temp;
+					tempVector[0] = QString::fromUtf8(temp);
 					
 					memcpy(temp, &entry[start], e.urlLength);
 					start += e.urlLength;
 					temp[e.urlLength] = 0;
-					tempVector[1] = temp;
+					tempVector[1] = QString::fromUtf8(temp);
 					
 					memcpy(temp, &entry[start], e.usernameLength);
 					start += e.usernameLength;
 					temp[e.usernameLength] = 0;
-					tempVector[2] = temp;
+					tempVector[2] = QString::fromUtf8(temp);
 					
 					memcpy(temp, &entry[start], e.passwordLength);
 					start += e.passwordLength;
 					temp[e.passwordLength] = 0;
-					tempVector[3] = temp;
+					tempVector[3] = QString::fromUtf8(temp);
 					
 					memcpy(temp, &entry[start], e.notesLength);
 					start += e.notesLength;
 					temp[e.notesLength] = 0;
-					tempVector[4] = temp;
+					tempVector[4] = QString::fromUtf8(temp);
+
 					list.append(tempVector);
-					delete entry;
+					free(entry);
 				}
 			}
 			gcry_cipher_close(hd);
@@ -260,19 +261,19 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 	for(int i = 0; i < data.count(); i++)
 	{
 		struct entryHeader e;
-		e.entryLength = data[i][0].size()+data[i][1].size()+data[i][2].size()+data[i][3].size()+data[i][4].size();
+		e.entryLength = data[i][0].toUtf8().size()+data[i][1].toUtf8().size()+data[i][2].toUtf8().size()+data[i][3].toUtf8().size()+data[i][4].toUtf8().size();
 		e.entryLength = ((e.entryLength/16)+1)*16;
-		e.nameLength = data[i][0].size();
-		e.urlLength = data[i][1].size();
-		e.usernameLength = data[i][2].size();
-		e.passwordLength = data[i][3].size();
-		e.notesLength = data[i][4].size();
+		e.nameLength = data[i][0].toUtf8().size();
+		e.urlLength = data[i][1].toUtf8().size();
+		e.usernameLength = data[i][2].toUtf8().size();
+		e.passwordLength = data[i][3].toUtf8().size();
+		e.notesLength = data[i][4].toUtf8().size();
 		char *entry = (char*)malloc(e.entryLength);
 		int start = 0;
 		for(int j = 0; j < 5; j++)
 		{
-			memcpy(entry+start, data[i][j].toAscii(), data[i][j].size());
-			start += data[i][j].size();
+			memcpy(entry+start, data[i][j].toUtf8(), data[i][j].toUtf8().size());
+			start += data[i][j].toUtf8().size();
 		}
 		int length = e.entryLength;
 		gcry_cipher_encrypt(hd, &e, sizeof(entryHeader), NULL, 0);
@@ -281,7 +282,7 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 			return false;
 		if( file->write(entry, length) == -1 )
 			return false;
-		delete entry;
+		free(entry);
 	}
 	gcry_cipher_close(hd);
 	file->close();

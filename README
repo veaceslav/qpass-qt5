@@ -9,8 +9,9 @@ If you have questions, ideas to new features or want to report a bug write to me
 Changelog:
 1.0.2:
 -Added searching feature
--Added keys shortcuts
+-Added key shortcuts
 -Corrected import/export messageboxes
+-Corrected indentations
 
 1.0.1:
 -This version was written from scratch and now source code is more logical which gives less bugs.
