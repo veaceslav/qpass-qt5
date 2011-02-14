@@ -60,8 +60,14 @@
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
+         </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectItems</enum>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

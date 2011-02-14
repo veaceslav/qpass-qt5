@@ -138,7 +138,7 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 			else if(data.count() < rowCount())
 				removeRows(data.count(), rowCount()-data.count());
 			dataList = data;
-			dataChanged( index(0, 0), index( data.count()-1, COLUMNCOUNT));
+			emit dataChanged( index(0, 0), index( data.count()-1, COLUMNCOUNT-1));
 		}
 		else
 		{
@@ -177,7 +177,7 @@ void DataModel::swapEntries(int firstIndex, int secondIndex)
 		firstIndex = secondIndex;
 		secondIndex = temp;
 	}
-	dataChanged( index(firstIndex, 0), index(secondIndex, COLUMNCOUNT) );
+	emit dataChanged( index(firstIndex, 0), index(secondIndex, COLUMNCOUNT - 1) );
 	database->write(dataList);
 }
 

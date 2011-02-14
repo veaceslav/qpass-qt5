@@ -515,7 +515,7 @@ void MainWindow::moveUpEntry()
 
 	model->swapEntries( list.at(0).row(), list.at(0).row() - 1 );
 	
-	selectionModel->setCurrentIndex( model->index( list.at(0).row() - 1, 0 ), QItemSelectionModel::SelectCurrent);
+	selectionModel->setCurrentIndex( proxyModel->index( list.at(0).row() - 1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
 void MainWindow::moveDownEntry()
@@ -534,6 +534,6 @@ void MainWindow::moveDownEntry()
 
 	model->swapEntries( list.at(0).row(), list.at(0).row() + 1 );
 	
-	selectionModel->setCurrentIndex( model->index( list.at(0).row() + 1, 0 ), QItemSelectionModel::SelectCurrent);
+	selectionModel->setCurrentIndex( proxyModel->index( list.at(0).row() + 1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
