@@ -95,6 +95,7 @@ TARGET_LINK_LIBRARIES(qpass ${QT_LIBRARIES} gcrypt gpg-error)
 install(TARGETS qpass DESTINATION ${QPASS_BIN_DIR})
 install(FILES ${QPass_QM} DESTINATION ${QPASS_DATA_DIR}/translations)
 install(FILES COPYING DESTINATION ${QPASS_DATA_DIR})
+install(FILES README DESTINATION ${QPASS_DATA_DIR})
 
 if (UNIX AND NOT APPLE)
 	install (FILES images/hi16-app-qpass.png DESTINATION "share/icons/hicolor/16x16/apps" RENAME qpass.png)
