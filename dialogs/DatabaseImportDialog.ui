@@ -111,6 +111,9 @@ to it and importing mode. </string>
         </item>
         <item>
          <widget class="QPushButton" name="browseButton">
+          <property name="toolTip">
+           <string>Browse files</string>
+          </property>
           <property name="text">
            <string>...</string>
           </property>

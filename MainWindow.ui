@@ -88,6 +88,9 @@
           </property>
           <item>
            <widget class="QPushButton" name="addButton">
+            <property name="toolTip">
+             <string>Add new entry</string>
+            </property>
             <property name="text">
              <string>&amp;Add</string>
             </property>
@@ -97,6 +100,9 @@
            <widget class="QPushButton" name="deleteButton">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Delete selected entry</string>
             </property>
             <property name="text">
              <string>&amp;Delete</string>
@@ -163,6 +169,9 @@
           </item>
           <item row="2" column="1">
            <widget class="QPushButton" name="copyurlButton">
+            <property name="toolTip">
+             <string>Copy URL to clipboard</string>
+            </property>
             <property name="text">
              <string>Copy URL</string>
             </property>
@@ -192,6 +201,9 @@
               <width>100</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Copy user name to clipboard</string>
             </property>
             <property name="text">
              <string>Copy user name</string>
@@ -237,6 +249,9 @@
                  <width>127</width>
                  <height>0</height>
                 </size>
+               </property>
+               <property name="toolTip">
+                <string>Copy password to clipboard</string>
                </property>
                <property name="text">
                 <string>Copy password</string>
@@ -324,6 +339,9 @@
               <width>100</width>
               <height>0</height>
              </size>
+            </property>
+            <property name="toolTip">
+             <string>Save current entry</string>
             </property>
             <property name="text">
              <string>&amp;Save</string>
