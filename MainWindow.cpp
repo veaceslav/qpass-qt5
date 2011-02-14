@@ -296,6 +296,17 @@ void MainWindow::init()
 	
 	setupUi(this);
 	
+	QAction *moveUpAction = new QAction( tr("Move Up"), this);
+	moveUpAction->setShortcut( Qt::CTRL + Qt::Key_Up );
+	listView->addAction(moveUpAction);
+
+	QAction *moveDownAction = new QAction( tr("Move Down"), this);
+	moveDownAction->setShortcut( Qt::CTRL + Qt::Key_Down );
+	listView->addAction( moveDownAction );
+
+	connect(moveUpAction, SIGNAL(triggered()), this, SLOT(moveUpEntry()));
+	connect(moveDownAction, SIGNAL(triggered()), this, SLOT(moveDownEntry()));
+	
 	readSettings();
 	readWindowState();
 	
@@ -487,3 +498,42 @@ void MainWindow::switchHideOnClose(bool checked)
 {
 	hideOnClose = checked;
 }
+
+void MainWindow::moveUpEntry()
+{
+	if( !searchEdit->text().isEmpty() )
+	{
+		QMessageBox box(this);
+		box.setText( tr("You can't do this is searching mode") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+		return;
+	}
+	QModelIndexList list = selectionModel->selection().indexes();
+	if( list.count() == 0 )
+		return;
+
+	model->swapEntries( list.at(0).row(), list.at(0).row() - 1 );
+	
+	selectionModel->setCurrentIndex( model->index( list.at(0).row() - 1, 0 ), QItemSelectionModel::SelectCurrent);
+}
+
+void MainWindow::moveDownEntry()
+{
+	if( !searchEdit->text().isEmpty() )
+	{
+		QMessageBox box(this);
+		box.setText( tr("You can't do this is searching mode") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+		return;
+	}
+	QModelIndexList list = selectionModel->selection().indexes();
+	if( list.count() == 0 )
+		return;
+
+	model->swapEntries( list.at(0).row(), list.at(0).row() + 1 );
+	
+	selectionModel->setCurrentIndex( model->index( list.at(0).row() + 1, 0 ), QItemSelectionModel::SelectCurrent);
+}
+

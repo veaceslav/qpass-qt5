@@ -54,6 +54,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -265,6 +268,9 @@
           </item>
           <item row="7" column="1">
            <widget class="QTextEdit" name="notesEdit">
+            <property name="tabChangesFocus">
+             <bool>true</bool>
+            </property>
             <property name="undoRedoEnabled">
              <bool>false</bool>
             </property>

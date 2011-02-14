@@ -60,6 +60,7 @@ class DataModel : public QAbstractTableModel
 		int importDatabase(const QString &path,const QString &password, bool replaceExisting = false);
 		QString getPassword();
 		bool changePassword(const QString &newPassword);
+		void swapEntries(int firstIndex, int secondIndex);
 	private:
 		QList< QVector< QString > > dataList;
 		DataAccess *database;

@@ -163,3 +163,21 @@ bool DataModel::changePassword(const QString &newPassword)
 	database->setPassword(newPassword);
 	return database->write(dataList);
 }
+
+void DataModel::swapEntries(int firstIndex, int secondIndex)
+{
+	if( firstIndex < 0 || firstIndex >= dataList.count() )
+		return;
+	if( secondIndex < 0 || secondIndex >= dataList.count() )
+		return;
+	dataList.swap( firstIndex, secondIndex );
+	if( firstIndex > secondIndex )
+	{
+		int temp = firstIndex;
+		firstIndex = secondIndex;
+		secondIndex = temp;
+	}
+	dataChanged( index(firstIndex, 0), index(secondIndex, COLUMNCOUNT) );
+	database->write(dataList);
+}
+
