@@ -501,6 +501,11 @@ void MainWindow::switchHideOnClose(bool checked)
 
 void MainWindow::moveUpEntry()
 {
+	QModelIndexList list = selectionModel->selection().indexes();
+
+	if( list.count() == 0 )
+		return;
+
 	if( !searchEdit->text().isEmpty() )
 	{
 		QMessageBox box(this);
@@ -509,17 +514,43 @@ void MainWindow::moveUpEntry()
 		box.exec();
 		return;
 	}
-	QModelIndexList list = selectionModel->selection().indexes();
-	if( list.count() == 0 )
+
+	if(saveButton->isEnabled())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("Unsaved entry - QPass") );
+		box.setText( tr("Selected data entry has been modified\nDo you want to save your changes or discard them?") );
+		box.setStandardButtons( QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+		box.setIcon( QMessageBox::Warning );
+		int res = box.exec();
+		if(res == QMessageBox::Save)
+			saveItem();
+		else if(res == QMessageBox::Cancel)
+		{
+			return;
+		}
+		else if(res == QMessageBox::Discard)
+		{
+			saveButton->setEnabled( false );
+		}
+	}
+
+	if( list.at(0).row() == 0 )
 		return;
 
 	model->swapEntries( list.at(0).row(), list.at(0).row() - 1 );
 	
+	selectionModel->clearSelection();
 	selectionModel->setCurrentIndex( proxyModel->index( list.at(0).row() - 1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
 void MainWindow::moveDownEntry()
 {
+	QModelIndexList list = selectionModel->selection().indexes();
+
+	if( list.count() == 0 )
+		return;
+
 	if( !searchEdit->text().isEmpty() )
 	{
 		QMessageBox box(this);
@@ -528,12 +559,33 @@ void MainWindow::moveDownEntry()
 		box.exec();
 		return;
 	}
-	QModelIndexList list = selectionModel->selection().indexes();
-	if( list.count() == 0 )
+
+	if(saveButton->isEnabled())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("Unsaved entry - QPass") );
+		box.setText( tr("Selected data entry has been modified\nDo you want to save your changes or discard them?") );
+		box.setStandardButtons( QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+		box.setIcon( QMessageBox::Warning );
+		int res = box.exec();
+		if(res == QMessageBox::Save)
+			saveItem();
+		else if(res == QMessageBox::Cancel)
+		{
+			return;
+		}
+		else if(res == QMessageBox::Discard)
+		{
+			saveButton->setEnabled( false );
+		}
+	}
+
+	if( list.at(0).row()+1 == model->rowCount() )
 		return;
 
 	model->swapEntries( list.at(0).row(), list.at(0).row() + 1 );
 	
+	selectionModel->clearSelection();
 	selectionModel->setCurrentIndex( proxyModel->index( list.at(0).row() + 1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
