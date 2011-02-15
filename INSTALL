@@ -1,0 +1,17 @@
+REQUIREMENTS:
+Qt >= 4.5
+libgcrypt
+
+The simplest way to build and install QPass is to type this commands
+in source directory:
+
+cmake ./
+make
+
+and as root:
+
+make install
+
+
+You can find more desribed compilation instructions on
+http://qpass.sourceforge.net/wiki/
