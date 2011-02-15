@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>785</width>
-    <height>581</height>
+    <width>782</width>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -122,219 +122,313 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QWidget" name="widget" native="true">
-         <property name="minimumSize">
-          <size>
-           <width>531</width>
-           <height>0</height>
-          </size>
+        <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,1">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetDefaultConstraint</enum>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <property name="fieldGrowthPolicy">
-           <enum>QFormLayout::ExpandingFieldsGrow</enum>
-          </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>&amp;Name:</string>
-            </property>
-            <property name="buddy">
-             <cstring>nameEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="nameEdit">
-            <property name="maxLength">
-             <number>50</number>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>&amp;Website URL:</string>
-            </property>
-            <property name="buddy">
-             <cstring>urlEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="urlEdit">
-            <property name="maxLength">
-             <number>50</number>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>&amp;User name:</string>
-            </property>
-            <property name="buddy">
-             <cstring>userNameEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="userNameEdit">
-            <property name="maxLength">
-             <number>50</number>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QPushButton" name="copyUserNameButton">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="toolTip">
-             <string>Copy user name to clipboard</string>
-            </property>
-            <property name="text">
-             <string>Copy user name</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>&amp;Password:</string>
-            </property>
-            <property name="buddy">
-             <cstring>passwordEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QLineEdit" name="passwordEdit">
-            <property name="maxLength">
-             <number>50</number>
-            </property>
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QWidget" name="widget_2" native="true">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="margin">
-              <number>0</number>
+         <property name="horizontalSpacing">
+          <number>3</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>108</width>
+             <height>27</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>&amp;Name:</string>
+           </property>
+           <property name="buddy">
+            <cstring>nameEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="2">
+          <widget class="QLineEdit" name="nameEdit">
+           <property name="maxLength">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>108</width>
+             <height>27</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>&amp;Website URL:</string>
+           </property>
+           <property name="buddy">
+            <cstring>urlEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" colspan="2">
+          <widget class="QLineEdit" name="urlEdit">
+           <property name="maxLength">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>108</width>
+             <height>27</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>&amp;User name:</string>
+           </property>
+           <property name="buddy">
+            <cstring>userNameEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1" colspan="2">
+          <widget class="QLineEdit" name="userNameEdit">
+           <property name="maxLength">
+            <number>50</number>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>108</width>
+             <height>27</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>&amp;Password:</string>
+           </property>
+           <property name="buddy">
+            <cstring>passwordEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1" colspan="2">
+          <widget class="QLineEdit" name="passwordEdit">
+           <property name="maxLength">
+            <number>50</number>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>108</width>
+             <height>236</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>N&amp;otes:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="buddy">
+            <cstring>notesEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1" colspan="2">
+          <widget class="QTextEdit" name="notesEdit">
+           <property name="tabChangesFocus">
+            <bool>true</bool>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="acceptRichText">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="copyURLButton">
+             <property name="toolTip">
+              <string>Copy URL to clipboard</string>
              </property>
-             <item>
-              <widget class="QPushButton" name="copyPasswordButton">
-               <property name="minimumSize">
-                <size>
-                 <width>127</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Copy password to clipboard</string>
-               </property>
-               <property name="text">
-                <string>Copy password</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="showPasswordButton">
-               <property name="minimumSize">
-                <size>
-                 <width>126</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Show Password</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="generatePasswordButton">
-               <property name="minimumSize">
-                <size>
-                 <width>142</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Generate password</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>N&amp;otes:</string>
-            </property>
-            <property name="buddy">
-             <cstring>notesEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QTextEdit" name="notesEdit">
-            <property name="tabChangesFocus">
-             <bool>true</bool>
-            </property>
-            <property name="undoRedoEnabled">
-             <bool>false</bool>
-            </property>
-            <property name="acceptRichText">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QWidget" name="widget_6" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <property name="margin">
-              <number>0</number>
+             <property name="text">
+              <string>Copy URL</string>
              </property>
-             <item>
-              <widget class="QPushButton" name="copyURLButton">
-               <property name="toolTip">
-                <string>Copy URL to clipboard</string>
-               </property>
-               <property name="text">
-                <string>Copy URL</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="goToURLButton">
-               <property name="toolTip">
-                <string>Open URL in default browser</string>
-               </property>
-               <property name="text">
-                <string>Go to URL</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="goToURLButton">
+             <property name="toolTip">
+              <string>Open URL in default browser</string>
+             </property>
+             <property name="text">
+              <string>Go to URL</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="6" column="1" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="copyPasswordButton">
+             <property name="minimumSize">
+              <size>
+               <width>127</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Copy password to clipboard</string>
+             </property>
+             <property name="text">
+              <string>Copy password</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="showPasswordButton">
+             <property name="minimumSize">
+              <size>
+               <width>126</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Show Password</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="generatePasswordButton">
+             <property name="minimumSize">
+              <size>
+               <width>142</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Generate password</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="1" colspan="2">
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QPushButton" name="copyUserNameButton">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Copy user name to clipboard</string>
+             </property>
+             <property name="text">
+              <string>Copy user name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QWidget" name="widget_5" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
           <item>
            <spacer name="horizontalSpacer">
             <property name="orientation">
@@ -380,7 +474,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>785</width>
+     <width>782</width>
      <height>25</height>
     </rect>
    </property>
@@ -431,15 +525,6 @@
  </widget>
  <tabstops>
   <tabstop>listView</tabstop>
-  <tabstop>nameEdit</tabstop>
-  <tabstop>urlEdit</tabstop>
-  <tabstop>userNameEdit</tabstop>
-  <tabstop>copyUserNameButton</tabstop>
-  <tabstop>passwordEdit</tabstop>
-  <tabstop>copyPasswordButton</tabstop>
-  <tabstop>showPasswordButton</tabstop>
-  <tabstop>generatePasswordButton</tabstop>
-  <tabstop>notesEdit</tabstop>
   <tabstop>saveButton</tabstop>
   <tabstop>addButton</tabstop>
   <tabstop>deleteButton</tabstop>
