@@ -2,19 +2,18 @@ PROJECT(QPass)
 
 cmake_minimum_required(VERSION 2.8)
 
-FIND_PACKAGE(Qt4 REQUIRED)
+FIND_PACKAGE(Qt4 4.5 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
 
 SET(QPASS_VERSION 1.0.2)
 SET(QPASS_WIN_VERSION 1,0,2,0)
+
+INCLUDE(${QT_USE_FILE}) 
 
 SET(INCLUDE_DIR
 	${CMAKE_CURRENT_BINARY_DIR}
 	${CMAKE_CURRENT_SOURCE_DIR}
 	dialogs
-	${QT_INCLUDE_DIR}
 )
-
-INCLUDE(${QT_USE_FILE})
 
 set(QPass_SOURCES 
 	main.cpp 
@@ -86,7 +85,7 @@ if(WIN32)
 	add_executable(qpass WIN32 ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM} ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
 	endif(MINGW)
 else(WIN32)
-ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
+	ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
 endif(WIN32)
 
 TARGET_LINK_LIBRARIES(qpass ${QT_LIBRARIES} gcrypt gpg-error)
