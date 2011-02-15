@@ -15,6 +15,12 @@
 #include <QClipboard>
 #include <QSettings>
 #include <QCloseEvent>
+#include <stdlib.h>
+
+#ifdef Q_WS_WIN
+#include <windows.h>
+#include <shellapi.h>
+#endif
 
 #include "MainWindow.h"
 #include "DataModel.h"
@@ -328,7 +334,8 @@ void MainWindow::init()
 	connect(passwordEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
 	connect(notesEdit, SIGNAL(textChanged()), this, SLOT(enableSaveButton()));
 	connect(saveButton, SIGNAL(clicked()), this, SLOT(saveItem()));
-	connect(copyurlButton, SIGNAL(clicked()), this, SLOT(copyURL()));
+	connect(copyURLButton, SIGNAL(clicked()), this, SLOT(copyURL()));
+	connect(goToURLButton, SIGNAL(clicked()), this, SLOT(goToURL()));
 	connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
 	connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
 	connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
@@ -468,6 +475,33 @@ void MainWindow::saveItem(const QModelIndex &item)
 void MainWindow::copyURL()
 {
 	QApplication::clipboard()->setText(urlEdit->text());
+}
+
+void MainWindow::goToURL()
+{
+	QString url = urlEdit->text();
+	if( url.indexOf("http://") != 0 )
+		url.insert(0, "http://");
+#ifdef Q_WS_X11
+	int ret = system( QString("xdg-open %1").arg(url).toAscii().data() );
+	if( ret != 0 )
+	{
+		QMessageBox box(this);
+		box.setText( tr("Failed to open url") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+	}
+#endif
+#ifdef Q_WS_WIN
+	LONG r = (LONG) ShellExecute(NULL, "open", url.toAscii().data(), NULL, NULL, SW_SHOWNORMAL);
+	if( r <= 32 )
+	{
+		QMessageBox box(this);
+		box.setText( tr("Failed to open url") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+	}
+#endif
 }
 
 void MainWindow::copyUserName()

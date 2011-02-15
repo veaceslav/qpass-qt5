@@ -101,6 +101,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		*/
 		void saveItem(const QModelIndex &item = QModelIndex());
 		void copyURL();
+		void goToURL();
 		void copyUserName();
 		void copyPassword();
 		/*!
