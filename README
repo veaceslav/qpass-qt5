@@ -9,6 +9,14 @@ If you have questions, ideas to new features or want to report a bug
 write to me at: mateuszpiekos@gmail.com
 
 Changelog:
+1.0.3:
+-Added UTF-8 support
+-Added key shortcuts to every form
+-Added the ability to move elements on list
+-Added button tooltips
+-Added button to open URLs from application
+-Corrected checking for other instances running on UNIX-like systems
+
 1.0.2:
 -Added searching feature
 -Added key shortcuts

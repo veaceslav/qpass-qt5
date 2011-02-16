@@ -129,6 +129,9 @@
          <property name="horizontalSpacing">
           <number>3</number>
          </property>
+         <property name="verticalSpacing">
+          <number>4</number>
+         </property>
          <item row="0" column="0">
           <widget class="QLabel" name="label">
            <property name="sizePolicy">
@@ -525,10 +528,21 @@
  </widget>
  <tabstops>
   <tabstop>listView</tabstop>
-  <tabstop>saveButton</tabstop>
   <tabstop>addButton</tabstop>
   <tabstop>deleteButton</tabstop>
   <tabstop>searchEdit</tabstop>
+  <tabstop>nameEdit</tabstop>
+  <tabstop>urlEdit</tabstop>
+  <tabstop>copyURLButton</tabstop>
+  <tabstop>goToURLButton</tabstop>
+  <tabstop>userNameEdit</tabstop>
+  <tabstop>copyUserNameButton</tabstop>
+  <tabstop>passwordEdit</tabstop>
+  <tabstop>copyPasswordButton</tabstop>
+  <tabstop>showPasswordButton</tabstop>
+  <tabstop>generatePasswordButton</tabstop>
+  <tabstop>notesEdit</tabstop>
+  <tabstop>saveButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

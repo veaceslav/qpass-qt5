@@ -16,8 +16,11 @@
 #include <QSharedMemory>
 #include <QObject>
 #include <QTranslator>
+
+#ifdef Q_OS_UNIX
 #include <QLocalSocket>
 #include <QLocalServer>
+#endif
 
 #include "MainWindow.h"
 #include "PredefinedSettings.h"

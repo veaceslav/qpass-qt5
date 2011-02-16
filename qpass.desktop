@@ -5,5 +5,5 @@ Icon=qpass
 Exec=qpass
 Categories=Network;Qt;
 Terminal=false
-GenericName=QPass password manager
 Comment=Easy to use password manager
+Comment[pl]=Prosty w użyciu menadżer haseł
