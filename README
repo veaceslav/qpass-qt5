@@ -1,7 +1,13 @@
-This is QPass password manager. It is open source application which
-enables you to store your data in encrypted database and have this
-data close at hand.  This version has a password generator which can
-generate random passwords based on mouse moves.
+QPass is easy to use, open source password manager application. It
+enables you to store your confidential data crypted. All entries are
+stored in a signle file database encrypted using AES-256 algorithm.
+Each entry can contain name, url, username, password and description. 
+
+It can stay running in tray so your data can be close at hand. With
+password generator you can generate strong passwords. 
+
+QPass is written in C++ and it uses Qt4 and libgcrypt as GUI and
+cryptographic library.
 
 More information can be found on http://qpass.sourceforge.net
 
