@@ -489,7 +489,7 @@
    </widget>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>&amp;Database</string>
+     <string>Da&amp;tabase</string>
     </property>
     <addaction name="actionChangePassword"/>
     <addaction name="actionExportDatabase"/>
