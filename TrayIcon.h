@@ -18,6 +18,8 @@
 #include <QAction>
 #include <QMenu>
 
+#define ACTIONS_AMOUNT 40 
+
 /*! 
 * This class provides a icon in system tray.
 */

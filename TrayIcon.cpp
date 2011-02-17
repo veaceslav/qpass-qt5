@@ -24,7 +24,11 @@ TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon
 
 	this->model = model;
 
-	for(int i = 0; i < model->rowCount(); i++)
+	int bottomRow = model->rowCount();
+	if(bottomRow > ACTIONS_AMOUNT)
+		bottomRow = ACTIONS_AMOUNT;
+	
+	for(int i = 0; i < bottomRow; i++)
 	{
 		QMenu *entryMenu = new QMenu( model->data( model->index(i, 0) ).toString(), menu);
 
@@ -84,7 +88,12 @@ void TrayIcon::changeData(const QModelIndex &topLeft, const QModelIndex &bottomR
 
 	int left = topLeft.column();
 	int right = bottomRight.column();
-	for(int i = topLeft.row(); i <= bottomRight.row(); i++)
+
+	int bottomRow = bottomRight.row();
+	if(bottomRow > ACTIONS_AMOUNT-1)
+		bottomRow = ACTIONS_AMOUNT-1;
+
+	for(int i = topLeft.row(); i <= bottomRow; i++)
 	{
 		if(left == 0)
 			list[i]->setText( model->data( model->index(i, 0) ).toString() );
@@ -105,7 +114,11 @@ void TrayIcon::insertRows(const QModelIndex &parent, int start, int end)
 {
 	QList< QAction * > actionList;
 	
-	for(int i = start; i <= end; i++)
+	int bottomRow = end; 
+	if(bottomRow > ACTIONS_AMOUNT-1)
+		bottomRow = ACTIONS_AMOUNT-1;
+
+	for(int i = start; i <= bottomRow; i++)
 	{
 		QMenu *entryMenu = new QMenu( model->data( model->index(i, 0) ).toString(), menu);
 
@@ -119,14 +132,19 @@ void TrayIcon::insertRows(const QModelIndex &parent, int start, int end)
 
 		actionList.append( entryMenu->menuAction() );
 	}
-	menu->insertActions( menu->actions()[start], actionList);
+	if(start <= bottomRow)
+		menu->insertActions( menu->actions()[start], actionList);
 }
 
 void TrayIcon::removeRows(const QModelIndex &parent, int start, int end)
 {
 	QList< QAction * > actionList = menu->actions();
 
-	for(int i = start; i <= end; i++)
+	int bottomRow = end; 
+	if(bottomRow > ACTIONS_AMOUNT-1)
+		bottomRow = ACTIONS_AMOUNT-1;
+	
+	for(int i = start; i <= bottomRow; i++)
 	{
 		delete actionList[i];
 	}
