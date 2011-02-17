@@ -350,7 +350,7 @@ void MainWindow::init()
 	
 	this->show();
 	
-	trayIcon = new TrayIcon(this);
+	trayIcon = new TrayIcon(model, this);
 	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
 	connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
 	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));

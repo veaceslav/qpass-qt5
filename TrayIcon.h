@@ -14,6 +14,7 @@
 #define TRAYICON_H
 
 #include <QSystemTrayIcon>
+#include <QAbstractItemModel>
 #include <QAction>
 #include <QMenu>
 
@@ -24,7 +25,7 @@ class TrayIcon : public QSystemTrayIcon
 {
 	Q_OBJECT
 	public:
-		TrayIcon(QObject *parent);
+		TrayIcon(QAbstractItemModel *model, QObject *parent);
 		~TrayIcon();
 		/*! Changed state of "Hide on close" checkbox.
 		* 
@@ -34,8 +35,13 @@ class TrayIcon : public QSystemTrayIcon
 	private:
 		QMenu *menu;
 		QAction *hideOnCloseAction;
+		QAbstractItemModel *model;
 	private slots:
 		void handleActivated(QSystemTrayIcon::ActivationReason reason);
+		void changeData(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+		void copyDataToClipboard(QAction *action);
+		void insertRows(const QModelIndex &parent, int start, int end);
+		void removeRows(const QModelIndex &parent, int start, int end);
 	signals:
 		/*! 
 		* Signal emmited when user clicks tray icon.
