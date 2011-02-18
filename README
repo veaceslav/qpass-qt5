@@ -1,6 +1,6 @@
 QPass is easy to use, open source password manager application. It
 enables you to store your confidential data crypted. All entries are
-stored in a signle file database encrypted using AES-256 algorithm.
+stored in a signle file database encrypted using AES* 256 algorithm.
 Each entry can contain name, url, username, password and description. 
 
 It can stay running in tray so your data can be close at hand. With
@@ -13,42 +13,4 @@ More information can be found on http://qpass.sourceforge.net
 
 If you have questions, ideas to new features or want to report a bug
 write to me at: mateuszpiekos@gmail.com
-
-Changelog:
-1.0.3:
--Added UTF-8 support
--Added key shortcuts to every form
--Added the ability to move elements on list
--Added button tooltips
--Added button to open URLs from application
--Corrected checking for other instances running on UNIX-like systems
-
-1.0.2:
--Added searching feature
--Added key shortcuts
--Corrected import/export messageboxes
--Corrected indentations
-
-1.0.1:
--This version was written from scratch and now source code is more 
- logical which gives less bugs.
--Windows version has self installer.
--Changed database path on windows(now database is stored in application
- data direcory).
--Added password generator.
--Added messageboxes to ask user before, for example, deleting entry.
--Source code is more documented.
--Fixed saving state of window.
--Fixed known minor bugs.
-
-0.3.1:
--modified some design elements
-
-0.3:
--added import/export database feature
-
-0.2:
--Changed mcrypt library to gcrypt.
--Changed encryption method from AES128 to AES256.
--Added translations feature.
 
