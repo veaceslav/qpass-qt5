@@ -57,9 +57,13 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 	<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\
 	p, li { white-space: pre-wrap; }\
 	</style></head><body style=\" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;\">\
-	<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt;\">QPass</span></p>\
+	<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt;\">QPass";
+#ifdef PORTABLE
+	topLabelText += " portable";
+#endif
+	topLabelText += "</span></p>\
 	<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">";
-	topLabelText += tr( "version " );
+	topLabelText += tr( "version" )+" ";
 	topLabelText += VERSION;
 	topLabelText += "</span></p>\
 	<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p></body></html>";
