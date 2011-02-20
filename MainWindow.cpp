@@ -29,6 +29,7 @@
 #include "DatabaseImportDialog.h"
 #include "PasswordChangeDialog.h"
 #include "PasswordGeneratorDialog.h"
+#include "PreferencesDialog.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -48,6 +49,7 @@ void MainWindow::writeSettings()
 {
 	QSettings settings;
 	settings.setValue("hideOnClose", hideOnClose);
+	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
 }
 
 void MainWindow::writeWindowState()
@@ -61,6 +63,7 @@ void MainWindow::readSettings()
 {
 	QSettings settings;
 	hideOnClose = settings.value("hideOnClose", false).toBool();
+	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 40).toInt() );
 }
 
 void MainWindow::readWindowState()
@@ -134,6 +137,18 @@ void MainWindow::showAboutDialog()
 {
 	AboutDialog about(this);
 	about.exec();
+}
+
+void MainWindow::showPreferencesDialog()
+{
+	PreferencesDialog preferences(this);
+
+	preferences.setVisibleElementsAmount( trayIcon->getVisibleElementsAmount() );
+
+	if( preferences.exec() == QDialog::Accepted )
+	{
+		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
+	}
 }
 
 void MainWindow::exportDatabase()
@@ -313,7 +328,6 @@ void MainWindow::init()
 	connect(moveUpAction, SIGNAL(triggered()), this, SLOT(moveUpEntry()));
 	connect(moveDownAction, SIGNAL(triggered()), this, SLOT(moveDownEntry()));
 	
-	readSettings();
 	readWindowState();
 	
 	model = new DataModel(path, password, dbExists, this);
@@ -347,7 +361,8 @@ void MainWindow::init()
 	connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(importDatabase()));
 	connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
 	connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
-	
+	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
+
 	this->show();
 	
 	trayIcon = new TrayIcon(model, this);
@@ -356,6 +371,8 @@ void MainWindow::init()
 	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
 	trayIcon->setHideOnCloseChecked( hideOnClose );
 	trayIcon->setVisible(true);
+
+	readSettings();
 }
 
 void MainWindow::addItem()

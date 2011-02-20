@@ -22,11 +22,13 @@ TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon
 
 	menu = new QMenu();
 
+	visibleElementsAmount = 0;
+		
 	this->model = model;
 
 	int bottomRow = model->rowCount();
-	if(bottomRow > ACTIONS_AMOUNT)
-		bottomRow = ACTIONS_AMOUNT;
+	if(bottomRow > visibleElementsAmount)
+		bottomRow = visibleElementsAmount;
 	
 	for(int i = 0; i < bottomRow; i++)
 	{
@@ -76,6 +78,68 @@ void TrayIcon::setHideOnCloseChecked(bool checked)
 	hideOnCloseAction->setChecked(checked);
 }
 
+int TrayIcon::getVisibleElementsAmount()
+{
+	return visibleElementsAmount;
+}
+
+void TrayIcon::setVisibleElementsAmount(int amount)
+{
+	if(amount > 99 || amount < 0)
+		return;
+	changeVisibleElementsAmount(amount);
+}
+
+void TrayIcon::changeVisibleElementsAmount(int amount)
+{
+	if(amount > visibleElementsAmount)
+	{
+		int bottomRow = model->rowCount();
+		if(bottomRow > amount)
+			bottomRow = amount;
+		
+		int lastElement = model->rowCount();
+		if(lastElement > visibleElementsAmount)
+			lastElement = visibleElementsAmount;
+
+		QList< QAction * > actionList;
+
+		for(int i = visibleElementsAmount; i < bottomRow; i++)
+		{
+			QMenu *entryMenu = new QMenu( model->data( model->index(i, 0) ).toString(), menu);
+
+			QAction *action = new QAction(tr("Copy username"), entryMenu);
+			action->setData( model->data( model->index(i, 2) ) );
+			entryMenu->addAction(action);
+
+			action = new QAction(tr("Copy password"), entryMenu);
+			action->setData( model->data( model->index(i, 3) ) );
+			entryMenu->addAction(action);
+			
+			actionList.append(entryMenu->menuAction());
+		}
+
+		menu->insertActions( menu->actions()[lastElement], actionList);
+		visibleElementsAmount = amount;
+	}
+	else if(amount < visibleElementsAmount)
+	{
+		if(model->rowCount() > amount)
+		{
+			int bottomRow = model->rowCount();
+			if(bottomRow > visibleElementsAmount)
+				bottomRow = visibleElementsAmount;
+
+			QList< QAction * > actionList = menu->actions();
+			for(int i = amount; i < bottomRow; i++)
+			{
+				delete actionList[i];
+			}
+		}
+		visibleElementsAmount = amount;
+	}
+}
+
 void TrayIcon::handleActivated(QSystemTrayIcon::ActivationReason reason)
 {
 	if(reason == QSystemTrayIcon::Trigger)
@@ -90,8 +154,8 @@ void TrayIcon::changeData(const QModelIndex &topLeft, const QModelIndex &bottomR
 	int right = bottomRight.column();
 
 	int bottomRow = bottomRight.row();
-	if(bottomRow > ACTIONS_AMOUNT-1)
-		bottomRow = ACTIONS_AMOUNT-1;
+	if(bottomRow > visibleElementsAmount-1)
+		bottomRow = visibleElementsAmount-1;
 
 	for(int i = topLeft.row(); i <= bottomRow; i++)
 	{
@@ -115,8 +179,8 @@ void TrayIcon::insertRows(const QModelIndex &parent, int start, int end)
 	QList< QAction * > actionList;
 	
 	int bottomRow = end; 
-	if(bottomRow > ACTIONS_AMOUNT-1)
-		bottomRow = ACTIONS_AMOUNT-1;
+	if(bottomRow > visibleElementsAmount-1)
+		bottomRow = visibleElementsAmount-1;
 
 	for(int i = start; i <= bottomRow; i++)
 	{
@@ -141,8 +205,8 @@ void TrayIcon::removeRows(const QModelIndex &parent, int start, int end)
 	QList< QAction * > actionList = menu->actions();
 
 	int bottomRow = end; 
-	if(bottomRow > ACTIONS_AMOUNT-1)
-		bottomRow = ACTIONS_AMOUNT-1;
+	if(bottomRow > visibleElementsAmount-1)
+		bottomRow = visibleElementsAmount-1;
 	
 	for(int i = start; i <= bottomRow; i++)
 	{

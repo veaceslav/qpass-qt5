@@ -18,8 +18,6 @@
 #include <QAction>
 #include <QMenu>
 
-#define ACTIONS_AMOUNT 40 
-
 /*! 
 * This class provides a icon in system tray.
 */
@@ -34,10 +32,14 @@ class TrayIcon : public QSystemTrayIcon
 		* @param checked State of "Hide on close"
 		*/
 		void setHideOnCloseChecked(bool checked);
+		int getVisibleElementsAmount();
+		void setVisibleElementsAmount(int amount);
 	private:
 		QMenu *menu;
 		QAction *hideOnCloseAction;
 		QAbstractItemModel *model;
+		int visibleElementsAmount;
+		void changeVisibleElementsAmount(int amount);
 	private slots:
 		void handleActivated(QSystemTrayIcon::ActivationReason reason);
 		void changeData(const QModelIndex &topLeft, const QModelIndex &bottomRight);
