@@ -3,7 +3,11 @@ Name=QPass
 Type=Application
 Icon=qpass
 Exec=qpass
-Categories=Network;Qt;
+Categories=Qt;Utility;Security;
 Terminal=false
+
+GenericName=Password manager
+GenericName[pl]=Menadżer haseł
+
 Comment=Easy to use password manager
 Comment[pl]=Prosty w użyciu menadżer haseł
