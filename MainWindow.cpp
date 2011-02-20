@@ -514,7 +514,7 @@ void MainWindow::copyURL()
 void MainWindow::goToURL()
 {
 	QString url = urlEdit->text();
-	if( url.indexOf("http://") != 0 )
+	if( !(url.indexOf("http://") == 0 || url.indexOf("https://") == 0) )
 		url.insert(0, "http://");
 #ifdef Q_WS_X11
 	int ret = system( QString("xdg-open %1").arg(url).toAscii().data() );
