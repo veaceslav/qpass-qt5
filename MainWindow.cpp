@@ -47,28 +47,44 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 void MainWindow::writeSettings()
 {
+#ifdef PORTABLE
+	QSettings settings("settings.ini", QSettings::IniFormat);
+#else
 	QSettings settings;
+#endif
 	settings.setValue("hideOnClose", hideOnClose);
 	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
 }
 
 void MainWindow::writeWindowState()
 {
+#ifdef PORTABLE
+	QSettings settings("settings.ini", QSettings::IniFormat);
+#else
 	QSettings settings;
+#endif
 	settings.setValue("pos", pos());
 	settings.setValue("size", size());
 }
 
 void MainWindow::readSettings()
 {
+#ifdef PORTABLE
+	QSettings settings("settings.ini", QSettings::IniFormat);
+#else
 	QSettings settings;
+#endif
 	hideOnClose = settings.value("hideOnClose", false).toBool();
 	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 40).toInt() );
 }
 
 void MainWindow::readWindowState()
 {
+#ifdef PORTABLE
+	QSettings settings("settings.ini", QSettings::IniFormat);
+#else
 	QSettings settings;
+#endif
 	QVariant pos = settings.value("pos");
 	if(pos.isValid())
 		move(pos.toPoint());

@@ -39,6 +39,9 @@ QString PredefinedSettings::databasePath()
 {
 	QDir dir;
 #ifdef Q_WS_WIN
+#ifdef PORTABLE
+	return "database";
+#else
 	char szPath[MAX_PATH];
 	SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath);
 	QString path = QString(szPath)+"\\QPass";
@@ -47,6 +50,7 @@ QString PredefinedSettings::databasePath()
 		dir.mkdir(path);
 	}
 	return path+"\\database";
+#endif
 #else 
 	return dir.homePath()+"/.qpassdb";
 #endif
