@@ -80,6 +80,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
 {
 	if(hideOnClose)
 	{
+		writeWindowState();
 		setVisible(false);
 		event->ignore();
 	}
@@ -101,14 +102,12 @@ void MainWindow::closeEvent (QCloseEvent *event)
 				return;
 			}
 		}
+		if(isVisible())
+			writeWindowState();
+		
 		writeSettings();
 		event->accept(); 
 	}
-}
-
-void MainWindow::hideEvent ( QHideEvent * event )
-{
-	writeWindowState();
 }
 
 void MainWindow::showPreviousPasswordDialog()
@@ -224,6 +223,7 @@ void MainWindow::showHideWindow()
 {
 	if(isVisible())
 	{
+		writeWindowState();
 		hide();
 	}
 	else
@@ -369,10 +369,11 @@ void MainWindow::init()
 	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
 	connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
 	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
-	trayIcon->setHideOnCloseChecked( hideOnClose );
-	trayIcon->setVisible(true);
 
 	readSettings();
+
+	trayIcon->setHideOnCloseChecked( hideOnClose );
+	trayIcon->setVisible(true);
 }
 
 void MainWindow::addItem()

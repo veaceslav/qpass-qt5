@@ -50,7 +50,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void readWindowState();
 	protected:
 		void closeEvent(QCloseEvent * event);
-		void hideEvent ( QHideEvent * event );
 	private slots:
 		/*! This function shows PreviousPasswordDialog.
 		*
