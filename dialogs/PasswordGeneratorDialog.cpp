@@ -190,7 +190,7 @@ void GraphicGenerator::initGenerator(int size, int characterSet)
 			characterMap[characterMapCount++] = i + 123;
 	}
 	setMouseTracking(true);
-	progressBar->reset();
+	progressBar->setValue(0);
 	progressBar->setMaximum(size*20);
 }
 
