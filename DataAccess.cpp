@@ -64,7 +64,7 @@ int DataAccess::checkDatabase()
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 			char keyhash[32];
-			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toAscii(), password.length());
+			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
 			gcry_cipher_setkey(hd, (char*)&keyhash, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
@@ -171,7 +171,7 @@ QList< QVector< QString> > DataAccess::read()
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 			char keyhash[32];
-			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toAscii(), password.length());
+			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
 			gcry_cipher_setkey(hd, (char*)&keyhash, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
@@ -247,7 +247,7 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 	gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 	gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 	char keyhash[32];
-	gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toAscii(), password.length());
+	gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
 	gcry_cipher_setkey(hd, (char*)&keyhash, 32);
 	gcry_cipher_setiv(hd, head.IV, 16); 
 	
