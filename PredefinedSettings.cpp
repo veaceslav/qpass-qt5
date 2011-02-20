@@ -25,11 +25,10 @@ QString PredefinedSettings::dataPath()
 	QString path;
 	if(path.isEmpty())
 	{
-#ifdef Q_WS_X11
-		path = QCoreApplication::applicationDirPath()+"/../share/qpass";
-#endif
 #ifdef Q_WS_WIN
 		path = QCoreApplication::applicationDirPath();
+#else 
+		path = QCoreApplication::applicationDirPath()+"/../share/qpass";
 #endif
 	}
 	QDir p(path);
@@ -39,9 +38,6 @@ QString PredefinedSettings::dataPath()
 QString PredefinedSettings::databasePath()
 {
 	QDir dir;
-#ifdef Q_WS_X11
-	return dir.homePath()+"/.qpassdb";
-#endif
 #ifdef Q_WS_WIN
 	char szPath[MAX_PATH];
 	SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath);
@@ -51,5 +47,7 @@ QString PredefinedSettings::databasePath()
 		dir.mkdir(path);
 	}
 	return path+"\\database";
+#else 
+	return dir.homePath()+"/.qpassdb";
 #endif
 }
