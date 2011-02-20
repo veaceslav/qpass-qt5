@@ -20,30 +20,11 @@ TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon
 	setIcon( QIcon(":/icons/qpass.png") );
 	setToolTip( tr("QPass password manager") );
 
-	menu = new QMenu();
-
 	visibleElementsAmount = 0;
 		
+	menu = new QMenu();
+
 	this->model = model;
-
-	int bottomRow = model->rowCount();
-	if(bottomRow > visibleElementsAmount)
-		bottomRow = visibleElementsAmount;
-	
-	for(int i = 0; i < bottomRow; i++)
-	{
-		QMenu *entryMenu = new QMenu( model->data( model->index(i, 0) ).toString(), menu);
-
-		QAction *action = new QAction(tr("Copy username"), entryMenu);
-		action->setData( model->data( model->index(i, 2) ) );
-		entryMenu->addAction(action);
-
-		action = new QAction(tr("Copy password"), entryMenu);
-		action->setData( model->data( model->index(i, 3) ) );
-		entryMenu->addAction(action);
-
-		menu->addMenu(entryMenu);
-	}
 
 	menu->addSeparator();
 
