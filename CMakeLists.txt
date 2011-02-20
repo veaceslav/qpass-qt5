@@ -84,12 +84,11 @@ ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 if(WIN32)
 	if(MINGW)
-		set(WINDRES CACHE FILEPATH "windres.exe")
-		ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/win_res.o
-		COMMAND ${WINDRES} -I${CMAKE_CURRENT_BINARY_DIR}
-		-i ${CMAKE_CURRENT_SOURCE_DIR}/win_res.rc
-		-o ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
-		add_executable(qpass WIN32 ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM} ${CMAKE_CURRENT_BINARY_DIR}/win_res.o)
+		set(CMAKE_RC_COMPILER_INIT windres)
+		enable_language(RC)
+		set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+
+		ADD_EXECUTABLE(qpass WIN32 ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM} win_res.rc) 
 	endif(MINGW)
 else(WIN32)
 	ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
