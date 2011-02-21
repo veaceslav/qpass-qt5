@@ -17,7 +17,7 @@
 #include <QObject>
 #include <QTranslator>
 
-#ifdef Q_OS_UNIX
+#ifndef Q_OS_WIN
 #include <QLocalSocket>
 #include <QLocalServer>
 #endif
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 	translator.load(PredefinedSettings::dataPath()+"/translations/"+locale);
 	app.installTranslator(&translator);
 
-#ifdef Q_OS_UNIX
+#ifndef Q_OS_WIN
 	QLocalSocket socket;
 	socket.connectToServer("QPass");
 	if (socket.waitForConnected(500)) 
@@ -52,8 +52,7 @@ int main(int argc, char *argv[])
 	QLocalServer m_localServer;
 	m_localServer.removeServer("QPass");
 	int res = m_localServer.listen("QPass");
-#endif
-#ifndef Q_OS_UNIX
+#else
 	//Code to check if there is any running instance of QPass.
 	//It works very good on windows but on UNIX when you kill qpass
 	//process it doesn't remove this shared memory.
