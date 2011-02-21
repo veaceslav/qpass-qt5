@@ -15,7 +15,6 @@
 #include <QClipboard>
 #include <QSettings>
 #include <QCloseEvent>
-#include <stdlib.h>
 
 #ifdef Q_WS_WIN
 #include <windows.h>
@@ -90,7 +89,7 @@ void MainWindow::readWindowState()
 	QVariant pos = settings.value("pos");
 	if(pos.isValid())
 		move(pos.toPoint());
-	QSize size = settings.value("size", QSize(778, 594)).toSize();
+	QSize size = settings.value("size", QSize(667, 587)).toSize();
 	resize(size);
 }
 
@@ -254,20 +253,29 @@ void MainWindow::showHideWindow()
 void MainWindow::generatePassword()
 {
 	PasswordGeneratorDialog dialog(this);
+
+	if( selectionModel->selection().indexes().count() == 0)
+		dialog.setSetAsPasswordEnabled(false);
+	else
+		dialog.setSetAsPasswordEnabled(true);
+
 	if(dialog.exec() == QDialog::Accepted)
 	{
-		if(!passwordEdit->text().isEmpty())
+		if(dialog.getResult() != QString::Null())
 		{
-			QMessageBox box(this);
-			box.setWindowTitle( tr("QPass") );
-			box.setText( tr("Current password is not empty. Are you sure you want to overwrite it?") );
-			box.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
-			box.setIcon( QMessageBox::Question );
-			if(box.exec() == QMessageBox::No)
-				return;
+			if(!passwordEdit->text().isEmpty())
+			{
+				QMessageBox box(this);
+				box.setWindowTitle( tr("QPass") );
+				box.setText( tr("Current password is not empty. Are you sure you want to overwrite it?") );
+				box.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
+				box.setIcon( QMessageBox::Question );
+				if(box.exec() == QMessageBox::No)
+					return;
+			}
+			passwordEdit->setText( dialog.getResult() );
+			enableSaveButton();
 		}
-		passwordEdit->setText( dialog.getResult() );
-		enableSaveButton();
 	}
 }
 
@@ -374,7 +382,6 @@ void MainWindow::init()
 	connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
 	connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
 	connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
-	connect(generatePasswordButton, SIGNAL(clicked()), this, SLOT(generatePassword()));
 	connect(searchEdit, SIGNAL(textChanged(const QString &)), proxyModel, SLOT(setFilterFixedString(const QString &)));
 	
 	connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
@@ -383,6 +390,7 @@ void MainWindow::init()
 	connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
 	connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
 	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
+	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
 
 	trayIcon = new TrayIcon(model, this);
 	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));

@@ -19,7 +19,7 @@
 
 PasswordGeneratorDialog::PasswordGeneratorDialog(QWidget *parent) : QDialog(parent)
 {
-	resize(411, 423);
+	resize(323, 405);
 	setWindowTitle( tr("Password generator - QPass") );
 	
 	QVBoxLayout *layout = new QVBoxLayout(this);
@@ -52,7 +52,7 @@ PasswordGeneratorDialog::PasswordGeneratorDialog(QWidget *parent) : QDialog(pare
 	graphicsWidgetLayout->addStretch();
 	generatorWidgetLayout->addWidget(graphicsWidget);
 	
-	generatorWidgetLayout->addStretch();
+	generatorWidgetLayout->addSpacing(10);
 	
 	QLabel *label2 = new QLabel( tr("Generation progress:"), this);
 	generatorWidgetLayout->addWidget(label2);
@@ -90,7 +90,15 @@ PasswordGeneratorDialog::PasswordGeneratorDialog(QWidget *parent) : QDialog(pare
 
 QString PasswordGeneratorDialog::getResult()
 {
-	return uiResult.resultEdit->text();
+	if(uiResult.setAsPasswordBox->isChecked())
+		return uiResult.resultEdit->text();
+	else
+		return QString::Null();
+}
+
+void PasswordGeneratorDialog::setSetAsPasswordEnabled(bool enabled)
+{
+	uiResult.setAsPasswordBox->setEnabled(enabled);
 }
 
 void PasswordGeneratorDialog::back()

@@ -46,9 +46,14 @@ class PasswordGeneratorDialog : public QDialog
 	public:
 		PasswordGeneratorDialog(QWidget *parent);
 		/*! 
-		* Function returns generated value.
+		* Function returns generated value or QString::null if user
+		* don't want to set generated value as password
 		*/
 		QString getResult();
+		/*!
+		 * This function changes status of setAsPasswordBox.
+		 */
+		void setSetAsPasswordEnabled(bool enabled);
 	private:
 		Ui::PasswordGeneratorDialogPage1 uiSettings;
 		Ui::PasswordGeneratorDialogPage3 uiResult;

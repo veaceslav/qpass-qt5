@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
+    <width>667</width>
     <height>587</height>
    </rect>
   </property>
@@ -364,19 +364,6 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="generatePasswordButton">
-             <property name="minimumSize">
-              <size>
-               <width>142</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Generate password</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="horizontalSpacer_4">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -477,7 +464,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>782</width>
+     <width>667</width>
      <height>25</height>
     </rect>
    </property>
@@ -503,7 +490,14 @@
     </property>
     <addaction name="actionPreferences"/>
    </widget>
+   <widget class="QMenu" name="menuPass_ord_generator">
+    <property name="title">
+     <string>Passw&amp;ord generator</string>
+    </property>
+    <addaction name="actionGeneratePassword"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuPass_ord_generator"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -537,6 +531,11 @@
     <string>Preferences</string>
    </property>
   </action>
+  <action name="actionGeneratePassword">
+   <property name="text">
+    <string>Generate password</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>listView</tabstop>
@@ -552,7 +551,6 @@
   <tabstop>passwordEdit</tabstop>
   <tabstop>copyPasswordButton</tabstop>
   <tabstop>showPasswordButton</tabstop>
-  <tabstop>generatePasswordButton</tabstop>
   <tabstop>notesEdit</tabstop>
   <tabstop>saveButton</tabstop>
  </tabstops>
