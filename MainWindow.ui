@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>667</width>
-    <height>587</height>
+    <width>652</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -254,15 +254,15 @@
          <item row="7" column="0">
           <widget class="QLabel" name="label_5">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>108</width>
-             <height>236</height>
+             <width>0</width>
+             <height>0</height>
             </size>
            </property>
            <property name="text">
@@ -273,19 +273,6 @@
            </property>
            <property name="buddy">
             <cstring>notesEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1" colspan="2">
-          <widget class="QTextEdit" name="notesEdit">
-           <property name="tabChangesFocus">
-            <bool>true</bool>
-           </property>
-           <property name="undoRedoEnabled">
-            <bool>false</bool>
-           </property>
-           <property name="acceptRichText">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -411,6 +398,13 @@
            </item>
           </layout>
          </item>
+         <item row="7" column="1" colspan="2">
+          <widget class="QPlainTextEdit" name="notesEdit">
+           <property name="tabChangesFocus">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -464,7 +458,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>667</width>
+     <width>652</width>
      <height>25</height>
     </rect>
    </property>
@@ -551,7 +545,6 @@
   <tabstop>passwordEdit</tabstop>
   <tabstop>copyPasswordButton</tabstop>
   <tabstop>showPasswordButton</tabstop>
-  <tabstop>notesEdit</tabstop>
   <tabstop>saveButton</tabstop>
  </tabstops>
  <resources/>

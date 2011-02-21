@@ -471,7 +471,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 		urlEdit->setText( proxyModel->data( proxyModel->index( row, 1 ) ).toString() );
 		userNameEdit->setText( proxyModel->data( proxyModel->index( row, 2 ) ).toString() );
 		passwordEdit->setText( proxyModel->data( proxyModel->index( row, 3 ) ).toString() );
-		notesEdit->setText( proxyModel->data( proxyModel->index( row, 4 ) ).toString() );
+		notesEdit->setPlainText( proxyModel->data( proxyModel->index( row, 4 ) ).toString() );
 		deleteButton->setEnabled(true);
 	}
 	else
@@ -481,7 +481,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 		urlEdit->setText(QString());
 		userNameEdit->setText(QString());
 		passwordEdit->setText(QString());
-		notesEdit->setText(QString());
+		notesEdit->setPlainText(QString());
 		deleteButton->setEnabled(false);
 	}
 	
