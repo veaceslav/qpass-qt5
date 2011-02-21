@@ -53,6 +53,7 @@ void MainWindow::writeSettings()
 	QSettings settings;
 #endif
 	settings.setValue("hideOnClose", hideOnClose);
+	settings.setValue("alwaysOnTop", trayIcon->getAlwaysOnTopState());
 	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
 }
 
@@ -75,6 +76,7 @@ void MainWindow::readSettings()
 	QSettings settings;
 #endif
 	hideOnClose = settings.value("hideOnClose", false).toBool();
+	trayIcon->setAlwaysOnTopState( settings.value("alwaysOnTop", false).toBool() );
 	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 40).toInt() );
 }
 
@@ -243,7 +245,10 @@ void MainWindow::showHideWindow()
 		hide();
 	}
 	else
+	{
 		show();
+		activateWindow();
+	}
 }
 
 void MainWindow::generatePassword()
@@ -379,14 +384,18 @@ void MainWindow::init()
 	connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
 	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
 
-	this->show();
-	
 	trayIcon = new TrayIcon(model, this);
 	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
 	connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
+	connect(trayIcon, SIGNAL(alwaysOnTopTriggered(bool)), this, SLOT(switchAlwaysOnTop(bool)));
 	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
 
 	readSettings();
+
+	if(trayIcon->getAlwaysOnTopState())
+		setWindowFlags( windowFlags() | Qt::WindowStaysOnTopHint );
+	
+	this->show();
 
 	trayIcon->setHideOnCloseChecked( hideOnClose );
 	trayIcon->setVisible(true);
@@ -565,6 +574,27 @@ void MainWindow::switchEchoMode()
 void MainWindow::switchHideOnClose(bool checked)
 {
 	hideOnClose = checked;
+}
+
+void MainWindow::switchAlwaysOnTop(bool alwaysOnTop)
+{
+	if(alwaysOnTop)
+	{
+		if( isVisible() )
+			writeWindowState();
+		setWindowFlags( windowFlags() | Qt::WindowStaysOnTopHint );
+		readWindowState();
+		show();
+	}
+	else
+	{
+		bool visible = isVisible();
+		if( visible )
+			writeWindowState();
+		setWindowFlags( windowFlags() & !Qt::WindowStaysOnTopHint);
+		readWindowState();
+		setVisible(visible);
+	}
 }
 
 void MainWindow::moveUpEntry()

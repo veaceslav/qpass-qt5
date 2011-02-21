@@ -27,16 +27,19 @@ class TrayIcon : public QSystemTrayIcon
 	public:
 		TrayIcon(QAbstractItemModel *model, QObject *parent);
 		~TrayIcon();
-		/*! Changed state of "Hide on close" checkbox.
+		/*! Changes state of "Hide on close" checkbox.
 		* 
-		* @param checked State of "Hide on close"
+		* @param checked state of "Hide on close"
 		*/
 		void setHideOnCloseChecked(bool checked);
+		void setAlwaysOnTopState(bool checked);
+		bool getAlwaysOnTopState();
 		int getVisibleElementsAmount();
 		void setVisibleElementsAmount(int amount);
 	private:
 		QMenu *menu;
 		QAction *hideOnCloseAction;
+		QAction *alwaysOnTopAction;
 		QAbstractItemModel *model;
 		int visibleElementsAmount;
 		void changeVisibleElementsAmount(int amount);
@@ -51,11 +54,12 @@ class TrayIcon : public QSystemTrayIcon
 		* Signal emmited when user clicks tray icon.
 		*/
 		void clicked();
-		/*!Signal emmited when users change state of "Hide on close" checkbox.
+		/*!Signal emmited when user change state of "Hide on close" checkbox.
 		* 
-		* @param checked State of checkbox.
+		* @param checked state of checkbox.
 		*/
 		void hideOnCloseTriggered(bool checked);
+		void alwaysOnTopTriggered(bool checked);
 		/*! 
 		* Signal emmited when user clicks quit action.
 		*/

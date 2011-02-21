@@ -32,6 +32,12 @@ TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon
 	hideOnCloseAction->setText( tr("Hide on close") );
 	hideOnCloseAction->setCheckable(true);
 	menu->addAction(hideOnCloseAction);
+
+	alwaysOnTopAction = new QAction(this);
+	alwaysOnTopAction->setText( tr("Always on top") );
+	alwaysOnTopAction->setCheckable(true);
+	menu->addAction(alwaysOnTopAction);
+
 	menu->addSeparator();
 
 	QAction *quitAction = new QAction(this);
@@ -41,6 +47,7 @@ TrayIcon::TrayIcon(QAbstractItemModel *model, QObject *parent) : QSystemTrayIcon
 	setContextMenu(menu);
 
 	connect(hideOnCloseAction, SIGNAL(triggered(bool)), this, SIGNAL(hideOnCloseTriggered(bool)));
+	connect(alwaysOnTopAction, SIGNAL(toggled(bool)), this, SIGNAL(alwaysOnTopTriggered(bool)));
 	connect(quitAction, SIGNAL(triggered()), this, SIGNAL(quitClicked()));
 	connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(handleActivated(QSystemTrayIcon::ActivationReason)));
 	connect(model, SIGNAL(dataChanged(const QModelIndex, const QModelIndex)), this,  SLOT(changeData(const QModelIndex, const QModelIndex)));
@@ -57,6 +64,16 @@ TrayIcon::~TrayIcon()
 void TrayIcon::setHideOnCloseChecked(bool checked)
 {
 	hideOnCloseAction->setChecked(checked);
+}
+
+void TrayIcon::setAlwaysOnTopState(bool checked)
+{
+	alwaysOnTopAction->setChecked(checked);
+}
+
+bool TrayIcon::getAlwaysOnTopState()
+{
+	return alwaysOnTopAction->isChecked();
 }
 
 int TrayIcon::getVisibleElementsAmount()

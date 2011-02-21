@@ -109,6 +109,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		*/
 		void switchEchoMode();
 		void switchHideOnClose(bool checked);
+		void switchAlwaysOnTop(bool alwaysOnTop);
 		void moveUpEntry();
 		void moveDownEntry();
 };
