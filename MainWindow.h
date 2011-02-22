@@ -17,8 +17,8 @@
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
 
-#include "DataModel.h"
 #include "ui_MainWindow.h"
+#include "DataModel.h"
 #include "PreviousPasswordDialog.h"
 #include "NewDatabaseDialog.h"
 #include "AboutDialog.h"
@@ -64,6 +64,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void showNewDatabaseDialog();
 		void showAboutDialog();
 		void showPreferencesDialog();
+		void showUpdateChecker();
 		void exportDatabase();
 		void importDatabase();
 		void changePassword();

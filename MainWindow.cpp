@@ -29,6 +29,7 @@
 #include "PasswordChangeDialog.h"
 #include "PasswordGeneratorDialog.h"
 #include "PreferencesDialog.h"
+#include "UpdateCheckerDialog.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -165,6 +166,12 @@ void MainWindow::showPreferencesDialog()
 	{
 		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
 	}
+}
+
+void MainWindow::showUpdateChecker()
+{
+	UpdateCheckerDialog updateChecker(this);
+	updateChecker.exec();
 }
 
 void MainWindow::exportDatabase()
@@ -401,6 +408,7 @@ void MainWindow::init()
 	connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
 	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
 	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
+	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
 
 	trayIcon = new TrayIcon(model, this);
 	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));

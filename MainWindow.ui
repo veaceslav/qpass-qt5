@@ -466,6 +466,7 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionCheckForUpdates"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuFile">
@@ -497,7 +498,7 @@
   </widget>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>About QPass</string>
    </property>
   </action>
   <action name="actionChangePassword">
@@ -528,6 +529,11 @@
   <action name="actionGeneratePassword">
    <property name="text">
     <string>Generate password</string>
+   </property>
+  </action>
+  <action name="actionCheckForUpdates">
+   <property name="text">
+    <string>Check for updates</string>
    </property>
   </action>
  </widget>
