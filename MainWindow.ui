@@ -122,7 +122,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,1">
+        <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
          <property name="sizeConstraint">
           <enum>QLayout::SetDefaultConstraint</enum>
          </property>
@@ -154,7 +154,7 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1" colspan="2">
+         <item row="0" column="1">
           <widget class="QLineEdit" name="nameEdit">
            <property name="maxLength">
             <number>50</number>
@@ -183,7 +183,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1" colspan="2">
+         <item row="1" column="1">
           <widget class="QLineEdit" name="urlEdit">
            <property name="maxLength">
             <number>50</number>
@@ -212,7 +212,7 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="1" colspan="2">
+         <item row="3" column="1">
           <widget class="QLineEdit" name="userNameEdit">
            <property name="maxLength">
             <number>50</number>
@@ -241,7 +241,7 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="1" colspan="2">
+         <item row="5" column="1">
           <widget class="QLineEdit" name="passwordEdit">
            <property name="maxLength">
             <number>50</number>
@@ -276,7 +276,7 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1" colspan="2">
+         <item row="2" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <property name="spacing">
             <number>6</number>
@@ -316,7 +316,7 @@
            </item>
           </layout>
          </item>
-         <item row="6" column="1" colspan="2">
+         <item row="6" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <property name="spacing">
             <number>6</number>
@@ -365,7 +365,7 @@
            </item>
           </layout>
          </item>
-         <item row="4" column="1" colspan="2">
+         <item row="4" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QPushButton" name="copyUserNameButton">
@@ -398,7 +398,7 @@
            </item>
           </layout>
          </item>
-         <item row="7" column="1" colspan="2">
+         <item row="7" column="1">
           <widget class="QPlainTextEdit" name="notesEdit">
            <property name="tabChangesFocus">
             <bool>true</bool>
@@ -536,15 +536,6 @@
   <tabstop>addButton</tabstop>
   <tabstop>deleteButton</tabstop>
   <tabstop>searchEdit</tabstop>
-  <tabstop>nameEdit</tabstop>
-  <tabstop>urlEdit</tabstop>
-  <tabstop>copyURLButton</tabstop>
-  <tabstop>goToURLButton</tabstop>
-  <tabstop>userNameEdit</tabstop>
-  <tabstop>copyUserNameButton</tabstop>
-  <tabstop>passwordEdit</tabstop>
-  <tabstop>copyPasswordButton</tabstop>
-  <tabstop>showPasswordButton</tabstop>
   <tabstop>saveButton</tabstop>
  </tabstops>
  <resources/>

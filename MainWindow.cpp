@@ -199,7 +199,17 @@ void MainWindow::importDatabase()
 		box.setWindowTitle( tr("QPass") );
 		bool replace = false;
 		if(importDialog.getMode() == DatabaseImportDialog::Replace)
+		{
 			replace = true;
+			QMessageBox askBox(this);
+			askBox.setWindowTitle( tr("QPass") );
+			askBox.setText( tr("It will delete all you existing data. Are you sure you want to continue?") );
+			askBox.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
+			askBox.setIcon( QMessageBox::Question );
+			if( askBox.exec() == QMessageBox::No )
+				return;
+		}
+
 		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace);
 		if( res == 0 )
 		{
