@@ -15,11 +15,7 @@
 #include <QClipboard>
 #include <QSettings>
 #include <QCloseEvent>
-
-#ifdef Q_WS_WIN
-#include <windows.h>
-#include <shellapi.h>
-#endif
+#include <QDesktopServices>
 
 #include "MainWindow.h"
 #include "DataModel.h"
@@ -570,26 +566,7 @@ void MainWindow::goToURL()
 	QString url = urlEdit->text();
 	if( !(url.indexOf("http://") == 0 || url.indexOf("https://") == 0) )
 		url.insert(0, "http://");
-#ifdef Q_WS_X11
-	int ret = system( QString("xdg-open %1").arg(url).toAscii().data() );
-	if( ret != 0 )
-	{
-		QMessageBox box(this);
-		box.setText( tr("Failed to open url") );
-		box.setIcon( QMessageBox::Warning );
-		box.exec();
-	}
-#endif
-#ifdef Q_WS_WIN
-	LONG r = (LONG) ShellExecute(NULL, "open", url.toAscii().data(), NULL, NULL, SW_SHOWNORMAL);
-	if( r <= 32 )
-	{
-		QMessageBox box(this);
-		box.setText( tr("Failed to open url") );
-		box.setIcon( QMessageBox::Warning );
-		box.exec();
-	}
-#endif
+	QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
 }
 
 void MainWindow::copyUserName()
