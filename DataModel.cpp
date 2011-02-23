@@ -19,6 +19,8 @@ DataModel::DataModel(const QString &path,const QString &password, bool openExist
 	database = new DataAccess(path, password);
 	if(openExisting)
 		dataList = database->read();
+	else
+		database->write( QList< QVector< QString> >() );
 }
 
 DataModel::~DataModel()
