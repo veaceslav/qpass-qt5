@@ -13,41 +13,35 @@
 #include "UpdateCheckerDialog.h"
 #include "qpass-config.h"
 
-#include <QNetworkRequest>
-
 UpdateCheckerDialog::UpdateCheckerDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
 	installedVersionLabel->setText( VERSION );
 	latestVersionLabel->setText( tr("Checking...") );
 
-	manager = new QNetworkAccessManager(this);
-	connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
-	manager->get(QNetworkRequest(QUrl("http://qpass.sourceforge.net/latest")));
+	checker = new UpdateChecker(this);
+	connect(checker, SIGNAL(gotLatestVersion(QString)), this, SLOT(setLatestVersion(QString)));
+	checker->checkForUpdates();
 }
 
-
-UpdateCheckerDialog::~UpdateCheckerDialog()
+void UpdateCheckerDialog::setAutomaticCheckingChecked(bool checked)
 {
-	delete manager;
+	automaticCheckingBox->setChecked(checked);
 }
 
-void UpdateCheckerDialog::replyFinished(QNetworkReply *reply)
+bool UpdateCheckerDialog::getAutomaticCheckingChecked()
 {
-	if(reply->error() != QNetworkReply::NoError)
+	return automaticCheckingBox->isChecked();
+}
+
+void UpdateCheckerDialog::setLatestVersion(QString version)
+{
+	if(version == QString::Null())
 	{
 		latestVersionLabel->setText( tr("Error") );
 		return;
 	}
-
-	reply->open(QIODevice::ReadOnly);
-	QByteArray data = reply->read(20);
-	if(data.size() > 0)
-	{
-		latestVersionLabel->setText( data.split('\n')[0] );
-	}
-	reply->close();
-	reply->deleteLater();
+	latestVersionLabel->setText(version);
 
 	if(latestVersionLabel->text() != installedVersionLabel->text())
 		infoLabel->setText( tr("There is new version available to download!") );

@@ -30,6 +30,7 @@
 #include "PasswordGeneratorDialog.h"
 #include "PreferencesDialog.h"
 #include "UpdateCheckerDialog.h"
+#include "qpass-config.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -55,6 +56,7 @@ void MainWindow::writeSettings()
 	settings.setValue("hideOnClose", hideOnClose);
 	settings.setValue("alwaysOnTop", trayIcon->getAlwaysOnTopState());
 	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
+	settings.setValue("lastUpdateCheck", lastUpdateCheck);
 }
 
 void MainWindow::writeWindowState()
@@ -78,6 +80,7 @@ void MainWindow::readSettings()
 	hideOnClose = settings.value("hideOnClose", false).toBool();
 	trayIcon->setAlwaysOnTopState( settings.value("alwaysOnTop", false).toBool() );
 	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 40).toInt() );
+	lastUpdateCheck = settings.value("lastUpdateCheck", QDate()).toDate();
 }
 
 void MainWindow::readWindowState()
@@ -171,7 +174,12 @@ void MainWindow::showPreferencesDialog()
 void MainWindow::showUpdateChecker()
 {
 	UpdateCheckerDialog updateChecker(this);
+	updateChecker.setAutomaticCheckingChecked( lastUpdateCheck.isValid() );
 	updateChecker.exec();
+	if(updateChecker.getAutomaticCheckingChecked())
+		lastUpdateCheck = QDate::currentDate();
+	else
+		lastUpdateCheck = QDate();
 }
 
 void MainWindow::exportDatabase()
@@ -425,6 +433,17 @@ void MainWindow::init()
 
 	trayIcon->setHideOnCloseChecked( hideOnClose );
 	trayIcon->setVisible(true);
+
+	checker = new UpdateChecker(this);
+	connect(checker, SIGNAL(gotLatestVersion(QString)), this, SLOT(informAboutNewVersion(QString)));
+	if(lastUpdateCheck.isValid())
+	{
+		if(lastUpdateCheck != QDate::currentDate())
+		{
+			checker->checkForUpdates();
+			lastUpdateCheck = QDate::currentDate();
+		}
+	}
 }
 
 void MainWindow::addItem()
@@ -711,5 +730,18 @@ void MainWindow::moveDownEntry()
 	
 	selectionModel->clearSelection();
 	selectionModel->setCurrentIndex( proxyModel->index( list.at(0).row() + 1, 0 ), QItemSelectionModel::SelectCurrent);
+}
+
+void MainWindow::informAboutNewVersion(QString version)
+{
+	if(version != VERSION && version != QString::Null())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle("QPass");
+		box.setIcon(QMessageBox::Information);
+		box.setText( tr("There is new version of QPass available to download") );
+		box.exec();
+	}
+	checker->deleteLater();
 }
 

@@ -10,25 +10,25 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef UPDATECHECKERDIALOG_H
-#define UPDATECHECKERDIALOG_H
+#ifndef UPDATECHECKER_H
+#define UPDATECHECKER_H
 
-#include <QDialog>
+#include <QObject>
+#include <QNetworkReply>
+#include <QNetworkAccessManager>
 
-#include "UpdateChecker.h"
-#include "ui_UpdateCheckerDialog.h"
-
-class UpdateCheckerDialog : public QDialog, private Ui::UpdateCheckerDialog
+class UpdateChecker : public QObject
 {
 	Q_OBJECT
 	public:
-		UpdateCheckerDialog(QWidget *parent);
-		void setAutomaticCheckingChecked(bool checked);
-		bool getAutomaticCheckingChecked();
+		UpdateChecker(QObject *parent);
+		void checkForUpdates();
 	private:
-		UpdateChecker *checker;
+		QNetworkAccessManager *manager;
 	private slots:
-		void setLatestVersion(QString version);
+		void replyFinished(QNetworkReply *reply);
+	signals:
+		void gotLatestVersion(QString);
 };
 
 #endif

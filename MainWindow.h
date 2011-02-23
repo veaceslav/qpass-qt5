@@ -16,6 +16,7 @@
 #include <QMainWindow>
 #include <QAbstractItemModel>
 #include <QSortFilterProxyModel>
+#include <QDate>
 
 #include "ui_MainWindow.h"
 #include "DataModel.h"
@@ -23,6 +24,7 @@
 #include "NewDatabaseDialog.h"
 #include "AboutDialog.h"
 #include "TrayIcon.h"
+#include "UpdateChecker.h"
 
 /*! 
 * This is the main window widget.
@@ -43,11 +45,17 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		PreviousPasswordDialog *previousPasswordDialog;
 		NewDatabaseDialog *newDatabaseDialog;
 		TrayIcon *trayIcon;
+		UpdateChecker *checker;
 		bool hideOnClose;
 		void writeSettings();
 		void writeWindowState();
 		void readSettings();
 		void readWindowState();
+		/*! 
+		 * This variable contains date of last check for update.
+		 * If lastUpdateCheck is valid then periodic update checking is enabled.
+		 */
+		QDate lastUpdateCheck;
 	protected:
 		void closeEvent(QCloseEvent * event);
 	private slots:
@@ -113,6 +121,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void switchAlwaysOnTop(bool alwaysOnTop);
 		void moveUpEntry();
 		void moveDownEntry();
+		void informAboutNewVersion(QString version);
 };
 
 
