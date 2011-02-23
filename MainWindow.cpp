@@ -218,7 +218,7 @@ void MainWindow::importDatabase()
 			replace = true;
 			QMessageBox askBox(this);
 			askBox.setWindowTitle( tr("QPass") );
-			askBox.setText( tr("It will delete all you existing data. Are you sure you want to continue?") );
+			askBox.setText( tr("All your existing enries will be replaced. Are you sure you want to continue?") );
 			askBox.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
 			askBox.setIcon( QMessageBox::Question );
 			if( askBox.exec() == QMessageBox::No )
@@ -739,7 +739,8 @@ void MainWindow::informAboutNewVersion(QString version)
 		QMessageBox box(this);
 		box.setWindowTitle("QPass");
 		box.setIcon(QMessageBox::Information);
-		box.setText( tr("There is new version of QPass available to download") );
+		box.setText( tr("There is new version of QPass available to download.<br />Go to <a href=\"http://qpass.sourceforge.net\">http://qpass.sourceforge.net</a> to get more information") );
+		box.setTextFormat(Qt::RichText);
 		box.exec();
 	}
 	checker->deleteLater();

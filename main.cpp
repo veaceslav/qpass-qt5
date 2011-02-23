@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 	if (socket.waitForConnected(500)) 
 	{
 		QMessageBox box;
+		box.setWindowTitle("QPass");
 		box.setText( QObject::tr("One instance of QPass is already running!") );
 		box.setIcon( QMessageBox::Warning );
 		box.exec();
@@ -60,6 +61,7 @@ int main(int argc, char *argv[])
 	if(!memory.create(1, QSharedMemory::ReadWrite))
 	{
 		QMessageBox box;
+		box.setWindowTitle("QPass");
 		box.setText( QObject::tr("One instance of QPass is already running!") );
 		box.setIcon( QMessageBox::Warning );
 		box.exec();

@@ -29,7 +29,7 @@
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="../qpass.qrc">:/icons/qpass.png</pixmap>
+         <pixmap resource="../images/qpass.qrc">:/icons/qpass.png</pixmap>
         </property>
        </widget>
       </item>
@@ -79,6 +79,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qpass.sourceforge.net&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#508ed8;&quot;&gt;http://qpass.sourceforge.net&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;License: GNU General Public License Version 3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
+         <property name="openExternalLinks">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -111,6 +114,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
+  <include location="../images/qpass.qrc"/>
   <include location="../qpass.qrc"/>
  </resources>
  <connections/>
