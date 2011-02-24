@@ -34,6 +34,8 @@ NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
 	connect(uiWelcome.newButton, SIGNAL(clicked()), this, SLOT(next()));
 	connect(uiPassword.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 	connect(uiPassword.buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+	uiPassword.buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 }
 
 QString NewDatabaseDialog::value()
@@ -44,7 +46,10 @@ QString NewDatabaseDialog::value()
 void NewDatabaseDialog::next()
 {
 	if(stackedWidget->currentWidget() == welcomeWidget)
+	{
 		stackedWidget->setCurrentWidget(passwordWidget);
+		uiPassword.passwordEdit->setFocus();
+	}
 }
 
 void NewDatabaseDialog::accept()
