@@ -566,7 +566,14 @@ void MainWindow::goToURL()
 	QString url = urlEdit->text();
 	if( !(url.indexOf("http://") == 0 || url.indexOf("https://") == 0) )
 		url.insert(0, "http://");
-	QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode));
+	if( !QDesktopServices::openUrl(QUrl(url, QUrl::TolerantMode)) )
+	{
+		QMessageBox box(this);
+		box.setWindowTitle("QPass");
+		box.setText( tr("Failed to open URL") );
+		box.setIcon( QMessageBox::Warning );
+		box.exec();
+	}
 }
 
 void MainWindow::copyUserName()

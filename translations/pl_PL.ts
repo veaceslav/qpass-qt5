@@ -6,14 +6,14 @@
     <message>
         <location filename="../dialogs/AboutDialog.ui" line="14"/>
         <location filename="../build/ui_AboutDialog.h" line="118"/>
-        <location filename="../build_win/ui_AboutDialog.h" line="117"/>
+        <location filename="../build_win/ui_AboutDialog.h" line="118"/>
         <source>About - QPass</source>
         <translation>O programie - QPass</translation>
     </message>
     <message>
         <location filename="../dialogs/AboutDialog.ui" line="45"/>
         <location filename="../build/ui_AboutDialog.h" line="120"/>
-        <location filename="../build_win/ui_AboutDialog.h" line="119"/>
+        <location filename="../build_win/ui_AboutDialog.h" line="120"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -32,14 +32,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../dialogs/AboutDialog.ui" line="65"/>
         <location filename="../build/ui_AboutDialog.h" line="138"/>
-        <location filename="../build_win/ui_AboutDialog.h" line="137"/>
+        <location filename="../build_win/ui_AboutDialog.h" line="138"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message utf8="true">
         <location filename="../dialogs/AboutDialog.ui" line="71"/>
         <location filename="../build/ui_AboutDialog.h" line="127"/>
-        <location filename="../build_win/ui_AboutDialog.h" line="126"/>
+        <location filename="../build_win/ui_AboutDialog.h" line="127"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -64,7 +64,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../dialogs/AboutDialog.ui" line="91"/>
         <location filename="../build/ui_AboutDialog.h" line="140"/>
-        <location filename="../build_win/ui_AboutDialog.h" line="139"/>
+        <location filename="../build_win/ui_AboutDialog.h" line="140"/>
         <source>Authors</source>
         <translation>Autorzy</translation>
     </message>
@@ -263,15 +263,15 @@ hasło do niej i tryb importu.</translation>
         <location filename="../MainWindow.ui" line="14"/>
         <location filename="../build/ui_MainWindow.h" line="380"/>
         <location filename="../build_win/ui_MainWindow.h" line="380"/>
-        <location filename="../MainWindow.cpp" line="192"/>
-        <location filename="../MainWindow.cpp" line="214"/>
-        <location filename="../MainWindow.cpp" line="220"/>
-        <location filename="../MainWindow.cpp" line="249"/>
-        <location filename="../MainWindow.cpp" line="294"/>
-        <location filename="../MainWindow.cpp" line="353"/>
-        <location filename="../MainWindow.cpp" line="454"/>
-        <location filename="../MainWindow.cpp" line="480"/>
-        <location filename="../MainWindow.cpp" line="551"/>
+        <location filename="../MainWindow.cpp" line="188"/>
+        <location filename="../MainWindow.cpp" line="210"/>
+        <location filename="../MainWindow.cpp" line="216"/>
+        <location filename="../MainWindow.cpp" line="245"/>
+        <location filename="../MainWindow.cpp" line="290"/>
+        <location filename="../MainWindow.cpp" line="349"/>
+        <location filename="../MainWindow.cpp" line="450"/>
+        <location filename="../MainWindow.cpp" line="476"/>
+        <location filename="../MainWindow.cpp" line="547"/>
         <source>QPass</source>
         <translation>QPass</translation>
     </message>
@@ -507,135 +507,134 @@ hasło do niej i tryb importu.</translation>
         <translation>&amp;Wyjście</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="200"/>
+        <location filename="../MainWindow.cpp" line="196"/>
         <source>Error exporting database.</source>
         <translation>Błąd eksportowania bazy danych.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="236"/>
+        <location filename="../MainWindow.cpp" line="232"/>
         <source>Error importing database.</source>
         <translation>Błąd przy importowaniu bazy danych.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="252"/>
+        <location filename="../MainWindow.cpp" line="248"/>
         <source>Password has been changed successfully.</source>
         <translation>Hasło zostało zmienione pomyślnie.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="257"/>
+        <location filename="../MainWindow.cpp" line="253"/>
         <source>Error changing password.</source>
         <translation>Błąd przy zmianie hasła.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="295"/>
+        <location filename="../MainWindow.cpp" line="291"/>
         <source>Current password is not empty. Are you sure you want to overwrite it?</source>
         <translation>Aktualne hasło nie jest puste. Czy jesteś pewnien, że chcesz je nadpisać?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="343"/>
+        <location filename="../MainWindow.cpp" line="339"/>
         <source>Incorrect password - QPass</source>
         <translation>Niepoprawne hasło - QPass</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="344"/>
+        <location filename="../MainWindow.cpp" line="340"/>
         <source>Incorrect password.</source>
         <translation>Niepoprawne hasło.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="354"/>
+        <location filename="../MainWindow.cpp" line="350"/>
         <source>Error opening database.</source>
         <translation>Błąd przy otwieraniu bazy danych.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="374"/>
+        <location filename="../MainWindow.cpp" line="370"/>
         <source>Move Up</source>
         <translation>Przesuń w górę</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="378"/>
+        <location filename="../MainWindow.cpp" line="374"/>
         <source>Move Down</source>
         <translation>Przesuń w dół</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="481"/>
+        <location filename="../MainWindow.cpp" line="477"/>
         <source>Error removing entry.</source>
         <translation>Błąd przy usuwaniu wpisu.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="655"/>
-        <location filename="../MainWindow.cpp" line="700"/>
+        <location filename="../MainWindow.cpp" line="573"/>
+        <source>Failed to open URL</source>
+        <translation>Nie udało się otworzyć adresu URL</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="639"/>
+        <location filename="../MainWindow.cpp" line="684"/>
         <source>You can&apos;t do this is searching mode</source>
         <translation>Nie możesz tego zrobić w trybie wyszukiwania</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="742"/>
+        <location filename="../MainWindow.cpp" line="726"/>
         <source>There is new version of QPass available to download.&lt;br /&gt;Go to &lt;a href=&quot;http://qpass.sourceforge.net&quot;&gt;http://qpass.sourceforge.net&lt;/a&gt; to get more information</source>
         <translation>Jest już dostępna nowa wersja programu QPass do pobrania.&lt;br /&gt;Odwiedź &lt;a href=&quot;http://qpass.sourceforge.net&quot;&gt;http://qpass.sourceforge.net&lt;/a&gt; aby uzyskać więcej informacji</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="469"/>
+        <location filename="../MainWindow.cpp" line="465"/>
         <source>Item remove - QPass</source>
         <translation>Usunięcie elementu - QPass</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="221"/>
+        <location filename="../MainWindow.cpp" line="217"/>
         <source>All your existing enries will be replaced. Are you sure you want to continue?</source>
         <translation>Wszystkie twoje wpisy zostaną zastąpione. Czy chcesz kontynuować?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="472"/>
+        <location filename="../MainWindow.cpp" line="468"/>
         <source>Are you sure to delete selected entry?</source>
         <translation>Czy jesteś pewien, że chcesz usunąć wybrany wpis?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="113"/>
-        <location filename="../MainWindow.cpp" line="313"/>
-        <location filename="../MainWindow.cpp" line="494"/>
-        <location filename="../MainWindow.cpp" line="664"/>
-        <location filename="../MainWindow.cpp" line="709"/>
+        <location filename="../MainWindow.cpp" line="109"/>
+        <location filename="../MainWindow.cpp" line="309"/>
+        <location filename="../MainWindow.cpp" line="490"/>
+        <location filename="../MainWindow.cpp" line="648"/>
+        <location filename="../MainWindow.cpp" line="693"/>
         <source>Unsaved entry - QPass</source>
         <translation>Niezapisany wpis - QPass</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="114"/>
-        <location filename="../MainWindow.cpp" line="314"/>
-        <location filename="../MainWindow.cpp" line="495"/>
-        <location filename="../MainWindow.cpp" line="665"/>
-        <location filename="../MainWindow.cpp" line="710"/>
+        <location filename="../MainWindow.cpp" line="110"/>
+        <location filename="../MainWindow.cpp" line="310"/>
+        <location filename="../MainWindow.cpp" line="491"/>
+        <location filename="../MainWindow.cpp" line="649"/>
+        <location filename="../MainWindow.cpp" line="694"/>
         <source>Selected data entry has been modified
 Do you want to save your changes or discard them?</source>
         <translation>Wybrany wpis został zmieniony
 Czy chcesz zapisać zmiany czy odrzucić je?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="195"/>
+        <location filename="../MainWindow.cpp" line="191"/>
         <source>Database has been exported successfully.</source>
         <translation>Baza danych została eksportowana pomyślnie.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="231"/>
+        <location filename="../MainWindow.cpp" line="227"/>
         <source>Database has been imported successfully.</source>
         <translation>Baza danych została importowana pomyślnie.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="455"/>
+        <location filename="../MainWindow.cpp" line="451"/>
         <source>Error adding entry.</source>
         <translation>Błąd przy dodawaniu wpisu.</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="578"/>
-        <location filename="../MainWindow.cpp" line="588"/>
-        <source>Failed to open url</source>
-        <translation>Nie udało się otworzyć adresu URL</translation>
-    </message>
-    <message>
-        <location filename="../MainWindow.cpp" line="610"/>
+        <location filename="../MainWindow.cpp" line="594"/>
         <source>Hide password</source>
         <translation>Ukryj hasło</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="527"/>
-        <location filename="../MainWindow.cpp" line="615"/>
+        <location filename="../MainWindow.cpp" line="523"/>
+        <location filename="../MainWindow.cpp" line="599"/>
         <source>Show password</source>
         <translation>Pokaż hasło</translation>
     </message>
@@ -1020,28 +1019,28 @@ nowe hasło dwa razy w celu weryfikacji.</translation>
     <message>
         <location filename="../dialogs/UpdateCheckerDialog.ui" line="14"/>
         <location filename="../build/ui_UpdateCheckerDialog.h" line="123"/>
-        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="121"/>
+        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="123"/>
         <source>Update Checker - QPass</source>
         <translation>Sprawdź aktualizacje - QPass</translation>
     </message>
     <message>
         <location filename="../dialogs/UpdateCheckerDialog.ui" line="22"/>
         <location filename="../build/ui_UpdateCheckerDialog.h" line="124"/>
-        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="122"/>
+        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="124"/>
         <source>Installed version:</source>
         <translation>Zainstalowana wersja:</translation>
     </message>
     <message>
         <location filename="../dialogs/UpdateCheckerDialog.ui" line="29"/>
         <location filename="../build/ui_UpdateCheckerDialog.h" line="125"/>
-        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="123"/>
+        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="125"/>
         <source>Latest version:</source>
         <translation>Najnowsza wersja:</translation>
     </message>
     <message>
         <location filename="../dialogs/UpdateCheckerDialog.ui" line="114"/>
         <location filename="../build/ui_UpdateCheckerDialog.h" line="129"/>
-        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="127"/>
+        <location filename="../build_win/ui_UpdateCheckerDialog.h" line="129"/>
         <source>Automatically check for updates</source>
         <translation>Automatycznie sprawdzaj aktualizacje</translation>
     </message>
