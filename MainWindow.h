@@ -20,8 +20,6 @@
 
 #include "ui_MainWindow.h"
 #include "DataModel.h"
-#include "PreviousPasswordDialog.h"
-#include "NewDatabaseDialog.h"
 #include "AboutDialog.h"
 #include "TrayIcon.h"
 #include "UpdateChecker.h"
@@ -33,7 +31,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
 	public:
-		MainWindow(QWidget *parent = 0);
+		MainWindow(QString path, QString password, bool dbExists, QWidget *parent = 0);
 	private:
 		/*! All data should be accesed through proxyModel, only functions such as exportDatabase,
 		 * importDatabase, changePassword etc. should be accessed directly through model.
@@ -41,9 +39,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		DataModel *model;
 		QSortFilterProxyModel *proxyModel;
 		QItemSelectionModel *selectionModel;
-		QString path;
-		PreviousPasswordDialog *previousPasswordDialog;
-		NewDatabaseDialog *newDatabaseDialog;
 		TrayIcon *trayIcon;
 		UpdateChecker *checker;
 		bool hideOnClose;
@@ -59,17 +54,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 	protected:
 		void closeEvent(QCloseEvent * event);
 	private slots:
-		/*! This function shows PreviousPasswordDialog.
-		*
-		* PreviousPasswordDialog is used to get a password to existing database from user.
-		*/
-		void showPreviousPasswordDialog();
-		/*! This function shows NewDatabaseDialog.
-		*
-		* NewDatabaseDialog is used to determine how user want to create new database,
-		* he could create empty database or import existing database.
-		*/
-		void showNewDatabaseDialog();
 		void showAboutDialog();
 		void showPreferencesDialog();
 		void showUpdateChecker();
@@ -79,13 +63,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void showHideWindow();
 		void generatePassword();
 		void quit();
-		/*!
-		* This function inits widgets and shows MainWindow.
-		* 
-		* It is executed after previousPasswordDialog or newDatabaseDialog
-		* emit accept().
-		*/
-		void init();
 		/*!
 		* This slot uses insertRows function to add row to database.
 		*/

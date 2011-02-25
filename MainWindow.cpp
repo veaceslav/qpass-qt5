@@ -28,18 +28,83 @@
 #include "UpdateCheckerDialog.h"
 #include "qpass-config.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *parent) : QMainWindow(parent)
 {
-	setWindowIcon(QIcon(":/icons/qpass.png"));
-	previousPasswordDialog = NULL;
-	newDatabaseDialog = NULL;
+	setupUi(this);
 	
-	path = PredefinedSettings::databasePath();
+	QAction *moveUpAction = new QAction( tr("Move Up"), this);
+	moveUpAction->setShortcut( Qt::CTRL + Qt::Key_Up );
+	listView->addAction(moveUpAction);
+
+	QAction *moveDownAction = new QAction( tr("Move Down"), this);
+	moveDownAction->setShortcut( Qt::CTRL + Qt::Key_Down );
+	listView->addAction( moveDownAction );
+
+	connect(moveUpAction, SIGNAL(triggered()), this, SLOT(moveUpEntry()));
+	connect(moveDownAction, SIGNAL(triggered()), this, SLOT(moveDownEntry()));
 	
-	if(QFile::exists(path))
-		showPreviousPasswordDialog();
-	else
-		showNewDatabaseDialog();  
+	readWindowState();
+	
+	model = new DataModel(path, password, dbExists, this);
+	
+	proxyModel = new QSortFilterProxyModel(this);
+	proxyModel->setSourceModel( model );
+	
+	listView->setModel(proxyModel);
+	
+	selectionModel = listView->selectionModel();
+	
+	connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
+	connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeSelectedItem()));
+	connect(selectionModel, SIGNAL(selectionChanged( const QItemSelection &, const QItemSelection &)), this, SLOT(showSelectedItem( const QItemSelection &, const QItemSelection &)));
+	connect(nameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+	connect(urlEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+	connect(userNameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+	connect(passwordEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
+	connect(notesEdit, SIGNAL(textChanged()), this, SLOT(enableSaveButton()));
+	connect(saveButton, SIGNAL(clicked()), this, SLOT(saveItem()));
+	connect(copyURLButton, SIGNAL(clicked()), this, SLOT(copyURL()));
+	connect(goToURLButton, SIGNAL(clicked()), this, SLOT(goToURL()));
+	connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
+	connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
+	connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
+	connect(searchEdit, SIGNAL(textChanged(const QString &)), proxyModel, SLOT(setFilterFixedString(const QString &)));
+	
+	connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
+	connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
+	connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(importDatabase()));
+	connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
+	connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
+	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
+	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
+	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
+
+	trayIcon = new TrayIcon(model, this);
+	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
+	connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
+	connect(trayIcon, SIGNAL(alwaysOnTopTriggered(bool)), this, SLOT(switchAlwaysOnTop(bool)));
+	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
+
+	readSettings();
+
+	if(trayIcon->getAlwaysOnTopState())
+		setWindowFlags( windowFlags() | Qt::WindowStaysOnTopHint );
+	
+	this->show();
+
+	trayIcon->setHideOnCloseChecked( hideOnClose );
+	trayIcon->setVisible(true);
+
+	checker = new UpdateChecker(this);
+	connect(checker, SIGNAL(gotLatestVersion(QString)), this, SLOT(informAboutNewVersion(QString)));
+	if(lastUpdateCheck.isValid())
+	{
+		if(lastUpdateCheck != QDate::currentDate())
+		{
+			checker->checkForUpdates();
+			lastUpdateCheck = QDate::currentDate();
+		}
+	}
 }
 
 void MainWindow::writeSettings()
@@ -125,28 +190,6 @@ void MainWindow::closeEvent (QCloseEvent *event)
 		writeSettings();
 		event->accept(); 
 	}
-}
-
-void MainWindow::showPreviousPasswordDialog()
-{
-	if(previousPasswordDialog == NULL)
-	{
-		previousPasswordDialog = new PreviousPasswordDialog(this);
-		connect(previousPasswordDialog, SIGNAL(accepted()), this, SLOT(init()));
-		connect(previousPasswordDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
-	}
-	previousPasswordDialog->show();
-}
-
-void MainWindow::showNewDatabaseDialog()
-{
-	if(newDatabaseDialog == NULL)
-	{
-		newDatabaseDialog = new NewDatabaseDialog(this);
-		connect(newDatabaseDialog, SIGNAL(accepted()), this, SLOT(init()));
-		connect(newDatabaseDialog, SIGNAL(rejected()), qApp, SLOT(quit()));
-	}
-	newDatabaseDialog->show();
 }
 
 void MainWindow::showAboutDialog()
@@ -320,126 +363,6 @@ void MainWindow::quit()
 		writeWindowState();
 	writeSettings();
 	qApp->quit();
-}
-
-void MainWindow::init()
-{
-	QString password;
-	bool dbExists = QFile::exists(path);
-	if(dbExists)
-		password = previousPasswordDialog->value();
-	else
-		password = newDatabaseDialog->value();
-	if(dbExists)
-	{
-		int res = DataModel::checkDatabase(path, password);
-		if(res == -1)
-		{
-			QMessageBox box(this);
-			box.setWindowTitle( tr("Incorrect password - QPass") );
-			box.setText( tr("Incorrect password.") );
-			box.setIcon(QMessageBox::Warning);
-			box.exec();
-			showPreviousPasswordDialog();
-			return;
-		}
-		else if(res == -2)
-		{
-			QMessageBox box(this);
-			box.setWindowTitle( tr("QPass") );
-			box.setText( tr("Error opening database.") );
-			box.setIcon(QMessageBox::Critical);
-			box.exec();
-			qApp->quit();
-		}
-	}
-	
-	if(previousPasswordDialog != NULL)
-	{
-		delete previousPasswordDialog;
-		previousPasswordDialog = NULL;
-	}
-	if(newDatabaseDialog != NULL)
-	{
-		delete newDatabaseDialog;
-		newDatabaseDialog = NULL;
-	}
-	
-	setupUi(this);
-	
-	QAction *moveUpAction = new QAction( tr("Move Up"), this);
-	moveUpAction->setShortcut( Qt::CTRL + Qt::Key_Up );
-	listView->addAction(moveUpAction);
-
-	QAction *moveDownAction = new QAction( tr("Move Down"), this);
-	moveDownAction->setShortcut( Qt::CTRL + Qt::Key_Down );
-	listView->addAction( moveDownAction );
-
-	connect(moveUpAction, SIGNAL(triggered()), this, SLOT(moveUpEntry()));
-	connect(moveDownAction, SIGNAL(triggered()), this, SLOT(moveDownEntry()));
-	
-	readWindowState();
-	
-	model = new DataModel(path, password, dbExists, this);
-	
-	proxyModel = new QSortFilterProxyModel(this);
-	proxyModel->setSourceModel( model );
-	
-	listView->setModel(proxyModel);
-	
-	selectionModel = listView->selectionModel();
-	
-	connect(addButton, SIGNAL(clicked()), this, SLOT(addItem()));
-	connect(deleteButton, SIGNAL(clicked()), this, SLOT(removeSelectedItem()));
-	connect(selectionModel, SIGNAL(selectionChanged( const QItemSelection &, const QItemSelection &)), this, SLOT(showSelectedItem( const QItemSelection &, const QItemSelection &)));
-	connect(nameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
-	connect(urlEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
-	connect(userNameEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
-	connect(passwordEdit, SIGNAL(textEdited(const QString &)), this, SLOT(enableSaveButton()));
-	connect(notesEdit, SIGNAL(textChanged()), this, SLOT(enableSaveButton()));
-	connect(saveButton, SIGNAL(clicked()), this, SLOT(saveItem()));
-	connect(copyURLButton, SIGNAL(clicked()), this, SLOT(copyURL()));
-	connect(goToURLButton, SIGNAL(clicked()), this, SLOT(goToURL()));
-	connect(copyUserNameButton, SIGNAL(clicked()), this, SLOT(copyUserName()));
-	connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
-	connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
-	connect(searchEdit, SIGNAL(textChanged(const QString &)), proxyModel, SLOT(setFilterFixedString(const QString &)));
-	
-	connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
-	connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
-	connect(actionImportDatabase, SIGNAL(triggered()), this, SLOT(importDatabase()));
-	connect(actionChangePassword, SIGNAL(triggered()), this, SLOT(changePassword()));
-	connect(actionQuit, SIGNAL(triggered()), this, SLOT(quit()));
-	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
-	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
-	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
-
-	trayIcon = new TrayIcon(model, this);
-	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
-	connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
-	connect(trayIcon, SIGNAL(alwaysOnTopTriggered(bool)), this, SLOT(switchAlwaysOnTop(bool)));
-	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
-
-	readSettings();
-
-	if(trayIcon->getAlwaysOnTopState())
-		setWindowFlags( windowFlags() | Qt::WindowStaysOnTopHint );
-	
-	this->show();
-
-	trayIcon->setHideOnCloseChecked( hideOnClose );
-	trayIcon->setVisible(true);
-
-	checker = new UpdateChecker(this);
-	connect(checker, SIGNAL(gotLatestVersion(QString)), this, SLOT(informAboutNewVersion(QString)));
-	if(lastUpdateCheck.isValid())
-	{
-		if(lastUpdateCheck != QDate::currentDate())
-		{
-			checker->checkForUpdates();
-			lastUpdateCheck = QDate::currentDate();
-		}
-	}
 }
 
 void MainWindow::addItem()

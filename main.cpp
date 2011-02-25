@@ -16,6 +16,7 @@
 #include <QSharedMemory>
 #include <QObject>
 #include <QTranslator>
+#include <QFile>
 
 #ifndef Q_OS_WIN
 #include <QLocalSocket>
@@ -24,11 +25,15 @@
 
 #include "MainWindow.h"
 #include "PredefinedSettings.h"
+#include "PreviousPasswordDialog.h"
+#include "NewDatabaseDialog.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	
+	app.setWindowIcon(QIcon(":/icons/qpass.png"));
+
 	QCoreApplication::setApplicationName("QPass");
 	QCoreApplication::setOrganizationName("QPass");
 		
@@ -47,7 +52,7 @@ int main(int argc, char *argv[])
 		box.setText( QObject::tr("One instance of QPass is already running!") );
 		box.setIcon( QMessageBox::Warning );
 		box.exec();
-		return 0; // Exit already a process running 
+		return 0; 
 	}
 
 	QLocalServer m_localServer;
@@ -68,8 +73,27 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 #endif
+	QString password;
+	bool dbExists;
 
-	MainWindow mainWindow;
+	if(QFile::exists( PredefinedSettings::databasePath() ))
+	{
+		dbExists = true;
+		PreviousPasswordDialog dialog;
+		if(dialog.exec() != QDialog::Accepted)
+			return 0;
+		password = dialog.getPassword();
+	}
+	else
+	{
+		dbExists = false;
+		NewDatabaseDialog dialog;
+		if(dialog.exec() != QDialog::Accepted)
+			return 0;
+		password = dialog.getPassword();
+	}
+
+	MainWindow mainWindow( PredefinedSettings::databasePath(), password, dbExists);
 	
 	return app.exec();
 }

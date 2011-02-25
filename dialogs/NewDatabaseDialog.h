@@ -37,7 +37,7 @@ class NewDatabaseDialog : public QDialog//, private Ui::NewDatabaseDialog
 		* 
 		* @return password to new database.
 		*/
-		QString value();
+		QString getPassword();
 	private:
 		Ui::NewDatabaseDialogPage1 uiWelcome;
 		Ui::NewDatabaseDialogPage2 uiPassword;

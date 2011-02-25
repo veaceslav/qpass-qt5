@@ -29,7 +29,9 @@ class PreviousPasswordDialog : public QDialog, private Ui::PreviousPasswordDialo
 		/*! 
 		* Returns password provided by the user.
 		*/
-		QString value();
+		QString getPassword();
+	private slots:
+		void accept();
 };
 
 #endif //PREVIOUSPASSWORDDIALOG_H

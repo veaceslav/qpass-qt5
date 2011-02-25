@@ -27,7 +27,7 @@ DataAccess::~DataAccess()
 
 int DataAccess::checkDatabase()
 {
-	if(!file->open(QIODevice::ReadWrite))
+	if(!file->open(QIODevice::ReadOnly))
 	{
 		return -2;
 	}
@@ -91,7 +91,7 @@ int DataAccess::checkDatabase()
 
 QList< QVector< QString> > DataAccess::read()
 {
-	if(!file->open(QIODevice::ReadWrite))
+	if(!file->open(QIODevice::ReadOnly))
 	{
 		QMessageBox box;
 		box.setWindowTitle( tr("QPass") );
@@ -228,7 +228,7 @@ QList< QVector< QString> > DataAccess::read()
 
 bool DataAccess::write(const QList< QVector< QString> > &data)
 {
-	if(!file->open(QIODevice::Truncate | QIODevice::ReadWrite))
+	if(!file->open(QIODevice::Truncate | QIODevice::WriteOnly))
 		return false;
 	struct header head;
 	head.id[0] = 'P';

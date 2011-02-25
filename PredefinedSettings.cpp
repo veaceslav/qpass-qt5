@@ -40,7 +40,7 @@ QString PredefinedSettings::databasePath()
 	QDir dir;
 #ifdef Q_WS_WIN
 #ifdef PORTABLE
-	return "database";
+	return "database.qpa";
 #else
 	char szPath[MAX_PATH];
 	SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, szPath);

@@ -38,7 +38,7 @@ NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
 	uiPassword.buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 }
 
-QString NewDatabaseDialog::value()
+QString NewDatabaseDialog::getPassword()
 {
 	return uiPassword.passwordEdit->text();
 }
