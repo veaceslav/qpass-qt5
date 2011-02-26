@@ -30,6 +30,8 @@
 
 MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *parent) : QMainWindow(parent)
 {
+	setWindowIcon(QIcon(":/icons/qpass.png"));
+
 	setupUi(this);
 	
 	QAction *moveUpAction = new QAction( tr("Move Up"), this);
@@ -80,12 +82,13 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
 
 	trayIcon = new TrayIcon(model, this);
+
+	readSettings();
+
 	connect(trayIcon, SIGNAL(clicked()), this, SLOT(showHideWindow()));
 	connect(trayIcon, SIGNAL(hideOnCloseTriggered(bool)), this, SLOT(switchHideOnClose(bool)));
 	connect(trayIcon, SIGNAL(alwaysOnTopTriggered(bool)), this, SLOT(switchAlwaysOnTop(bool)));
 	connect(trayIcon, SIGNAL(quitClicked()), this, SLOT(quit()));
-
-	readSettings();
 
 	if(trayIcon->getAlwaysOnTopState())
 		setWindowFlags( windowFlags() | Qt::WindowStaysOnTopHint );
@@ -140,7 +143,7 @@ void MainWindow::readSettings()
 #endif
 	hideOnClose = settings.value("hideOnClose", false).toBool();
 	trayIcon->setAlwaysOnTopState( settings.value("alwaysOnTop", false).toBool() );
-	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 40).toInt() );
+	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 15).toInt() );
 	lastUpdateCheck = settings.value("lastUpdateCheck", QDate()).toDate();
 }
 
@@ -526,6 +529,7 @@ void MainWindow::switchEchoMode()
 void MainWindow::switchHideOnClose(bool checked)
 {
 	hideOnClose = checked;
+	writeSettings();
 }
 
 void MainWindow::switchAlwaysOnTop(bool alwaysOnTop)
@@ -547,6 +551,7 @@ void MainWindow::switchAlwaysOnTop(bool alwaysOnTop)
 		readWindowState();
 		setVisible(visible);
 	}
+	writeSettings();
 }
 
 void MainWindow::moveUpEntry()
