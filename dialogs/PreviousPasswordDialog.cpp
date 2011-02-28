@@ -17,6 +17,8 @@
 PreviousPasswordDialog::PreviousPasswordDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(checkData()));
+	connect(openOtherButton, SIGNAL(clicked()), this, SLOT(acceptOtherDatabase()));
 }
 
 QString PreviousPasswordDialog::getPassword()
@@ -24,7 +26,7 @@ QString PreviousPasswordDialog::getPassword()
 	return passwordEdit->text();
 }
 
-void PreviousPasswordDialog::accept()
+void PreviousPasswordDialog::checkData()
 {
 	int res = DataModel::checkDatabase(PredefinedSettings::databasePath(), passwordEdit->text());
 	if(res == -1)
@@ -49,3 +51,7 @@ void PreviousPasswordDialog::accept()
 		done(QDialog::Accepted);
 }
 
+void PreviousPasswordDialog::acceptOtherDatabase()
+{
+	done(2);
+}

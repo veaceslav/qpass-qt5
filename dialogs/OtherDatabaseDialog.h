@@ -10,29 +10,30 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
-#ifndef PREVIOUSPASSWORDDIALOG_H
-#define PREVIOUSPASSWORDDIALOG_H
+#ifndef OTHERDATABASEDIALOG_H
+#define OTHERDATABASEDIALOG_H
 
 #include <QDialog>
 
-#include "ui_PreviousPasswordDialog.h"
+#include "ui_OtherDatabaseDialog.h"
 
-/*!
- * Provides current password entry dialog.
- */
-class PreviousPasswordDialog : public QDialog, private Ui::PreviousPasswordDialog
+class OtherDatabaseDialog : public QDialog, private Ui::OtherDatabaseDialog
 {
-	Q_OBJECT
-	public:
-		PreviousPasswordDialog(QWidget *parent = 0);
-		/*! 
-		* Returns password provided by the user.
-		*/
-		QString getPassword();
-	private slots:
-		void checkData();
-		void acceptOtherDatabase();
+	Q_OBJECT;
+
+public:
+	OtherDatabaseDialog(QWidget *parent = 0);
+	QString getPassword();
+	QString getPath();
+	int getMode();
+	enum Modes
+	{
+		OpenExisting,
+		CreateNew
+	};
+private slots:
+	void browse();
+	void accept();
 };
 
-#endif //PREVIOUSPASSWORDDIALOG_H
+#endif

@@ -35,6 +35,7 @@ set(QPass_SOURCES
 	dialogs/PasswordGeneratorDialog.cpp
 	dialogs/PreferencesDialog.cpp
 	dialogs/UpdateCheckerDialog.cpp
+    dialogs/OtherDatabaseDialog.cpp
 )
 set(QPass_HEADERS 
 	MainWindow.h 
@@ -50,6 +51,7 @@ set(QPass_HEADERS
 	dialogs/PasswordGeneratorDialog.h
 	dialogs/PreferencesDialog.h
 	dialogs/UpdateCheckerDialog.h
+    dialogs/OtherDatabaseDialog.h
 )
 set(QPass_UI 
 	MainWindow.ui
@@ -64,6 +66,7 @@ set(QPass_UI
 	dialogs/PasswordGeneratorDialogPage3.ui
 	dialogs/PreferencesDialog.ui
 	dialogs/UpdateCheckerDialog.ui
+    dialogs/OtherDatabaseDialog.ui
 )
 set(QPass_TS
 	pl_PL.ts

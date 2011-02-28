@@ -27,6 +27,7 @@
 #include "PredefinedSettings.h"
 #include "PreviousPasswordDialog.h"
 #include "NewDatabaseDialog.h"
+#include "OtherDatabaseDialog.h"
 
 int main(int argc, char *argv[])
 {
@@ -74,15 +75,35 @@ int main(int argc, char *argv[])
 	}
 #endif
 	QString password;
+	QString path = PredefinedSettings::databasePath();
 	bool dbExists;
 
 	if(QFile::exists( PredefinedSettings::databasePath() ))
 	{
 		dbExists = true;
 		PreviousPasswordDialog dialog;
-		if(dialog.exec() != QDialog::Accepted)
+		int res = dialog.exec();
+		if(res == QDialog::Accepted)
+			password = dialog.getPassword();
+		else if(res == 2) //"open other database" was clicked
+		{
+			OtherDatabaseDialog otherDatabaseDialog;
+			int ret = otherDatabaseDialog.exec();
+			if(ret != QDialog::Accepted)
+				return 0;
+			else
+			{
+				if(otherDatabaseDialog.getMode() == OtherDatabaseDialog::CreateNew)
+					dbExists = false;
+				else
+					dbExists = true;
+
+				password = otherDatabaseDialog.getPassword();
+				path = otherDatabaseDialog.getPath();
+			}
+		}
+		else
 			return 0;
-		password = dialog.getPassword();
 	}
 	else
 	{
@@ -93,7 +114,7 @@ int main(int argc, char *argv[])
 		password = dialog.getPassword();
 	}
 
-	MainWindow mainWindow( PredefinedSettings::databasePath(), password, dbExists);
+	MainWindow mainWindow( path, password, dbExists);
 	
 	return app.exec();
 }
