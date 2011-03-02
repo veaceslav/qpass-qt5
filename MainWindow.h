@@ -29,8 +29,12 @@
 */
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
-	Q_OBJECT
+	Q_OBJECT;
 	public:
+		/*! 
+		 * Data passed to this function should be checked before and
+		 * should be correct.
+		 */
 		MainWindow(QString path, QString password, bool dbExists, QWidget *parent = 0);
 	private:
 		/*! All data should be accesed through proxyModel, only functions such as exportDatabase,

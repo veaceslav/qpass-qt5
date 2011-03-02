@@ -1,6 +1,6 @@
 QPass is easy to use, open source password manager application. It
 enables you to store your confidential data crypted. All entries are
-stored in a signle file database encrypted using AES* 256 algorithm.
+stored in a signle file database encrypted using AES-256 algorithm.
 Each entry can contain name, url, username, password and description. 
 
 It can stay running in tray so your data can be close at hand. With
