@@ -46,6 +46,6 @@ void UpdateCheckerDialog::setLatestVersion(QString version)
 	if(latestVersionLabel->text() != installedVersionLabel->text())
 		infoLabel->setText( tr("<b>There is new version of QPass available!</b><br />Go to <a href=\"http://qpass.sourceforge.net\">http://qpass.sourceforge.net</a> to get more information") );
 	else
-		infoLabel->setText( tr("<b>You are using latest version of QPass</b>") );
+		infoLabel->setText( tr("<b>You are using the latest version of QPass</b>") );
 }
 

@@ -1271,8 +1271,12 @@ nowe hasło dwa razy w celu weryfikacji.</translation>
     </message>
     <message>
         <location filename="../dialogs/UpdateCheckerDialog.cpp" line="49"/>
-        <source>&lt;b&gt;You are using latest version of QPass&lt;/b&gt;</source>
+        <source>&lt;b&gt;You are using the latest version of QPass&lt;/b&gt;</source>
         <translation>&lt;b&gt;Używasz najnoweszej wersji programu&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;You are using latest version of QPass&lt;/b&gt;</source>
+        <translation type="obsolete">&lt;b&gt;Używasz najnoweszej wersji programu&lt;/b&gt;</translation>
     </message>
 </context>
 </TS>

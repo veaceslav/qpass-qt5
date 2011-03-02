@@ -1,3 +1,20 @@
+1.1.0
+	* Corrected "Alt+D" shortcut
+	* Added quick access to entries throught tray icon
+	* Improved saving windows state
+	* Modified menu category under Unix
+	* Added portable version on windows
+	* Corrected initialization of progress bar in password generator
+	* Corrected opening URLs with https:// suffix
+	* Added ability to set QPass window to be always on top
+	* Moved generator button to top menu
+	* Added ask when user tries to replace database
+	* Added update checker
+	* "Go to URL" button uses qt functions now
+	* Set default button in new database form
+	* Improved settings saving
+	* Added option to open other than main database
+
 1.0.3:
 	* Added UTF-8 support
 	* Added key shortcuts to every form
