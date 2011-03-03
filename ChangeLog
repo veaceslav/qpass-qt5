@@ -1,6 +1,6 @@
 1.1.0
 	* Corrected "Alt+D" shortcut
-	* Added quick access to entries throught tray icon
+	* Added quick access to entries through tray icon
 	* Improved saving windows state
 	* Modified menu category under Unix
 	* Added portable version on windows

@@ -543,6 +543,16 @@
   <tabstop>deleteButton</tabstop>
   <tabstop>searchEdit</tabstop>
   <tabstop>saveButton</tabstop>
+  <tabstop>nameEdit</tabstop>
+  <tabstop>urlEdit</tabstop>
+  <tabstop>userNameEdit</tabstop>
+  <tabstop>passwordEdit</tabstop>
+  <tabstop>notesEdit</tabstop>
+  <tabstop>copyURLButton</tabstop>
+  <tabstop>goToURLButton</tabstop>
+  <tabstop>copyUserNameButton</tabstop>
+  <tabstop>copyPasswordButton</tabstop>
+  <tabstop>showPasswordButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
