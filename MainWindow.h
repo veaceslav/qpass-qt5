@@ -103,6 +103,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void moveUpEntry();
 		void moveDownEntry();
 		void informAboutNewVersion(QString version);
+	    void openFAQ();
 };
 
 

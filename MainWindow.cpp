@@ -80,6 +80,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(actionPreferences, SIGNAL(triggered()), this, SLOT(showPreferencesDialog()));
 	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
 	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
+	connect(actionFAQ, SIGNAL(triggered()), this, SLOT(openFAQ()));
 
 	trayIcon = new TrayIcon(model, this);
 
@@ -658,3 +659,7 @@ void MainWindow::informAboutNewVersion(QString version)
 	checker->deleteLater();
 }
 
+void MainWindow::openFAQ()
+{
+	QDesktopServices::openUrl(QUrl("http://qpass.sourceforge.net/wiki/index.php/FAQ"));
+}
