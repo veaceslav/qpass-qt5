@@ -447,7 +447,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 	
 	//Hides passwords
 	passwordEdit->setEchoMode( QLineEdit::Password );
-	showPasswordButton->setText( tr("Show password") );
+	showPasswordButton->setChecked(false);
 	
 	saveButton->setEnabled(false);
 }
@@ -518,12 +518,12 @@ void MainWindow::switchEchoMode()
 	if(passwordEdit->echoMode() == QLineEdit::Password)
 	{
 		passwordEdit->setEchoMode( QLineEdit::Normal );
-		showPasswordButton->setText( tr("Hide password") );
+		showPasswordButton->setChecked(true);
 	}
 	else
 	{
 		passwordEdit->setEchoMode( QLineEdit::Password );
-		showPasswordButton->setText( tr("Show password") );
+		showPasswordButton->setChecked(false);
 	}
 }
 
