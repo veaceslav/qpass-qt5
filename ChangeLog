@@ -8,7 +8,7 @@
 	* Corrected opening URLs with https:// suffix
 	* Added ability to set QPass window to be always on top
 	* Moved generator button to top menu
-	* Added ask when user tries to replace database
+	* Added confirmation window when user tries to replace database
 	* Added update checker
 	* "Go to URL" button uses qt functions now
 	* Set default button in new database form

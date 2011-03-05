@@ -37,7 +37,7 @@ int DatabaseImportDialog::getMode()
 {
 	if(appendButton->isChecked())
 		return DatabaseImportDialog::Append;
-	else if(replaceButton->isChecked())
+	else
 		return DatabaseImportDialog::Replace;
 }
 

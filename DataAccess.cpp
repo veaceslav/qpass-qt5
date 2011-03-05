@@ -37,10 +37,12 @@ int DataAccess::checkDatabase()
 	{
 		if(head.version == 1)
 		{
-			const char *version = gcry_check_version(NULL);
+			gcry_check_version(NULL);
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
+			if(error != 0)
+				return -2;
 			char keyc[32];
 			memset((char*)&keyc, 0, 32);
 			strcpy((char*)&keyc, password.toAscii());
@@ -49,7 +51,7 @@ int DataAccess::checkDatabase()
 			struct cryptedHeader chead;
 			file->read((char*)&chead, sizeof(cryptedHeader));
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
-			if(chead.id[0] != 'P' || chead.id[1] != 'A' && chead.id[2] != 'S')
+			if(chead.id[0] != 'P' || chead.id[1] != 'A' || chead.id[2] != 'S')
 			{
 				gcry_cipher_close(hd);
 				file->close();
@@ -59,10 +61,12 @@ int DataAccess::checkDatabase()
 		}
 		else if(head.version == 2)
 		{
-			const char *version = gcry_check_version(NULL);
+			gcry_check_version(NULL);
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
+			if(error != 0)
+				return -2;
 			char keyhash[32];
 			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
 			gcry_cipher_setkey(hd, (char*)&keyhash, 32);
@@ -109,10 +113,10 @@ QList< QVector< QString> > DataAccess::read()
 	{
 		if(head.version == 1)
 		{
-			const char *version = gcry_check_version(NULL);
+			gcry_check_version(NULL);
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
-			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
+			gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
 			char keyc[32];
 			memset((char*)&keyc, 0, 32);
 			strcpy((char*)&keyc, password.toAscii());
@@ -166,10 +170,10 @@ QList< QVector< QString> > DataAccess::read()
 		}
 		else if(head.version == 2)
 		{
-			const char *version = gcry_check_version(NULL);
+			gcry_check_version(NULL);
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
-			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
+			gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 			char keyhash[32];
 			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
 			gcry_cipher_setkey(hd, (char*)&keyhash, 32);
@@ -242,10 +246,10 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 		head.IV[i] = rand();
 	if( file->write((char*)&head, sizeof(header)) == -1 )
 		return false;
-	const char *version = gcry_check_version(NULL);
+	gcry_check_version(NULL);
 	gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 	gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
-	gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
+	gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 	char keyhash[32];
 	gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
 	gcry_cipher_setkey(hd, (char*)&keyhash, 32);
