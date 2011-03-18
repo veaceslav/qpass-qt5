@@ -69,10 +69,11 @@ set(QPass_UI
     dialogs/OtherDatabaseDialog.ui
 )
 set(QPass_TS
-	pl_PL.ts
+	translations/pl_PL.ts
+    translations/qt_pl.ts
 )
 include_directories(${INCLUDE_DIR})
-QT4_ADD_TRANSLATION(QPass_QM translations/${QPass_TS})
+QT4_ADD_TRANSLATION(QPass_QM ${QPass_TS})
 QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
 QT4_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
 QT4_ADD_RESOURCES(QPass_RCC_SRCS images/qpass.qrc)

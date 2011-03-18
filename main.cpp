@@ -17,6 +17,7 @@
 #include <QObject>
 #include <QTranslator>
 #include <QFile>
+#include <QLibraryInfo>
 
 #ifndef Q_OS_WIN
 #include <QLocalSocket>
@@ -39,6 +40,9 @@ int main(int argc, char *argv[])
 	QCoreApplication::setOrganizationName("QPass");
 		
 	QString locale = QLocale::system().name();
+	QTranslator qt_translator;
+	qt_translator.load(PredefinedSettings::dataPath()+"/translations/qt_"+locale);
+	app.installTranslator(&qt_translator);
 	QTranslator translator;
 	translator.load(PredefinedSettings::dataPath()+"/translations/"+locale);
 	app.installTranslator(&translator);
@@ -58,7 +62,7 @@ int main(int argc, char *argv[])
 
 	QLocalServer m_localServer;
 	m_localServer.removeServer("QPass");
-	int res = m_localServer.listen("QPass");
+	m_localServer.listen("QPass");
 #else
 	//Code to check if there is any running instance of QPass.
 	//It works very good on windows but on UNIX when you kill qpass
