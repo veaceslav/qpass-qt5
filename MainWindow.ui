@@ -472,9 +472,10 @@
     <property name="title">
      <string>&amp;Help</string>
     </property>
+    <addaction name="actionFAQ"/>
+    <addaction name="separator"/>
     <addaction name="actionCheckForUpdates"/>
     <addaction name="separator"/>
-    <addaction name="actionFAQ"/>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuFile">
@@ -547,6 +548,9 @@
   <action name="actionFAQ">
    <property name="text">
     <string>QPass FAQ</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>
