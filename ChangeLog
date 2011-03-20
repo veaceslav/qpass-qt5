@@ -1,3 +1,9 @@
+1.1.1
+	* Corrected tab order in main window
+	* Changed maximum length of "Website URL" field to 100
+	* Added link to FAQ in help menu
+	* Extended polish translation to standard Qt texts
+
 1.1.0
 	* Corrected "Alt+D" shortcut
 	* Added quick access to entries through tray icon
