@@ -25,6 +25,7 @@
 #include "PasswordChangeDialog.h"
 #include "PasswordGeneratorDialog.h"
 #include "PreferencesDialog.h"
+#include "PasswordViewer.h"
 #include "UpdateCheckerDialog.h"
 #include "qpass-config.h"
 
@@ -81,6 +82,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
 	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
 	connect(actionFAQ, SIGNAL(triggered()), this, SLOT(openFAQ()));
+	connect(actionShowNumberedCharacters, SIGNAL(triggered()), this, SLOT(showPasswordViewer()));
 
 	trayIcon = new TrayIcon(model, this);
 
@@ -223,6 +225,12 @@ void MainWindow::showUpdateChecker()
 		lastUpdateCheck = QDate::currentDate();
 	else
 		lastUpdateCheck = QDate();
+}
+
+void MainWindow::showPasswordViewer()
+{
+	PasswordViewer viewer(this, passwordEdit->text());
+	viewer.exec();
 }
 
 void MainWindow::exportDatabase()
@@ -433,6 +441,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 		passwordEdit->setText( proxyModel->data( proxyModel->index( row, 3 ) ).toString() );
 		notesEdit->setPlainText( proxyModel->data( proxyModel->index( row, 4 ) ).toString() );
 		deleteButton->setEnabled(true);
+		actionShowNumberedCharacters->setEnabled(true);
 	}
 	else
 	{
@@ -443,6 +452,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 		passwordEdit->setText(QString());
 		notesEdit->setPlainText(QString());
 		deleteButton->setEnabled(false);
+		actionShowNumberedCharacters->setEnabled(false);
 	}
 	
 	//Hides passwords

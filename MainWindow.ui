@@ -500,7 +500,14 @@
     </property>
     <addaction name="actionGeneratePassword"/>
    </widget>
+   <widget class="QMenu" name="menuPassword">
+    <property name="title">
+     <string>Password</string>
+    </property>
+    <addaction name="actionShowNumberedCharacters"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuPassword"/>
    <addaction name="menuPass_ord_generator"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
@@ -551,6 +558,14 @@
    </property>
    <property name="shortcut">
     <string>F1</string>
+   </property>
+  </action>
+  <action name="actionShowNumberedCharacters">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Show numbered characters</string>
    </property>
   </action>
  </widget>

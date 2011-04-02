@@ -61,6 +61,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void showAboutDialog();
 		void showPreferencesDialog();
 		void showUpdateChecker();
+		void showPasswordViewer();
 		void exportDatabase();
 		void importDatabase();
 		void changePassword();
