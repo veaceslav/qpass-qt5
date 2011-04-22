@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>377</width>
-    <height>313</height>
+    <width>376</width>
+    <height>344</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@ type password to it.</string>
      <property name="topMargin">
       <number>10</number>
      </property>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>&amp;File path:</string>
@@ -49,7 +49,7 @@ type password to it.</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="1" column="1">
       <widget class="QWidget" name="widget" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="margin">
@@ -75,7 +75,7 @@ type password to it.</string>
        </layout>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -91,7 +91,7 @@ type password to it.</string>
        </property>
       </spacer>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>&amp;Password:</string>
@@ -101,7 +101,7 @@ type password to it.</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>&amp;Re-type password:</string>
@@ -111,18 +111,48 @@ type password to it.</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="passwordEdit1">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QLineEdit" name="passwordEdit2">
        <property name="echoMode">
         <enum>QLineEdit::Password</enum>
        </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>File format:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QWidget" name="widget_3" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QRadioButton" name="qpaFormat">
+          <property name="text">
+           <string>QPass database file(.qpa)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="csvFormat">
+          <property name="text">
+           <string>CSV</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
@@ -190,6 +220,134 @@ type password to it.</string>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qpaFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordEdit1</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>182</x>
+     <y>105</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>171</x>
+     <y>243</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qpaFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordEdit2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>215</x>
+     <y>287</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordEdit1</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordEdit2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>247</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>319</x>
+     <y>283</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qpaFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>162</x>
+     <y>104</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>39</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qpaFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>151</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_2</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>60</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_3</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>74</x>
+     <y>271</y>
     </hint>
    </hints>
   </connection>

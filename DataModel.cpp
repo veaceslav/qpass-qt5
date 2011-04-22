@@ -117,20 +117,43 @@ int DataModel::checkDatabase(const QString &path,const QString &password)
 	return database.checkDatabase();
 }
 
-bool DataModel::exportDatabase(const QString &path,const QString &password)
+bool DataModel::exportDatabase(const QString &path,const QString &password, int format)
 {
-	DataAccess databaseToExport(path, password);
-	return databaseToExport.write(dataList);
+	if(format == Native)
+	{
+		DataAccess databaseToExport(path, password);
+		return databaseToExport.write(dataList);
+	}
+	else if(format == Csv)
+	{
+		CsvFormat csv(path);
+		return csv.write(dataList);
+	}
+	else
+		return false;
 }
 
-int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting)
+int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format)
 {
-	DataAccess databaseToImport(path, password);
-	int res = databaseToImport.checkDatabase();
-	if(res != 0)
-		return res;
 	QList< QVector< QString > > data;
-	data = databaseToImport.read();
+	if(format == Native)
+	{
+		DataAccess databaseToImport(path, password);
+		int res = databaseToImport.checkDatabase();
+		if(res != 0)
+			return res;
+		data = databaseToImport.read();
+	}
+	else if(format == Csv)
+	{
+		CsvFormat csv(path);
+		data = csv.read();
+		if(data.isEmpty())
+			return -2;
+	}
+	else
+		return -4;//undefined format
+
 	if(data.count() > 0)
 	{
 		if(replaceExisting)

@@ -241,7 +241,7 @@ void MainWindow::exportDatabase()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword() ))
+		if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword(), exportDialog.getFormat() ))
 		{
 			box.setText( tr("Database has been exported successfully.") );
 			box.setIcon(QMessageBox::Information);
@@ -276,7 +276,8 @@ void MainWindow::importDatabase()
 				return;
 		}
 
-		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace);
+		int format = importDialog.getFormat();
+		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace, format);
 		if( res == 0 )
 		{
 			box.setText( tr("Database has been imported successfully.") );
@@ -284,7 +285,7 @@ void MainWindow::importDatabase()
 		}
 		else
 		{
-			box.setText( tr("Error importing database.") );
+			box.setText( tr("Error importing database. Probably file is corrupted or has incorrect format") );
 			box.setIcon(QMessageBox::Critical);
 		}
 		box.exec();

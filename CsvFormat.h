@@ -10,25 +10,32 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef DATABASEEXPORTDIALOG_H
-#define DATABASEEXPORTDIALOG_H
+#ifndef CSVFORMAT_H
+#define CSVFORMAT_H
 
-#include <QDialog>
 #include <QString>
+#include <QList>
+#include <QVector>
+#include <QFile>
+#include <QObject>
+#include <QStringList>
 
-#include "ui_DatabaseExportDialog.h"
-
-class DatabaseExportDialog : public QDialog, private Ui::DatabaseExportDialog
+class CsvFormat
 {
-	Q_OBJECT;
 public:
-	DatabaseExportDialog(QWidget *parent);
-	QString getPassword();
-	QString getPath();
-	int getFormat();
-private slots:
-	void browse();
-	void accept();
+	enum ErrorID {
+		OpeningError = -1,
+		IncorrectStructure = -2
+	};
+	CsvFormat(const QString &filename);
+	QList< QVector< QString > > read();
+	bool write(const QList< QVector< QString > > &data);
+	int getErrorID();
+private:
+	int error;
+	QFile file;
+
+	QStringList split(QString &str);
 };
 
-#endif //DATABASEEXPORTDIALOG_H
+#endif //CSVFORMAT_H

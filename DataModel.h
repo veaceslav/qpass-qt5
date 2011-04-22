@@ -19,6 +19,7 @@
 #include <QString>
 
 #include "DataAccess.h"
+#include "CsvFormat.h"
 
 /*! Model which represents data from encrypted database.
  * 
@@ -28,42 +29,47 @@
  */
 class DataModel : public QAbstractTableModel
 {
-	Q_OBJECT
-	public:
-		/*! Initializes model and database.
-		*
-		* @param path Path to database.
-		* @param password Password to database.
-		* @param openExisting If true model will use existing database, if false model will create new.
-		* @param parent Parent.
-		*/
-		DataModel(const QString &path,const QString &password, bool openExisting = true, QObject *parent = 0);
-		~DataModel();
-		QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-		Qt::ItemFlags flags(const QModelIndex &index) const;
-		QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-		int rowCount(const QModelIndex &parent = QModelIndex()) const;
-		int columnCount(const QModelIndex &parent = QModelIndex()) const;
-		bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-		bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
-		bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
-		/*! Static function to check if given file is database and if password is correct.
-		*
-		* This function uses DataAccess::checkDatabase function to do it.
-		*
-		* @param path Path to database.
-		* @param password Password to database.
-		* @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
-		*/
-		static int checkDatabase(const QString &path, const QString &password);
-		bool exportDatabase(const QString &path, const QString &password);
-		int importDatabase(const QString &path,const QString &password, bool replaceExisting = false);
-		QString getPassword();
-		bool changePassword(const QString &newPassword);
-		void swapEntries(int firstIndex, int secondIndex);
-	private:
-		QList< QVector< QString > > dataList;
-		DataAccess *database;
+	Q_OBJECT;
+public:
+	enum FileFormat
+	{
+		Native,
+		Csv
+	};
+	/*! Initializes model and database.
+	 *
+	 * @param path Path to database.
+	 * @param password Password to database.
+	 * @param openExisting If true model will use existing database, if false model will create new.
+	 * @param parent Parent.
+	 */
+	DataModel(const QString &path,const QString &password, bool openExisting = true, QObject *parent = 0);
+	~DataModel();
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	Qt::ItemFlags flags(const QModelIndex &index) const;
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	int rowCount(const QModelIndex &parent = QModelIndex()) const;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const;
+	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+	bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
+	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
+	/*! Static function to check if given file is database and if password is correct.
+	 *
+	 * This function uses DataAccess::checkDatabase function to do it.
+	 *
+	 * @param path Path to database.
+	 * @param password Password to database.
+	 * @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
+	 */
+	static int checkDatabase(const QString &path, const QString &password);
+	bool exportDatabase(const QString &path, const QString &password, int format = Native);
+	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native);
+	QString getPassword();
+	bool changePassword(const QString &newPassword);
+	void swapEntries(int firstIndex, int secondIndex);
+private:
+	QList< QVector< QString > > dataList;
+	DataAccess *database;
 };
 
 #endif //DATAMODEL_H

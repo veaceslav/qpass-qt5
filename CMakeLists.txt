@@ -26,6 +26,7 @@ set(QPass_SOURCES
 	PredefinedSettings.cpp
 	TrayIcon.cpp
 	UpdateChecker.cpp
+	CsvFormat.cpp
 	dialogs/PreviousPasswordDialog.cpp
 	dialogs/NewDatabaseDialog.cpp
 	dialogs/AboutDialog.cpp
