@@ -414,6 +414,14 @@ void MainWindow::removeSelectedItem()
 				box1.setIcon( QMessageBox::Critical );
 				box1.exec();
 			}
+			if(!model->saveDatabase())
+			{
+				QMessageBox box1(this);
+				box1.setWindowTitle( tr("QPass") );
+				box1.setText( tr("Error writing to database!") );
+				box1.setIcon( QMessageBox::Critical );
+				box1.exec();
+			}
 		}
 	}
 }
@@ -491,6 +499,14 @@ void MainWindow::saveItem(const QModelIndex &item)
 	proxyModel->setData( proxyModel->index( row, 2), userNameEdit->text());
 	proxyModel->setData( proxyModel->index( row, 3), passwordEdit->text());
 	proxyModel->setData( proxyModel->index( row, 4), notesEdit->toPlainText());
+	if(!model->saveDatabase())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
 	saveButton->setEnabled(false);
 }
 

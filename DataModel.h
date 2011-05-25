@@ -67,6 +67,7 @@ public:
 	QString getPassword();
 	bool changePassword(const QString &newPassword);
 	void swapEntries(int firstIndex, int secondIndex);
+	bool saveDatabase();
 private:
 	QList< QVector< QString > > dataList;
 	DataAccess *database;

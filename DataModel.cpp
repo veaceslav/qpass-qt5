@@ -72,8 +72,8 @@ bool DataModel::setData(const QModelIndex &index, const QVariant &value, int rol
 	{
 		dataList[ index.row()][ index.column() ] = value.toString();
 		emit dataChanged(index, index);
-		if( !database->write(dataList) )
-			return false;
+		//if( !database->write(dataList) )
+		//	return false;
 		
 		return true;
 	}
@@ -89,8 +89,8 @@ bool DataModel::insertRows(int row, int count, const QModelIndex &parent)
 	for(int i = 0; i < count; i++)
 		dataList.insert(row, QVector<QString>(COLUMNCOUNT));
 	endInsertRows();
-	if( !database->write(dataList) )
-		return false;
+	//if( !database->write(dataList) )
+		//return false;
 	
 	return true;
 }
@@ -105,8 +105,8 @@ bool DataModel::removeRows(int row, int count, const QModelIndex &parent)
 		dataList.removeAt(row);
 	}
 	endRemoveRows();
-	if( !database->write(dataList) )
-		return false;
+	//if( !database->write(dataList) )
+		//return false;
 	
 	return true;
 }
@@ -204,5 +204,10 @@ void DataModel::swapEntries(int firstIndex, int secondIndex)
 	}
 	emit dataChanged( index(firstIndex, 0), index(secondIndex, COLUMNCOUNT - 1) );
 	database->write(dataList);
+}
+
+bool DataModel::saveDatabase()
+{
+	return database->write(dataList);
 }
 
