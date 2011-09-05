@@ -83,7 +83,7 @@ void OtherDatabaseDialog::accept()
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
-			box.setText( tr("Error reading database") );
+			box.setText( tr("Error reading database or database doesn't exist") );
 			box.setIcon( QMessageBox::Critical );
 			box.exec();
 			return;

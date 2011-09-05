@@ -17,7 +17,6 @@
 #include <QObject>
 #include <QTranslator>
 #include <QFile>
-//#include <QLibraryInfo>
 #include <QSettings>
 
 #ifndef Q_OS_WIN

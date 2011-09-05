@@ -43,10 +43,23 @@ int DatabaseExportDialog::getFormat()
 
 void DatabaseExportDialog::browse()
 {
+	QFileDialog dialog(this);
+	dialog.setAcceptMode(QFileDialog::AcceptSave);
+	
 	if(qpaFormat->isChecked())
-		pathEdit->setText( QFileDialog::getSaveFileName(this, QString(), QString(), tr("QPass database files (*.qpa);;All Files (*)")) );
+	{
+		dialog.setFilter("QPass database files (*.qpa);;All Files (*)");
+		dialog.setDefaultSuffix("qpa");
+	}
 	else if(csvFormat->isChecked())
-		pathEdit->setText( QFileDialog::getSaveFileName(this, QString(), QString(), tr("CSV files (*.csv);;All Files (*)")) );
+	{
+		dialog.setFilter("CSV files (*.csv);;All Files (*)");
+		dialog.setDefaultSuffix("csv");
+	}
+	if(dialog.exec() == QDialog::Accepted)
+	{
+		pathEdit->setText(dialog.selectedFiles()[0]);
+	}
 }
 
 void DatabaseExportDialog::accept()

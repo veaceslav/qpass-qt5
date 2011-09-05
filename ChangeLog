@@ -2,6 +2,7 @@
 	* Added function to view password with numbered characters
 	* Added ability to import and export to/from CSV files(beta)
 	* Added option to change default database
+	* Improved import and export dialogs
 
 1.1.1
 	* Corrected tab order in main window
