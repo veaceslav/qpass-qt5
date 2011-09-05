@@ -25,11 +25,13 @@ class PreviousPasswordDialog : public QDialog, private Ui::PreviousPasswordDialo
 {
 	Q_OBJECT
 	public:
-		PreviousPasswordDialog(QWidget *parent = 0);
+		PreviousPasswordDialog(QString &databasePath, QWidget *parent = 0);
 		/*! 
 		* Returns password provided by the user.
 		*/
 		QString getPassword();
+	private:
+		QString databasePath;
 	private slots:
 		void checkData();
 		void acceptOtherDatabase();

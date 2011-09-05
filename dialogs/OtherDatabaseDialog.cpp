@@ -36,6 +36,11 @@ QString OtherDatabaseDialog::getPath()
 	return pathEdit->text();
 }
 
+bool OtherDatabaseDialog::isSetAsDefault()
+{
+	return setAsDefaultBox->isChecked();
+}
+
 int OtherDatabaseDialog::getMode()
 {
 	if(openExistingButton->isChecked())

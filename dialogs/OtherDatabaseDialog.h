@@ -25,6 +25,7 @@ public:
 	OtherDatabaseDialog(QWidget *parent = 0);
 	QString getPassword();
 	QString getPath();
+	bool isSetAsDefault();
 	int getMode();
 	enum Modes
 	{
