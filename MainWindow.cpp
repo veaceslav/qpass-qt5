@@ -160,7 +160,7 @@ void MainWindow::readWindowState()
 	QVariant pos = settings.value("pos");
 	if(pos.isValid())
 		move(pos.toPoint());
-	QSize size = settings.value("size", QSize(667, 587)).toSize();
+	QSize size = settings.value("size", QSize(652, 425)).toSize();
 	resize(size);
 }
 
