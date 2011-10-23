@@ -17,58 +17,5 @@
 NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
 {
 	setWindowTitle( tr("New database - QPass") );
-	
-	welcomeWidget = new QWidget(this);
-	uiWelcome.setupUi(welcomeWidget);
-	passwordWidget = new QWidget(this);
-	uiPassword.setupUi(passwordWidget);
-	
-	stackedWidget = new QStackedWidget(this);
-	stackedWidget->addWidget(welcomeWidget);
-	stackedWidget->addWidget(passwordWidget);
-	
-	QVBoxLayout *layout = new QVBoxLayout(this);
-	layout->addWidget(stackedWidget);
-	this->setLayout(layout);
-	
-	connect(uiWelcome.newButton, SIGNAL(clicked()), this, SLOT(next()));
-	connect(uiPassword.buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(uiPassword.buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-
-	uiPassword.buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
-}
-
-QString NewDatabaseDialog::getPassword()
-{
-	return uiPassword.passwordEdit->text();
-}
-
-void NewDatabaseDialog::next()
-{
-	if(stackedWidget->currentWidget() == welcomeWidget)
-	{
-		stackedWidget->setCurrentWidget(passwordWidget);
-		uiPassword.passwordEdit->setFocus();
-	}
-}
-
-void NewDatabaseDialog::accept()
-{
-	if(uiPassword.passwordEdit->text() != uiPassword.passwordEdit2->text())
-	{
-		QMessageBox box(this);
-		box.setText( tr("Passwords does not match") );
-		box.setIcon( QMessageBox::Warning );
-		box.exec();
-		return;
-	}
-	if(uiPassword.passwordEdit->text().isEmpty())
-	{
-		QMessageBox box(this);
-		box.setText( tr("Password can't be empty!") );
-		box.setIcon( QMessageBox::Warning );
-		box.exec();
-		return;
-	}
-	done(QDialog::Accepted);
+	setupUi(this);	
 }

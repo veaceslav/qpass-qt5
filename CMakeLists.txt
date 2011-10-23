@@ -59,8 +59,7 @@ set(QPass_HEADERS
 set(QPass_UI 
 	MainWindow.ui
 	dialogs/PreviousPasswordDialog.ui
-	dialogs/NewDatabaseDialogPage1.ui
-	dialogs/NewDatabaseDialogPage2.ui
+	dialogs/NewDatabaseDialog.ui
 	dialogs/AboutDialog.ui
 	dialogs/DatabaseExportDialog.ui
 	dialogs/DatabaseImportDialog.ui

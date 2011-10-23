@@ -141,7 +141,20 @@ int main(int argc, char *argv[])
 		NewDatabaseDialog dialog;
 		if(dialog.exec() != QDialog::Accepted)
 			return 0;
-		password = dialog.getPassword();
+		OtherDatabaseDialog other;
+		other.setAsDefault(true);
+		other.setMode(OtherDatabaseDialog::CreateNew);
+		other.setPath(path);
+		if(other.exec() != QDialog::Accepted)
+			return 0;
+		password = other.getPassword();
+		path = other.getPath();
+		if(other.getMode() == OtherDatabaseDialog::CreateNew)
+			dbExists = false;
+		else
+			dbExists = true;
+		if(other.isSetAsDefault())
+			setDatabasePath(path);
 	}
 
 	MainWindow mainWindow( path, password, dbExists);

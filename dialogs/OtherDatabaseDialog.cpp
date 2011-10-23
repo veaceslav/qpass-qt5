@@ -36,9 +36,19 @@ QString OtherDatabaseDialog::getPath()
 	return pathEdit->text();
 }
 
+void OtherDatabaseDialog::setPath(const QString &path)
+{
+	pathEdit->setText(path);
+}
+
 bool OtherDatabaseDialog::isSetAsDefault()
 {
 	return setAsDefaultBox->isChecked();
+}
+
+void OtherDatabaseDialog::setAsDefault(bool isDefault)
+{
+	setAsDefaultBox->setChecked(isDefault);
 }
 
 int OtherDatabaseDialog::getMode()
@@ -47,6 +57,14 @@ int OtherDatabaseDialog::getMode()
 		return OpenExisting;
 	else
 		return CreateNew;
+}
+
+void OtherDatabaseDialog::setMode(int mode) 
+{
+	if(mode == OpenExisting)
+		openExistingButton->setChecked(true);
+	else
+		createNewButton->setChecked(true);
 }
 
 void OtherDatabaseDialog::browse()

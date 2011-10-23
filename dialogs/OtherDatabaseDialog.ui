@@ -208,21 +208,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>createNewButton</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>pathEdit</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>106</x>
-     <y>50</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>159</x>
-     <y>85</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>
