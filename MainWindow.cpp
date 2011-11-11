@@ -16,6 +16,7 @@
 #include <QSettings>
 #include <QCloseEvent>
 #include <QDesktopServices>
+#include <QTimer>
 
 #include "MainWindow.h"
 #include "DataModel.h"
@@ -124,6 +125,7 @@ void MainWindow::writeSettings()
 	settings.setValue("alwaysOnTop", trayIcon->getAlwaysOnTopState());
 	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
 	settings.setValue("lastUpdateCheck", lastUpdateCheck);
+	settings.setValue("clipboardTimeout", clipboardTimeout);
 }
 
 void MainWindow::writeWindowState()
@@ -144,6 +146,7 @@ void MainWindow::readSettings()
 #else
 	QSettings settings;
 #endif
+	clipboardTimeout = settings.value("clipboardTimeout", 0).toInt();
 	hideOnClose = settings.value("hideOnClose", false).toBool();
 	trayIcon->setAlwaysOnTopState( settings.value("alwaysOnTop", false).toBool() );
 	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 15).toInt() );
@@ -209,10 +212,11 @@ void MainWindow::showPreferencesDialog()
 	PreferencesDialog preferences(this);
 
 	preferences.setVisibleElementsAmount( trayIcon->getVisibleElementsAmount() );
-
+	preferences.setClipboardTimeout( clipboardTimeout );
 	if( preferences.exec() == QDialog::Accepted )
 	{
 		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
+		clipboardTimeout = preferences.getClipboardTimeout();
 	}
 }
 
@@ -533,11 +537,15 @@ void MainWindow::goToURL()
 void MainWindow::copyUserName()
 {
 	QApplication::clipboard()->setText(userNameEdit->text());
+	if(clipboardTimeout > 0)
+		QTimer::singleShot(clipboardTimeout*1000, this, SLOT(clearClipboard()));
 }
 
 void MainWindow::copyPassword()
 {
 	QApplication::clipboard()->setText(passwordEdit->text());
+	if(clipboardTimeout > 0)
+		QTimer::singleShot(clipboardTimeout*1000, this, SLOT(clearClipboard()));
 }
 
 void MainWindow::switchEchoMode()
@@ -689,4 +697,9 @@ void MainWindow::informAboutNewVersion(QString version)
 void MainWindow::openFAQ()
 {
 	QDesktopServices::openUrl(QUrl("http://qpass.sourceforge.net/wiki/index.php/FAQ"));
+}
+
+void MainWindow::clearClipboard() 
+{
+	QApplication::clipboard()->clear();
 }

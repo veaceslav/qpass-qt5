@@ -59,6 +59,48 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Clipboard</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QGroupBox" name="clipboardBox">
+         <property name="title">
+          <string>Clipboard clearing</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="toolTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Clear clipboard after:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="clipboardTimeoutBox">
+            <property name="toolTip">
+             <string>Data copied to clipboard with QPass will be available only for a limited time.</string>
+            </property>
+            <property name="suffix">
+             <string> sec</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

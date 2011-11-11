@@ -46,6 +46,11 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		TrayIcon *trayIcon;
 		UpdateChecker *checker;
 		bool hideOnClose;
+		/*!
+		 * Time after which clipbard should be cleared
+		 * Disable on 0
+		 */
+		int clipboardTimeout; 
 		void writeSettings();
 		void writeWindowState();
 		void readSettings();
@@ -105,6 +110,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void moveDownEntry();
 		void informAboutNewVersion(QString version);
 	    void openFAQ();
+	void clearClipboard();
 };
 
 
