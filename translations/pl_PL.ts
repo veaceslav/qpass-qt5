@@ -882,7 +882,7 @@ nowe hasło dwa razy w celu weryfikacji.</translation>
     <message>
         <location filename="../dialogs/PreferencesDialog.ui" line="95"/>
         <source> sec</source>
-        <translation>sek</translation>
+        <translation type="unfinished"> sek</translation>
     </message>
 </context>
 <context>
