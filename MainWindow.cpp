@@ -384,6 +384,7 @@ void MainWindow::quit()
 
 void MainWindow::addItem()
 {
+	searchEdit->clear();
 	if( !proxyModel->insertRows(proxyModel->rowCount(), 1) )
 	{
 		QMessageBox box(this);
