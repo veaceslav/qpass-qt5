@@ -465,7 +465,7 @@
      <x>0</x>
      <y>0</y>
      <width>652</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -494,21 +494,15 @@
     </property>
     <addaction name="actionPreferences"/>
    </widget>
-   <widget class="QMenu" name="menuPass_ord_generator">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Passw&amp;ord generator</string>
+     <string>Tools</string>
     </property>
     <addaction name="actionGeneratePassword"/>
-   </widget>
-   <widget class="QMenu" name="menuPassword">
-    <property name="title">
-     <string>Password</string>
-    </property>
     <addaction name="actionShowNumberedCharacters"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuPassword"/>
-   <addaction name="menuPass_ord_generator"/>
+   <addaction name="menuTools"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -566,6 +560,12 @@
    </property>
    <property name="text">
     <string>Show numbered characters</string>
+   </property>
+   <property name="toolTip">
+    <string>Show password with numbered characters</string>
+   </property>
+   <property name="statusTip">
+    <string>Show password with numbered characters</string>
    </property>
   </action>
  </widget>
