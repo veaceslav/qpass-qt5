@@ -31,17 +31,16 @@ QList< QVector< QString > > CsvFormat::read()
 	int ret;
 	while(true)
 	{
-		ret = file.readLine(buffer, 1023);
+		QString line;
+		do {
+			ret = file.readLine(buffer, 1023);
+			line += QString::fromUtf8(buffer);
+		} while(line.lastIndexOf("\"") == line.lastIndexOf(",\"")+1);
 		if(ret <= 0)
-		{
 			break;
-		}
 
-		QString line = QString::fromUtf8(buffer);
-		printf("%d\n", line.size());
-		if(line.size() <= 2)
-			continue;
 		QStringList slist = split(line);
+
 		if(slist.size() != 5)
 		{
 			error = IncorrectStructure;
@@ -65,7 +64,7 @@ bool CsvFormat::write(const QList< QVector< QString > > &data)
 		for(int j = 0; j < 5; j++)
 		{
 			QString element = data[i][j];
-			line += '\"' + element.replace("\\", "\\\\").replace("\"", "\\\"") + '\"';
+			line += '\"' + element.replace("\"", "\"\"") + '\"';
 			if(j < 4)
 				line += ',';
 		}
@@ -83,20 +82,34 @@ int CsvFormat::getErrorID()
 
 QStringList CsvFormat::split(QString &str)
 {
-	int len = str.length();
-	int pos;
-	pos = str.lastIndexOf('\"');
-	str.chop(len-pos);
-	len = pos;
 	QStringList result;
-
-	while((pos = str.lastIndexOf("\",\"")) > 0)
+	QString string = str;
+	while(string.length() > 2)
 	{
-		result.prepend( str.right(len-pos-3).replace("\\\\", "\\").replace("\\\"", "\"") );
-		str.chop(len-pos);
-		len = pos;
+		if(string.at(0) == '"')
+		{
+			int pos;
+			int start = 1;
+			while(true)
+			{
+				if((pos = string.indexOf("\"", start)) == string.indexOf("\"\"", start))
+					start = pos+2;
+				else
+					break;
+			}
+			QString value = string.mid(1, pos-1);
+			value.replace("\"\"", "\"");
+			result.append(value);
+			string.remove(0, pos);
+			if(string.indexOf(",") == -1)
+				break;
+			string.remove(0, string.indexOf(",")+1);
+		}
+		else
+		{
+			result.append(string.left(string.indexOf(",")));
+			string.remove(0, string.indexOf(",")+1);
+		}
 	}
-	str.remove(0, 1);
-	result.prepend(str.replace("\\\\", "\\").replace("\\\"", "\""));
 	return result;
 }
