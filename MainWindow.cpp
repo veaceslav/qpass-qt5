@@ -126,6 +126,7 @@ void MainWindow::writeSettings()
 	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
 	settings.setValue("lastUpdateCheck", lastUpdateCheck);
 	settings.setValue("clipboardTimeout", clipboardTimeout);
+	settings.setValue("showPasswordByDefault", showPasswordByDefault);
 }
 
 void MainWindow::writeWindowState()
@@ -151,6 +152,7 @@ void MainWindow::readSettings()
 	trayIcon->setAlwaysOnTopState( settings.value("alwaysOnTop", false).toBool() );
 	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 15).toInt() );
 	lastUpdateCheck = settings.value("lastUpdateCheck", QDate()).toDate();
+	showPasswordByDefault = settings.value("showPasswordByDefault", false).toBool();
 }
 
 void MainWindow::readWindowState()
@@ -213,10 +215,12 @@ void MainWindow::showPreferencesDialog()
 
 	preferences.setVisibleElementsAmount( trayIcon->getVisibleElementsAmount() );
 	preferences.setClipboardTimeout( clipboardTimeout );
+	preferences.setShowPassword( showPasswordByDefault );
 	if( preferences.exec() == QDialog::Accepted )
 	{
 		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
 		clipboardTimeout = preferences.getClipboardTimeout();
+		showPasswordByDefault = preferences.getShowPassword();
 	}
 }
 
@@ -470,8 +474,16 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 	}
 	
 	//Hides passwords
-	passwordEdit->setEchoMode( QLineEdit::Password );
-	showPasswordButton->setChecked(false);
+	if(!showPasswordByDefault)
+	{
+		passwordEdit->setEchoMode( QLineEdit::Password );
+		showPasswordButton->setChecked(false);
+	}
+	else
+	{
+		passwordEdit->setEchoMode( QLineEdit::Normal );
+		showPasswordButton->setChecked(true);
+	}
 	
 	saveButton->setEnabled(false);
 }

@@ -19,6 +19,33 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QCheckBox" name="showPasswordBox">
+         <property name="text">
+          <string>Show password by default</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="trayIconTab">
       <attribute name="title">
        <string>Tray Icon</string>

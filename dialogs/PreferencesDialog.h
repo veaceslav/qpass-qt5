@@ -26,6 +26,8 @@ class PreferencesDialog : public QDialog, private Ui::PreferencesDialog
 		int getVisibleElementsAmount();
 		void setClipboardTimeout(int timeout);
 		int getClipboardTimeout();
+		void setShowPassword(bool show);
+		bool getShowPassword();
 };
 
 #endif

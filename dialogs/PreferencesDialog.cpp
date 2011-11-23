@@ -44,4 +44,12 @@ int PreferencesDialog::getClipboardTimeout()
 		return clipboardTimeoutBox->value();
 }
 
+void PreferencesDialog::setShowPassword(bool show)
+{
+	showPasswordBox->setChecked(show);
+}
 
+bool PreferencesDialog::getShowPassword()
+{
+	return showPasswordBox->isChecked();
+}
