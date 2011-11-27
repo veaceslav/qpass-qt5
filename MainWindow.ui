@@ -498,8 +498,16 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuSort_Entries">
+     <property name="title">
+      <string>Sort Entries</string>
+     </property>
+     <addaction name="actionSortAscending"/>
+     <addaction name="actionSortDescending"/>
+    </widget>
     <addaction name="actionGeneratePassword"/>
     <addaction name="actionShowNumberedCharacters"/>
+    <addaction name="menuSort_Entries"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
@@ -566,6 +574,16 @@
    </property>
    <property name="statusTip">
     <string>Show password with numbered characters</string>
+   </property>
+  </action>
+  <action name="actionSortAscending">
+   <property name="text">
+    <string>Ascending order</string>
+   </property>
+  </action>
+  <action name="actionSortDescending">
+   <property name="text">
+    <string>Descending order</string>
    </property>
   </action>
  </widget>

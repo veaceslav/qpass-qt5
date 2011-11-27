@@ -74,6 +74,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void showHideWindow();
 		void generatePassword();
 		void quit();
+		void sortAscending();
+		void sortDescending();
+		void sortEntries(Qt::SortOrder order);
 		/*!
 		* This slot uses insertRows function to add row to database.
 		*/

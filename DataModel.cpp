@@ -28,6 +28,8 @@ DataModel::~DataModel()
 	delete database;
 }
 
+
+
 QVariant DataModel::data(const QModelIndex &index, int role) const
 {
 	if(!index.isValid())
@@ -109,6 +111,26 @@ bool DataModel::removeRows(int row, int count, const QModelIndex &parent)
 		//return false;
 	
 	return true;
+}
+
+bool lessThanAscending(const QVector< QString > &v1, const QVector< QString > &v2)
+{
+	return v1[0].toLower() < v2[0].toLower();
+}
+
+bool lessThanDescending(const QVector< QString > &v1, const QVector< QString > &v2)
+{
+	return v1[0].toLower() > v2[0].toLower();
+}
+
+void DataModel::sort(int column, Qt::SortOrder order)
+{
+	layoutAboutToBeChanged();
+	if(order == Qt::AscendingOrder)
+		qSort(dataList.begin(), dataList.end(), lessThanAscending);
+	else
+		qSort(dataList.begin(), dataList.end(), lessThanDescending);
+	layoutChanged();
 }
 
 int DataModel::checkDatabase(const QString &path,const QString &password)

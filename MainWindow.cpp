@@ -84,6 +84,8 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
 	connect(actionFAQ, SIGNAL(triggered()), this, SLOT(openFAQ()));
 	connect(actionShowNumberedCharacters, SIGNAL(triggered()), this, SLOT(showPasswordViewer()));
+	connect(actionSortAscending, SIGNAL(triggered()), this, SLOT(sortAscending()));
+	connect(actionSortDescending, SIGNAL(triggered()), this, SLOT(sortDescending()));
 
 	trayIcon = new TrayIcon(model, this);
 
@@ -384,6 +386,30 @@ void MainWindow::quit()
 		writeWindowState();
 	writeSettings();
 	qApp->quit();
+}
+
+void MainWindow::sortAscending()
+{
+	sortEntries(Qt::AscendingOrder);
+}
+
+void MainWindow::sortDescending()
+{
+	sortEntries(Qt::DescendingOrder);
+}
+
+void MainWindow::sortEntries(Qt::SortOrder order)
+{
+	selectionModel->clearSelection();
+	model->sort(0, order);
+	if(!model->saveDatabase())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
 }
 
 void MainWindow::addItem()
