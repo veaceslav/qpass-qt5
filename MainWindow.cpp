@@ -53,6 +53,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	
 	proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setSourceModel( model );
+	proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 	
 	listView->setModel(proxyModel);
 	
