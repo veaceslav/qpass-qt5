@@ -433,6 +433,13 @@
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="deselectButton">
+            <property name="text">
+             <string>Deselect</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="saveButton">
             <property name="enabled">
              <bool>false</bool>
@@ -593,6 +600,7 @@
   <tabstop>deleteButton</tabstop>
   <tabstop>searchEdit</tabstop>
   <tabstop>saveButton</tabstop>
+  <tabstop>deselectButton</tabstop>
   <tabstop>nameEdit</tabstop>
   <tabstop>urlEdit</tabstop>
   <tabstop>userNameEdit</tabstop>

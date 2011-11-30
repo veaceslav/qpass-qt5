@@ -74,6 +74,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
 	connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
 	connect(searchEdit, SIGNAL(textChanged(const QString &)), proxyModel, SLOT(setFilterFixedString(const QString &)));
+	connect(deselectButton, SIGNAL(clicked()), selectionModel, SLOT(clearSelection()));
 	
 	connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
 	connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
