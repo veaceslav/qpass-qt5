@@ -416,13 +416,27 @@ void MainWindow::sortEntries(Qt::SortOrder order)
 void MainWindow::addItem()
 {
 	searchEdit->clear();
-	if( !proxyModel->insertRows(proxyModel->rowCount(), 1) )
+
+	// check if last entry is empty. If it is, we only 
+	// select it instead of adding new
+	bool isEmpty = true;
+	int row = proxyModel->rowCount()-1;
+	for(int i = 0; i < 5; i++)
 	{
-		QMessageBox box(this);
-		box.setWindowTitle( tr("QPass") );
-		box.setText( tr("Error adding entry.") );
-		box.setIcon( QMessageBox::Critical );
-		box.exec();
+		if(!proxyModel->data( proxyModel->index( row, i ) ).toString().isEmpty())
+			isEmpty = false;
+	}
+
+	if(!isEmpty)
+	{
+		if( !proxyModel->insertRows(proxyModel->rowCount(), 1) )
+		{
+			QMessageBox box(this);
+			box.setWindowTitle( tr("QPass") );
+			box.setText( tr("Error adding entry.") );
+			box.setIcon( QMessageBox::Critical );
+			box.exec();
+		}
 	}
 	selectionModel->clearSelection();
 	selectionModel->setCurrentIndex( proxyModel->index( proxyModel->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
