@@ -427,7 +427,7 @@ void MainWindow::addItem()
 			isEmpty = false;
 	}
 
-	if(!isEmpty)
+	if(!isEmpty || row == -1)
 	{
 		if( !proxyModel->insertRows(proxyModel->rowCount(), 1) )
 		{
