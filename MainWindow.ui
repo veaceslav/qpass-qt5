@@ -507,7 +507,7 @@
     </property>
     <widget class="QMenu" name="menuSort_Entries">
      <property name="title">
-      <string>Sort Entries</string>
+      <string>Sort entries</string>
      </property>
      <addaction name="actionSortAscending"/>
      <addaction name="actionSortDescending"/>

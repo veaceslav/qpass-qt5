@@ -26,8 +26,11 @@
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
         <widget class="QCheckBox" name="showPasswordBox">
+         <property name="toolTip">
+          <string>Don't mask passwords in entries</string>
+         </property>
          <property name="text">
-          <string>Show password by default</string>
+          <string>Show passwords by default</string>
          </property>
         </widget>
        </item>
