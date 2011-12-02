@@ -32,13 +32,22 @@ QList< QVector< QString > > CsvFormat::read()
 	while(true)
 	{
 		QString line;
+		QString temporary;
 		do {
 			ret = file.readLine(buffer, 1023);
 			line += QString::fromUtf8(buffer);
-		} while(line.lastIndexOf("\"") == line.lastIndexOf(",\"")+1);
+			temporary = line;
+			temporary.remove("\"\"");
+			if(temporary.lastIndexOf(",\"") == temporary.size()-3)
+			{
+				temporary.remove(temporary.size()-2, 2); 
+				if(temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 && ret != -1)
+					break;
+			}
+
+		} while(temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 && ret != -1);
 		if(ret <= 0)
 			break;
-
 		QStringList slist = split(line);
 
 		if(slist.size() != 5)
@@ -92,8 +101,10 @@ QStringList CsvFormat::split(QString &str)
 			int start = 1;
 			while(true)
 			{
-				if((pos = string.indexOf("\"", start)) == string.indexOf("\"\"", start))
+				if((pos = string.indexOf("\"", start)) == string.indexOf("\"\"", start) && pos != -1)
+				{
 					start = pos+2;
+				}
 				else
 					break;
 			}
@@ -107,8 +118,17 @@ QStringList CsvFormat::split(QString &str)
 		}
 		else
 		{
-			result.append(string.left(string.indexOf(",")));
-			string.remove(0, string.indexOf(",")+1);
+			int comma = string.indexOf(",");
+			if(comma == -1)
+			{
+				result.append(string);
+				string.clear();
+			}
+			else
+			{
+				result.append(string.left(comma));
+				string.remove(0, comma+1);
+			}
 		}
 	}
 	return result;
