@@ -38,14 +38,18 @@ QList< QVector< QString > > CsvFormat::read()
 			line += QString::fromUtf8(buffer);
 			temporary = line;
 			temporary.remove("\"\"");
-			if(temporary.lastIndexOf(",\"") == temporary.size()-3)
+			temporary.remove("\n");
+			temporary.remove("\r");
+
+			if(temporary.lastIndexOf(",\"") == temporary.size()-2)
 			{
 				temporary.remove(temporary.size()-2, 2); 
 				if(temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 && ret != -1)
 					break;
 			}
 
-		} while(temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 && ret != -1);
+		} while((temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 || temporary.indexOf("\"") == -1) && ret != -1);
+
 		if(ret <= 0)
 			break;
 		QStringList slist = split(line);
