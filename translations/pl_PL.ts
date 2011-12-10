@@ -646,7 +646,7 @@ hasło do niej i tryb importu.</translation>
     <message>
         <location filename="../MainWindow.cpp" line="300"/>
         <source>Error importing database. Probably file is corrupted or has incorrect format</source>
-        <translation>Błąd w importowaniu bazy danyc. Prawdopodonie plik jest uszkodzony lub ma niepoprawny format</translation>
+        <translation>Błąd w importowaniu bazy danych. Prawdopodonie plik jest uszkodzony lub ma niepoprawny format</translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="464"/>
