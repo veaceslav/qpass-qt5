@@ -417,7 +417,7 @@ void MainWindow::sortEntries(Qt::SortOrder order)
 void MainWindow::addItem()
 {
 	searchEdit->clear();
-
+	selectionModel->clearSelection();
 	// check if last entry is empty. If it is, we only 
 	// select it instead of adding new
 	bool isEmpty = true;
@@ -439,7 +439,7 @@ void MainWindow::addItem()
 			box.exec();
 		}
 	}
-	selectionModel->clearSelection();
+
 	selectionModel->setCurrentIndex( proxyModel->index( proxyModel->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
