@@ -33,8 +33,13 @@ QList< QVector< QString > > CsvFormat::read()
 	{
 		QString line;
 		QString temporary;
-		do {
+		bool first = true;
+		printf("nowy\n");
+		while(true)
+		{
 			ret = file.readLine(buffer, 1023);
+			if(ret <= 0)
+				break;
 			line += QString::fromUtf8(buffer);
 			temporary = line;
 			temporary.remove("\"\"");
@@ -44,11 +49,25 @@ QList< QVector< QString > > CsvFormat::read()
 			if(temporary.lastIndexOf(",\"") == temporary.size()-2)
 			{
 				temporary.remove(temporary.size()-2, 2); 
+
 				if(temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 && ret != -1)
 					break;
+				else
+					continue;
 			}
+			printf("cyk: %d\n",!first);
+			if(!first && (temporary.indexOf("\"") == -1))
+			{
+				printf("tu\n");
+				continue;
+			}
+			first = false;
 
-		} while((temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1 || temporary.indexOf("\"") == -1) && ret != -1);
+			if(temporary.lastIndexOf("\"") == temporary.lastIndexOf(",\"")+1)
+				continue;
+
+			break;
+		}
 
 		if(ret <= 0)
 			break;
@@ -97,7 +116,7 @@ QStringList CsvFormat::split(QString &str)
 {
 	QStringList result;
 	QString string = str;
-	while(string.length() > 2)
+	while(true)
 	{
 		if(string.at(0) == '"')
 		{
@@ -127,6 +146,7 @@ QStringList CsvFormat::split(QString &str)
 			{
 				result.append(string);
 				string.clear();
+				break;
 			}
 			else
 			{
