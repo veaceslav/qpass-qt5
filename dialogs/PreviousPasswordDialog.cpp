@@ -14,11 +14,13 @@
 #include "DataModel.h"
 #include "PredefinedSettings.h"
 
-PreviousPasswordDialog::PreviousPasswordDialog(QWidget *parent) : QDialog(parent)
+PreviousPasswordDialog::PreviousPasswordDialog(QString &databasePath, QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
+	databaseLocationLabel->setText(databasePath);
 	connect(buttonBox, SIGNAL(accepted()), this, SLOT(checkData()));
 	connect(openOtherButton, SIGNAL(clicked()), this, SLOT(acceptOtherDatabase()));
+	this->databasePath = databasePath;
 }
 
 QString PreviousPasswordDialog::getPassword()
@@ -28,7 +30,7 @@ QString PreviousPasswordDialog::getPassword()
 
 void PreviousPasswordDialog::checkData()
 {
-	int res = DataModel::checkDatabase(PredefinedSettings::databasePath(), passwordEdit->text());
+	int res = DataModel::checkDatabase(databasePath, passwordEdit->text());
 	if(res == -1)
 	{
 		QMessageBox box(this);

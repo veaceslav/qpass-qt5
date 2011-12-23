@@ -20,14 +20,15 @@
 
 class DatabaseExportDialog : public QDialog, private Ui::DatabaseExportDialog
 {
-	Q_OBJECT
-	public:
-		DatabaseExportDialog(QWidget *parent);
-		QString getPassword();
-		QString getPath();
-	private slots:
-		void browse();
-		void accept();
+	Q_OBJECT;
+public:
+	DatabaseExportDialog(QWidget *parent);
+	QString getPassword();
+	QString getPath();
+	int getFormat();
+private slots:
+	void browse();
+	void accept();
 };
 
 #endif //DATABASEEXPORTDIALOG_H

@@ -17,7 +17,7 @@
 #include <QObject>
 #include <QTranslator>
 #include <QFile>
-#include <QLibraryInfo>
+#include <QSettings>
 
 #ifndef Q_OS_WIN
 #include <QLocalSocket>
@@ -29,6 +29,30 @@
 #include "PreviousPasswordDialog.h"
 #include "NewDatabaseDialog.h"
 #include "OtherDatabaseDialog.h"
+
+QString getDatabasePath() 
+{
+#ifdef PORTABLE
+	QSettings settings("settings.ini", QSettings::IniFormat);
+#else
+	QSettings settings;
+#endif
+	QString userPath = settings.value("databasePath", PredefinedSettings::databasePath()).toString();
+	if(QFile::exists( userPath ))
+		return settings.value("databasePath", PredefinedSettings::databasePath()).toString();
+	else
+		return PredefinedSettings::databasePath();
+}
+
+void setDatabasePath(QString &path) 
+{
+#ifdef PORTABLE
+	QSettings settings("settings.ini", QSettings::IniFormat);
+#else
+	QSettings settings;
+#endif
+	settings.setValue("databasePath", path);
+}
 
 int main(int argc, char *argv[])
 {
@@ -79,13 +103,13 @@ int main(int argc, char *argv[])
 	}
 #endif
 	QString password;
-	QString path = PredefinedSettings::databasePath();
+	QString path = getDatabasePath();
 	bool dbExists;
 
-	if(QFile::exists( PredefinedSettings::databasePath() ))
+	if(QFile::exists( path ))
 	{
 		dbExists = true;
-		PreviousPasswordDialog dialog;
+		PreviousPasswordDialog dialog(path);
 		int res = dialog.exec();
 		if(res == QDialog::Accepted)
 			password = dialog.getPassword();
@@ -104,6 +128,8 @@ int main(int argc, char *argv[])
 
 				password = otherDatabaseDialog.getPassword();
 				path = otherDatabaseDialog.getPath();
+				if(otherDatabaseDialog.isSetAsDefault())
+					setDatabasePath(path);
 			}
 		}
 		else
@@ -115,7 +141,20 @@ int main(int argc, char *argv[])
 		NewDatabaseDialog dialog;
 		if(dialog.exec() != QDialog::Accepted)
 			return 0;
-		password = dialog.getPassword();
+		OtherDatabaseDialog other;
+		other.setAsDefault(true);
+		other.setMode(OtherDatabaseDialog::CreateNew);
+		other.setPath(path);
+		if(other.exec() != QDialog::Accepted)
+			return 0;
+		password = other.getPassword();
+		path = other.getPath();
+		if(other.getMode() == OtherDatabaseDialog::CreateNew)
+			dbExists = false;
+		else
+			dbExists = true;
+		if(other.isSetAsDefault())
+			setDatabasePath(path);
 	}
 
 	MainWindow mainWindow( path, password, dbExists);

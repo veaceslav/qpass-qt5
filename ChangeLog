@@ -1,3 +1,13 @@
+1.2.0
+	* Added function to view password with numbered characters
+	* Added ability to import and export to/from CSV files(beta)
+	* Added option to change default database
+	* Improved import and export dialogs
+	* Added button to deselect entry
+	* Modified adding to prevent from adding null entries
+	* Modified searching to be case insensitive
+	* Added option to show passwords by default
+
 1.1.1
 	* Corrected tab order in main window
 	* Changed maximum length of "Website URL" field to 100

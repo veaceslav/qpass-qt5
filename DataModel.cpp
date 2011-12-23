@@ -28,6 +28,8 @@ DataModel::~DataModel()
 	delete database;
 }
 
+
+
 QVariant DataModel::data(const QModelIndex &index, int role) const
 {
 	if(!index.isValid())
@@ -72,8 +74,8 @@ bool DataModel::setData(const QModelIndex &index, const QVariant &value, int rol
 	{
 		dataList[ index.row()][ index.column() ] = value.toString();
 		emit dataChanged(index, index);
-		if( !database->write(dataList) )
-			return false;
+		//if( !database->write(dataList) )
+		//	return false;
 		
 		return true;
 	}
@@ -89,8 +91,8 @@ bool DataModel::insertRows(int row, int count, const QModelIndex &parent)
 	for(int i = 0; i < count; i++)
 		dataList.insert(row, QVector<QString>(COLUMNCOUNT));
 	endInsertRows();
-	if( !database->write(dataList) )
-		return false;
+	//if( !database->write(dataList) )
+		//return false;
 	
 	return true;
 }
@@ -105,10 +107,30 @@ bool DataModel::removeRows(int row, int count, const QModelIndex &parent)
 		dataList.removeAt(row);
 	}
 	endRemoveRows();
-	if( !database->write(dataList) )
-		return false;
+	//if( !database->write(dataList) )
+		//return false;
 	
 	return true;
+}
+
+bool lessThanAscending(const QVector< QString > &v1, const QVector< QString > &v2)
+{
+	return v1[0].toLower() < v2[0].toLower();
+}
+
+bool lessThanDescending(const QVector< QString > &v1, const QVector< QString > &v2)
+{
+	return v1[0].toLower() > v2[0].toLower();
+}
+
+void DataModel::sort(int column, Qt::SortOrder order)
+{
+	layoutAboutToBeChanged();
+	if(order == Qt::AscendingOrder)
+		qSort(dataList.begin(), dataList.end(), lessThanAscending);
+	else
+		qSort(dataList.begin(), dataList.end(), lessThanDescending);
+	layoutChanged();
 }
 
 int DataModel::checkDatabase(const QString &path,const QString &password)
@@ -117,20 +139,43 @@ int DataModel::checkDatabase(const QString &path,const QString &password)
 	return database.checkDatabase();
 }
 
-bool DataModel::exportDatabase(const QString &path,const QString &password)
+bool DataModel::exportDatabase(const QString &path,const QString &password, int format)
 {
-	DataAccess databaseToExport(path, password);
-	return databaseToExport.write(dataList);
+	if(format == Native)
+	{
+		DataAccess databaseToExport(path, password);
+		return databaseToExport.write(dataList);
+	}
+	else if(format == Csv)
+	{
+		CsvFormat csv(path);
+		return csv.write(dataList);
+	}
+	else
+		return false;
 }
 
-int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting)
+int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format)
 {
-	DataAccess databaseToImport(path, password);
-	int res = databaseToImport.checkDatabase();
-	if(res != 0)
-		return res;
 	QList< QVector< QString > > data;
-	data = databaseToImport.read();
+	if(format == Native)
+	{
+		DataAccess databaseToImport(path, password);
+		int res = databaseToImport.checkDatabase();
+		if(res != 0)
+			return res;
+		data = databaseToImport.read();
+	}
+	else if(format == Csv)
+	{
+		CsvFormat csv(path);
+		data = csv.read();
+		if(data.isEmpty())
+			return -2;
+	}
+	else
+		return -4;//undefined format
+
 	if(data.count() > 0)
 	{
 		if(replaceExisting)
@@ -181,5 +226,10 @@ void DataModel::swapEntries(int firstIndex, int secondIndex)
 	}
 	emit dataChanged( index(firstIndex, 0), index(secondIndex, COLUMNCOUNT - 1) );
 	database->write(dataList);
+}
+
+bool DataModel::saveDatabase()
+{
+	return database->write(dataList);
 }
 

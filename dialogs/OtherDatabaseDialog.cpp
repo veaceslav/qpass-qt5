@@ -36,12 +36,35 @@ QString OtherDatabaseDialog::getPath()
 	return pathEdit->text();
 }
 
+void OtherDatabaseDialog::setPath(const QString &path)
+{
+	pathEdit->setText(path);
+}
+
+bool OtherDatabaseDialog::isSetAsDefault()
+{
+	return setAsDefaultBox->isChecked();
+}
+
+void OtherDatabaseDialog::setAsDefault(bool isDefault)
+{
+	setAsDefaultBox->setChecked(isDefault);
+}
+
 int OtherDatabaseDialog::getMode()
 {
 	if(openExistingButton->isChecked())
 		return OpenExisting;
 	else
 		return CreateNew;
+}
+
+void OtherDatabaseDialog::setMode(int mode) 
+{
+	if(mode == OpenExisting)
+		openExistingButton->setChecked(true);
+	else
+		createNewButton->setChecked(true);
 }
 
 void OtherDatabaseDialog::browse()
@@ -78,7 +101,7 @@ void OtherDatabaseDialog::accept()
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
-			box.setText( tr("Error reading database") );
+			box.setText( tr("Error reading database or database doesn't exist") );
 			box.setIcon( QMessageBox::Critical );
 			box.exec();
 			return;

@@ -24,6 +24,10 @@ class PreferencesDialog : public QDialog, private Ui::PreferencesDialog
 		PreferencesDialog(QWidget *parent);
 		void setVisibleElementsAmount(int amount);
 		int getVisibleElementsAmount();
+		void setClipboardTimeout(int timeout);
+		int getClipboardTimeout();
+		void setShowPassword(bool show);
+		bool getShowPassword();
 };
 
 #endif

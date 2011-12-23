@@ -46,6 +46,12 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		TrayIcon *trayIcon;
 		UpdateChecker *checker;
 		bool hideOnClose;
+		bool showPasswordByDefault;
+		/*!
+		 * Time after which clipbard should be cleared
+		 * Disable on 0
+		 */
+		int clipboardTimeout; 
 		void writeSettings();
 		void writeWindowState();
 		void readSettings();
@@ -61,12 +67,16 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void showAboutDialog();
 		void showPreferencesDialog();
 		void showUpdateChecker();
+		void showPasswordViewer();
 		void exportDatabase();
 		void importDatabase();
 		void changePassword();
 		void showHideWindow();
 		void generatePassword();
 		void quit();
+		void sortAscending();
+		void sortDescending();
+		void sortEntries(Qt::SortOrder order);
 		/*!
 		* This slot uses insertRows function to add row to database.
 		*/
@@ -104,6 +114,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		void moveDownEntry();
 		void informAboutNewVersion(QString version);
 	    void openFAQ();
+		void clearClipboard();
 };
 
 

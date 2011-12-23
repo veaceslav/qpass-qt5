@@ -20,20 +20,21 @@
 
 class DatabaseImportDialog : public QDialog, private Ui::DatabaseImportDialog
 {
-	Q_OBJECT
-	public:
-		DatabaseImportDialog(QWidget *parent);
-		QString getPassword();
-		QString getPath();
-		int getMode();
-		enum mode
-		{
-			Append,
-			Replace
-		};
-	private slots:
-		void browse();
-		void accept();
+	Q_OBJECT;
+public:
+	DatabaseImportDialog(QWidget *parent);
+	QString getPassword();
+	QString getPath();
+	int getMode();
+	int getFormat();
+	enum mode
+	{
+		Append,
+		Replace
+	};
+private slots:
+	void browse();
+	void accept();
 };
 
 #endif //DATABASEIMPORTDIALOG_H

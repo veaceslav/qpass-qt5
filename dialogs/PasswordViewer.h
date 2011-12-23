@@ -10,12 +10,18 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "NewDatabaseDialog.h"
+#ifndef PASSWORDVIEWER_H
+#define PASSWORDVIEWER_H
 
-#include <QMessageBox>
+#include "ui_PasswordViewer.h"
 
-NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
+#include <QDialog>
+
+class PasswordViewer : public QDialog, private Ui::PasswordViewer
 {
-	setWindowTitle( tr("New database - QPass") );
-	setupUi(this);	
-}
+Q_OBJECT;
+public:
+	PasswordViewer(QWidget *parent, QString password);
+};
+
+#endif

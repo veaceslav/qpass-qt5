@@ -16,6 +16,7 @@
 #include <QSettings>
 #include <QCloseEvent>
 #include <QDesktopServices>
+#include <QTimer>
 
 #include "MainWindow.h"
 #include "DataModel.h"
@@ -25,6 +26,7 @@
 #include "PasswordChangeDialog.h"
 #include "PasswordGeneratorDialog.h"
 #include "PreferencesDialog.h"
+#include "PasswordViewer.h"
 #include "UpdateCheckerDialog.h"
 #include "qpass-config.h"
 
@@ -51,6 +53,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	
 	proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setSourceModel( model );
+	proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 	
 	listView->setModel(proxyModel);
 	
@@ -71,6 +74,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(copyPasswordButton, SIGNAL(clicked()), this, SLOT(copyPassword()));
 	connect(showPasswordButton, SIGNAL(clicked()), this, SLOT(switchEchoMode()));
 	connect(searchEdit, SIGNAL(textChanged(const QString &)), proxyModel, SLOT(setFilterFixedString(const QString &)));
+	connect(deselectButton, SIGNAL(clicked()), selectionModel, SLOT(clearSelection()));
 	
 	connect(actionAbout, SIGNAL(triggered()), this, SLOT(showAboutDialog()));
 	connect(actionExportDatabase, SIGNAL(triggered()), this, SLOT(exportDatabase()));
@@ -81,6 +85,9 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	connect(actionGeneratePassword, SIGNAL(triggered()), this, SLOT(generatePassword()));
 	connect(actionCheckForUpdates, SIGNAL(triggered()), this, SLOT(showUpdateChecker()));
 	connect(actionFAQ, SIGNAL(triggered()), this, SLOT(openFAQ()));
+	connect(actionShowNumberedCharacters, SIGNAL(triggered()), this, SLOT(showPasswordViewer()));
+	connect(actionSortAscending, SIGNAL(triggered()), this, SLOT(sortAscending()));
+	connect(actionSortDescending, SIGNAL(triggered()), this, SLOT(sortDescending()));
 
 	trayIcon = new TrayIcon(model, this);
 
@@ -122,6 +129,8 @@ void MainWindow::writeSettings()
 	settings.setValue("alwaysOnTop", trayIcon->getAlwaysOnTopState());
 	settings.setValue("visibleElementsAmount", trayIcon->getVisibleElementsAmount());
 	settings.setValue("lastUpdateCheck", lastUpdateCheck);
+	settings.setValue("clipboardTimeout", clipboardTimeout);
+	settings.setValue("showPasswordByDefault", showPasswordByDefault);
 }
 
 void MainWindow::writeWindowState()
@@ -142,10 +151,12 @@ void MainWindow::readSettings()
 #else
 	QSettings settings;
 #endif
+	clipboardTimeout = settings.value("clipboardTimeout", 0).toInt();
 	hideOnClose = settings.value("hideOnClose", false).toBool();
 	trayIcon->setAlwaysOnTopState( settings.value("alwaysOnTop", false).toBool() );
 	trayIcon->setVisibleElementsAmount( settings.value("visibleElementsAmount", 15).toInt() );
 	lastUpdateCheck = settings.value("lastUpdateCheck", QDate()).toDate();
+	showPasswordByDefault = settings.value("showPasswordByDefault", false).toBool();
 }
 
 void MainWindow::readWindowState()
@@ -158,7 +169,7 @@ void MainWindow::readWindowState()
 	QVariant pos = settings.value("pos");
 	if(pos.isValid())
 		move(pos.toPoint());
-	QSize size = settings.value("size", QSize(667, 587)).toSize();
+	QSize size = settings.value("size", QSize(652, 425)).toSize();
 	resize(size);
 }
 
@@ -207,10 +218,13 @@ void MainWindow::showPreferencesDialog()
 	PreferencesDialog preferences(this);
 
 	preferences.setVisibleElementsAmount( trayIcon->getVisibleElementsAmount() );
-
+	preferences.setClipboardTimeout( clipboardTimeout );
+	preferences.setShowPassword( showPasswordByDefault );
 	if( preferences.exec() == QDialog::Accepted )
 	{
 		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
+		clipboardTimeout = preferences.getClipboardTimeout();
+		showPasswordByDefault = preferences.getShowPassword();
 	}
 }
 
@@ -225,6 +239,12 @@ void MainWindow::showUpdateChecker()
 		lastUpdateCheck = QDate();
 }
 
+void MainWindow::showPasswordViewer()
+{
+	PasswordViewer viewer(this, passwordEdit->text());
+	viewer.exec();
+}
+
 void MainWindow::exportDatabase()
 {
 	selectionModel->clearSelection();
@@ -233,7 +253,7 @@ void MainWindow::exportDatabase()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword() ))
+		if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword(), exportDialog.getFormat() ))
 		{
 			box.setText( tr("Database has been exported successfully.") );
 			box.setIcon(QMessageBox::Information);
@@ -268,7 +288,8 @@ void MainWindow::importDatabase()
 				return;
 		}
 
-		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace);
+		int format = importDialog.getFormat();
+		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace, format);
 		if( res == 0 )
 		{
 			box.setText( tr("Database has been imported successfully.") );
@@ -276,7 +297,7 @@ void MainWindow::importDatabase()
 		}
 		else
 		{
-			box.setText( tr("Error importing database.") );
+			box.setText( tr("Error importing database. Probably file is corrupted or has incorrect format") );
 			box.setIcon(QMessageBox::Critical);
 		}
 		box.exec();
@@ -369,17 +390,56 @@ void MainWindow::quit()
 	qApp->quit();
 }
 
-void MainWindow::addItem()
+void MainWindow::sortAscending()
 {
-	if( !proxyModel->insertRows(proxyModel->rowCount(), 1) )
+	sortEntries(Qt::AscendingOrder);
+}
+
+void MainWindow::sortDescending()
+{
+	sortEntries(Qt::DescendingOrder);
+}
+
+void MainWindow::sortEntries(Qt::SortOrder order)
+{
+	selectionModel->clearSelection();
+	model->sort(0, order);
+	if(!model->saveDatabase())
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		box.setText( tr("Error adding entry.") );
+		box.setText("Error writing to database!");
 		box.setIcon( QMessageBox::Critical );
 		box.exec();
 	}
+}
+
+void MainWindow::addItem()
+{
+	searchEdit->clear();
 	selectionModel->clearSelection();
+	// check if last entry is empty. If it is, we only 
+	// select it instead of adding new
+	bool isEmpty = true;
+	int row = proxyModel->rowCount()-1;
+	for(int i = 0; i < 5; i++)
+	{
+		if(!proxyModel->data( proxyModel->index( row, i ) ).toString().isEmpty())
+			isEmpty = false;
+	}
+
+	if(!isEmpty || row == -1)
+	{
+		if( !proxyModel->insertRows(proxyModel->rowCount(), 1) )
+		{
+			QMessageBox box(this);
+			box.setWindowTitle( tr("QPass") );
+			box.setText( tr("Error adding entry.") );
+			box.setIcon( QMessageBox::Critical );
+			box.exec();
+		}
+	}
+
 	selectionModel->setCurrentIndex( proxyModel->index( proxyModel->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
 }
 
@@ -402,6 +462,14 @@ void MainWindow::removeSelectedItem()
 				QMessageBox box1(this);
 				box1.setWindowTitle( tr("QPass") );
 				box1.setText( tr("Error removing entry.") );
+				box1.setIcon( QMessageBox::Critical );
+				box1.exec();
+			}
+			if(!model->saveDatabase())
+			{
+				QMessageBox box1(this);
+				box1.setWindowTitle( tr("QPass") );
+				box1.setText( tr("Error writing to database!") );
 				box1.setIcon( QMessageBox::Critical );
 				box1.exec();
 			}
@@ -433,6 +501,7 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 		passwordEdit->setText( proxyModel->data( proxyModel->index( row, 3 ) ).toString() );
 		notesEdit->setPlainText( proxyModel->data( proxyModel->index( row, 4 ) ).toString() );
 		deleteButton->setEnabled(true);
+		actionShowNumberedCharacters->setEnabled(true);
 	}
 	else
 	{
@@ -443,11 +512,20 @@ void MainWindow::showSelectedItem( const QItemSelection & selected, const QItemS
 		passwordEdit->setText(QString());
 		notesEdit->setPlainText(QString());
 		deleteButton->setEnabled(false);
+		actionShowNumberedCharacters->setEnabled(false);
 	}
 	
 	//Hides passwords
-	passwordEdit->setEchoMode( QLineEdit::Password );
-	showPasswordButton->setChecked(false);
+	if(!showPasswordByDefault)
+	{
+		passwordEdit->setEchoMode( QLineEdit::Password );
+		showPasswordButton->setChecked(false);
+	}
+	else
+	{
+		passwordEdit->setEchoMode( QLineEdit::Normal );
+		showPasswordButton->setChecked(true);
+	}
 	
 	saveButton->setEnabled(false);
 }
@@ -480,6 +558,14 @@ void MainWindow::saveItem(const QModelIndex &item)
 	proxyModel->setData( proxyModel->index( row, 2), userNameEdit->text());
 	proxyModel->setData( proxyModel->index( row, 3), passwordEdit->text());
 	proxyModel->setData( proxyModel->index( row, 4), notesEdit->toPlainText());
+	if(!model->saveDatabase())
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
 	saveButton->setEnabled(false);
 }
 
@@ -506,11 +592,15 @@ void MainWindow::goToURL()
 void MainWindow::copyUserName()
 {
 	QApplication::clipboard()->setText(userNameEdit->text());
+	if(clipboardTimeout > 0)
+		QTimer::singleShot(clipboardTimeout*1000, this, SLOT(clearClipboard()));
 }
 
 void MainWindow::copyPassword()
 {
 	QApplication::clipboard()->setText(passwordEdit->text());
+	if(clipboardTimeout > 0)
+		QTimer::singleShot(clipboardTimeout*1000, this, SLOT(clearClipboard()));
 }
 
 void MainWindow::switchEchoMode()
@@ -662,4 +752,9 @@ void MainWindow::informAboutNewVersion(QString version)
 void MainWindow::openFAQ()
 {
 	QDesktopServices::openUrl(QUrl("http://qpass.sourceforge.net/wiki/index.php/FAQ"));
+}
+
+void MainWindow::clearClipboard() 
+{
+	QApplication::clipboard()->clear();
 }

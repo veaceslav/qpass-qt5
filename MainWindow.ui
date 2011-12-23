@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>652</width>
-    <height>546</height>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -433,6 +433,13 @@
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="deselectButton">
+            <property name="text">
+             <string>Deselect</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="saveButton">
             <property name="enabled">
              <bool>false</bool>
@@ -465,7 +472,7 @@
      <x>0</x>
      <y>0</y>
      <width>652</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -494,14 +501,23 @@
     </property>
     <addaction name="actionPreferences"/>
    </widget>
-   <widget class="QMenu" name="menuPass_ord_generator">
+   <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Passw&amp;ord generator</string>
+     <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuSort_Entries">
+     <property name="title">
+      <string>Sort entries</string>
+     </property>
+     <addaction name="actionSortAscending"/>
+     <addaction name="actionSortDescending"/>
+    </widget>
     <addaction name="actionGeneratePassword"/>
+    <addaction name="actionShowNumberedCharacters"/>
+    <addaction name="menuSort_Entries"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuPass_ord_generator"/>
+   <addaction name="menuTools"/>
    <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -553,6 +569,30 @@
     <string>F1</string>
    </property>
   </action>
+  <action name="actionShowNumberedCharacters">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Show numbered characters</string>
+   </property>
+   <property name="toolTip">
+    <string>Show password with numbered characters</string>
+   </property>
+   <property name="statusTip">
+    <string>Show password with numbered characters</string>
+   </property>
+  </action>
+  <action name="actionSortAscending">
+   <property name="text">
+    <string>Ascending order</string>
+   </property>
+  </action>
+  <action name="actionSortDescending">
+   <property name="text">
+    <string>Descending order</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>listView</tabstop>
@@ -560,6 +600,7 @@
   <tabstop>deleteButton</tabstop>
   <tabstop>searchEdit</tabstop>
   <tabstop>saveButton</tabstop>
+  <tabstop>deselectButton</tabstop>
   <tabstop>nameEdit</tabstop>
   <tabstop>urlEdit</tabstop>
   <tabstop>userNameEdit</tabstop>

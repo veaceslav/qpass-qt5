@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(Qt4 4.7 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
 
-SET(QPASS_VERSION "1.1.1")
-SET(QPASS_WIN_VERSION 1,1,1,0)
+SET(QPASS_VERSION "1.2.0")
+SET(QPASS_WIN_VERSION 1,2,0,0)
 
 INCLUDE(${QT_USE_FILE}) 
 
@@ -26,6 +26,7 @@ set(QPass_SOURCES
 	PredefinedSettings.cpp
 	TrayIcon.cpp
 	UpdateChecker.cpp
+	CsvFormat.cpp
 	dialogs/PreviousPasswordDialog.cpp
 	dialogs/NewDatabaseDialog.cpp
 	dialogs/AboutDialog.cpp
@@ -36,6 +37,7 @@ set(QPass_SOURCES
 	dialogs/PreferencesDialog.cpp
 	dialogs/UpdateCheckerDialog.cpp
     dialogs/OtherDatabaseDialog.cpp
+    dialogs/PasswordViewer.cpp
 )
 set(QPass_HEADERS 
 	MainWindow.h 
@@ -52,12 +54,12 @@ set(QPass_HEADERS
 	dialogs/PreferencesDialog.h
 	dialogs/UpdateCheckerDialog.h
     dialogs/OtherDatabaseDialog.h
+    dialogs/PasswordViewer.h
 )
 set(QPass_UI 
 	MainWindow.ui
 	dialogs/PreviousPasswordDialog.ui
-	dialogs/NewDatabaseDialogPage1.ui
-	dialogs/NewDatabaseDialogPage2.ui
+	dialogs/NewDatabaseDialog.ui
 	dialogs/AboutDialog.ui
 	dialogs/DatabaseExportDialog.ui
 	dialogs/DatabaseImportDialog.ui
@@ -67,6 +69,7 @@ set(QPass_UI
 	dialogs/PreferencesDialog.ui
 	dialogs/UpdateCheckerDialog.ui
     dialogs/OtherDatabaseDialog.ui
+    dialogs/PasswordViewer.ui
 )
 set(QPass_TS
 	translations/pl_PL.ts

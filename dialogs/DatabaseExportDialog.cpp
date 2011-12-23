@@ -15,6 +15,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
+#include "DataModel.h"
+
 DatabaseExportDialog::DatabaseExportDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
@@ -31,9 +33,33 @@ QString DatabaseExportDialog::getPath()
 	return pathEdit->text();
 }
 
+int DatabaseExportDialog::getFormat()
+{
+	if(qpaFormat->isChecked())
+		return DataModel::Native;
+	else
+		return DataModel::Csv;
+}
+
 void DatabaseExportDialog::browse()
 {
-	pathEdit->setText( QFileDialog::getSaveFileName(this, QString(), QString(), tr("QPass database files (*.qpa);;All Files (*)")) );
+	QFileDialog dialog(this);
+	dialog.setAcceptMode(QFileDialog::AcceptSave);
+	
+	if(qpaFormat->isChecked())
+	{
+		dialog.setFilter("QPass database files (*.qpa);;All Files (*)");
+		dialog.setDefaultSuffix("qpa");
+	}
+	else if(csvFormat->isChecked())
+	{
+		dialog.setFilter("CSV files (*.csv);;All Files (*)");
+		dialog.setDefaultSuffix("csv");
+	}
+	if(dialog.exec() == QDialog::Accepted)
+	{
+		pathEdit->setText(dialog.selectedFiles()[0]);
+	}
 }
 
 void DatabaseExportDialog::accept()

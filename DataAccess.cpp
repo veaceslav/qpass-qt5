@@ -105,7 +105,7 @@ QList< QVector< QString> > DataAccess::read()
 		return QList< QVector< QString> >();
 	}
 	QList< QVector< QString> > list;
-	QVector< QString > tempVector(5); //In this version there is 5 columns
+	QVector< QString > tempVector(5); //In this version there are 5 columns
 	file->seek(0);
 	struct header head;
 	file->read((char*)&head, sizeof(header));

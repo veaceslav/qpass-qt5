@@ -10,12 +10,32 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "NewDatabaseDialog.h"
+#ifndef CSVFORMAT_H
+#define CSVFORMAT_H
 
-#include <QMessageBox>
+#include <QString>
+#include <QList>
+#include <QVector>
+#include <QFile>
+#include <QObject>
+#include <QStringList>
 
-NewDatabaseDialog::NewDatabaseDialog(QWidget *parent) : QDialog(parent)
+class CsvFormat
 {
-	setWindowTitle( tr("New database - QPass") );
-	setupUi(this);	
-}
+public:
+	enum ErrorID {
+		OpeningError = -1,
+		IncorrectStructure = -2
+	};
+	CsvFormat(const QString &filename);
+	QList< QVector< QString > > read();
+	bool write(const QList< QVector< QString > > &data);
+	int getErrorID();
+private:
+	int error;
+	QFile file;
+
+	QStringList split(QString &str);
+};
+
+#endif //CSVFORMAT_H

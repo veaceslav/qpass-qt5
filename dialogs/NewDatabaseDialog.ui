@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>NewDatabaseDialogPage1</class>
- <widget class="QWidget" name="NewDatabaseDialogPage1">
+ <class>NewDatabaseDialog</class>
+ <widget class="QDialog" name="NewDatabaseDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>355</width>
+    <width>335</width>
     <height>233</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QPass - new database</string>
+   <string>QPass</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -60,7 +60,7 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>You have to create new main database to use QPass. If you have any database files you will be able to import it later. </string>
+            <string>You have to create new or select existing main database to use QPass. Press next to do it. </string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -93,8 +93,8 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>40</height>
+       <width>148</width>
+       <height>64</height>
       </size>
      </property>
     </spacer>
@@ -118,31 +118,55 @@
       <item>
        <widget class="QPushButton" name="newButton">
         <property name="text">
-         <string>Create new database</string>
+         <string>Next</string>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Cancel</string>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>newButton</tabstop>
- </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>newButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewDatabaseDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>196</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>333</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>NewDatabaseDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>256</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>330</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
