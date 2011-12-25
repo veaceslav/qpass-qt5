@@ -3,7 +3,7 @@ Name=QPass
 Type=Application
 Icon=qpass
 Exec=qpass
-Categories=Qt;Utility;Security;
+Categories=Qt;Utility;
 Terminal=false
 
 GenericName=Password manager
