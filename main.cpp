@@ -24,6 +24,7 @@
 #include <QLocalServer>
 #endif
 
+#include "App.h"
 #include "MainWindow.h"
 #include "PredefinedSettings.h"
 #include "PreviousPasswordDialog.h"
@@ -56,7 +57,8 @@ void setDatabasePath(QString &path)
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
+//	QApplication app(argc, argv);
+	App app(argc, argv);
 	
 	app.setWindowIcon(QIcon(":/icons/qpass.png"));
 
@@ -158,6 +160,8 @@ int main(int argc, char *argv[])
 	}
 
 	MainWindow mainWindow( path, password, dbExists);
-	
+
+	app.setMainWindow(&mainWindow);	
+
 	return app.exec();
 }

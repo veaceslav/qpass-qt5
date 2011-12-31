@@ -20,6 +20,7 @@ SET(INCLUDE_DIR
 
 set(QPass_SOURCES 
 	main.cpp 
+	App.cpp
 	MainWindow.cpp 
 	DataModel.cpp 
 	DataAccess.cpp
@@ -40,6 +41,7 @@ set(QPass_SOURCES
     dialogs/PasswordViewer.cpp
 )
 set(QPass_HEADERS 
+	App.h
 	MainWindow.h 
 	DataModel.h 
 	TrayIcon.h

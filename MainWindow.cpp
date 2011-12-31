@@ -758,3 +758,8 @@ void MainWindow::clearClipboard()
 {
 	QApplication::clipboard()->clear();
 }
+
+bool MainWindow::isUnsaved()
+{
+	return saveButton->isEnabled();
+}

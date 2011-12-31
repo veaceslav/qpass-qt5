@@ -36,6 +36,17 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		 * should be correct.
 		 */
 		MainWindow(QString path, QString password, bool dbExists, QWidget *parent = 0);
+		/*!
+		 * Returns true if there is unsaved entry
+		 */
+		bool isUnsaved();
+	public slots:
+		/*!
+		* This slot saves changes on actually selected item or provided item.
+		*
+		* @param item Item to save.
+		*/
+		void saveItem(const QModelIndex &item = QModelIndex());
 	private:
 		/*! All data should be accesed through proxyModel, only functions such as exportDatabase,
 		 * importDatabase, changePassword etc. should be accessed directly through model.
@@ -94,12 +105,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		* State of save button is used to determine if entry was edited or not.
 		*/
 		void enableSaveButton();
-		/*!
-		* This slot saves changes on actually selected item or provided item.
-		*
-		* @param item Item to save.
-		*/
-		void saveItem(const QModelIndex &item = QModelIndex());
 		void copyURL();
 		void goToURL();
 		void copyUserName();
