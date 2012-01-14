@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(Qt4 4.7 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
 
-SET(QPASS_VERSION "1.2.0")
-SET(QPASS_WIN_VERSION 1,2,0,0)
+SET(QPASS_VERSION "1.2.1")
+SET(QPASS_WIN_VERSION 1,2,1,0)
 
 INCLUDE(${QT_USE_FILE}) 
 
@@ -73,7 +73,9 @@ set(QPass_UI
 )
 set(QPass_TS
 	translations/pl_PL.ts
-    translations/qt_pl.ts
+   translations/qt_pl.ts
+	translations/it_IT.ts
+	translations/qt_it.ts
 )
 include_directories(${INCLUDE_DIR})
 QT4_ADD_TRANSLATION(QPass_QM ${QPass_TS})
