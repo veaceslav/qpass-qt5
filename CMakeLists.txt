@@ -73,7 +73,9 @@ set(QPass_UI
 )
 set(QPass_TS
 	translations/pl_PL.ts
-    translations/qt_pl.ts
+   translations/qt_pl.ts
+	translations/it_IT.ts
+	translations/qt_it.ts
 )
 include_directories(${INCLUDE_DIR})
 QT4_ADD_TRANSLATION(QPass_QM ${QPass_TS})
