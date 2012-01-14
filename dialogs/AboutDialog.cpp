@@ -24,6 +24,8 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 	
 	authorList.append( QStringList() );
 	authorList.last() << QString::fromUtf8("Mateusz Piękos") << "mateuszpiekos@gmail.com" << "Main developer";
+	authorList.append( QStringList() );
+	authorList.last() << "Paolo Stivanin" << "admin@polslinux.it" << "Italian translator";
 	
 	QString text;
 	text = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd\">\
