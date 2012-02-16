@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,6 +12,7 @@
 
 #include "PreviousPasswordDialog.h"
 #include "DataModel.h"
+#include "DataAccess.h"
 #include "PredefinedSettings.h"
 
 PreviousPasswordDialog::PreviousPasswordDialog(QString &databasePath, QWidget *parent) : QDialog(parent)
@@ -31,7 +32,7 @@ QString PreviousPasswordDialog::getPassword()
 void PreviousPasswordDialog::checkData()
 {
 	int res = DataModel::checkDatabase(databasePath, passwordEdit->text());
-	if(res == -1)
+	if(res == INVALID_PASSWORD)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("Incorrect password - QPass") );
@@ -40,7 +41,7 @@ void PreviousPasswordDialog::checkData()
 		box.exec();
 		return;
 	}
-	else if(res == -2)
+	else if(res == FILE_ERROR)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
@@ -49,7 +50,7 @@ void PreviousPasswordDialog::checkData()
 		box.exec();
 		done(QDialog::Rejected);
 	}
-	else
+	else if(res == 0)
 		done(QDialog::Accepted);
 }
 

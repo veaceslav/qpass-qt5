@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,7 +18,7 @@ DataModel::DataModel(const QString &path,const QString &password, bool openExist
 {
 	database = new DataAccess(path, password);
 	if(openExisting)
-		dataList = database->read();
+		database->read(dataList);
 	else
 		database->write( QList< QVector< QString> >() );
 }
@@ -164,7 +164,8 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 		int res = databaseToImport.checkDatabase();
 		if(res != 0)
 			return res;
-		data = databaseToImport.read();
+		databaseToImport.read(data);
+		//data = databaseToImport.read();
 	}
 	else if(format == Csv)
 	{

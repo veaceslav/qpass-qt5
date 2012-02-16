@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,19 +17,22 @@ DataAccess::DataAccess(const QString &path,const QString &password)
 {
 	this->path = path;
 	this->password = password;
+	this->key = NULL;
 	file = new QFile(path);
 }
 
 DataAccess::~DataAccess()
 {
+	if(key != NULL)
+		delete key;
 	delete file;
 }
 
-int DataAccess::checkDatabase()
+errorCode DataAccess::checkDatabase()
 {
 	if(!file->open(QIODevice::ReadOnly))
 	{
-		return -2;
+		return FILE_ERROR;
 	}
 	struct header head;
 	file->read((char*)&head, sizeof(header));
@@ -42,11 +45,12 @@ int DataAccess::checkDatabase()
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
 			if(error != 0)
-				return -2;
-			char keyc[32];
-			memset((char*)&keyc, 0, 32);
-			strcpy((char*)&keyc, password.toAscii());
-			gcry_cipher_setkey(hd, keyc, 16);
+				return GCRYPT_ERROR;
+			if(key == NULL)
+				key = new char[32];
+			memset(key, 0, 32);
+			strcpy(key, password.toAscii());
+			gcry_cipher_setkey(hd, key, 16);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
 			file->read((char*)&chead, sizeof(cryptedHeader));
@@ -55,7 +59,7 @@ int DataAccess::checkDatabase()
 			{
 				gcry_cipher_close(hd);
 				file->close();
-				return -1;
+				return INVALID_PASSWORD;
 			}
 			gcry_cipher_close(hd);
 		}
@@ -66,10 +70,13 @@ int DataAccess::checkDatabase()
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_error_t error = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 			if(error != 0)
-				return -2;
-			char keyhash[32];
-			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
-			gcry_cipher_setkey(hd, (char*)&keyhash, 32);
+				return GCRYPT_ERROR;
+			if(key == NULL)
+			{
+				key = new char[32];
+				gcry_md_hash_buffer(GCRY_MD_SHA256, key, password.toUtf8().data(), password.toUtf8().size());
+			}
+			gcry_cipher_setkey(hd, key, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
 			file->read((char*)&chead, sizeof(cryptedHeader));
@@ -78,22 +85,47 @@ int DataAccess::checkDatabase()
 			{
 				gcry_cipher_close(hd);
 				file->close();
-				return -1;
+				return INVALID_PASSWORD;
 			}
 			gcry_cipher_close(hd);
+		}
+		else if(head.version == 3)
+		{
+			gcry_check_version(NULL);
+			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
+			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
+			err = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
+			if(err)
+				return GCRYPT_ERROR;
+			file->read((char*)&pbkdf2, sizeof(pbkdf2Header));
+			if(key == NULL)
+			{
+				key = new char[32];
+				err = gcry_kdf_derive(password.toUtf8().data(), password.toUtf8().size(), GCRY_KDF_PBKDF2, GCRY_MD_SHA256, pbkdf2.salt, sizeof(pbkdf2.salt), pbkdf2.iterations, 32, key);
+			}
+			gcry_cipher_setkey(hd, key, 32);
+			gcry_cipher_setiv(hd, head.IV, 16); 
+			struct cryptedHeader chead;
+			file->read((char*)&chead, sizeof(cryptedHeader));
+			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
+			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
+			{
+				gcry_cipher_close(hd);
+				file->close();
+				return INVALID_PASSWORD;
+			}
 		}
 	}
 	else
 	{
 		file->close();
-		return -2;
+		return FILE_ERROR;
 	}
 	file->close();
-	return 0;
+	return SUCCESS;
 }
 
-
-QList< QVector< QString> > DataAccess::read()
+errorCode DataAccess::read(QList< QVector< QString> > &list)
 {
 	if(!file->open(QIODevice::ReadOnly))
 	{
@@ -102,9 +134,8 @@ QList< QVector< QString> > DataAccess::read()
 		box.setText( tr("Error opening database") );
 		box.setIcon(QMessageBox::Critical);
 		box.exec();
-		return QList< QVector< QString> >();
+		return FILE_ERROR;
 	}
-	QList< QVector< QString> > list;
 	QVector< QString > tempVector(5); //In this version there are 5 columns
 	file->seek(0);
 	struct header head;
@@ -117,56 +148,17 @@ QList< QVector< QString> > DataAccess::read()
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_cipher_open(&hd, GCRY_CIPHER_AES128, GCRY_CIPHER_MODE_CBC, 0);
-			char keyc[32];
-			memset((char*)&keyc, 0, 32);
-			strcpy((char*)&keyc, password.toAscii());
-			gcry_cipher_setkey(hd, keyc, 16);
+			if(key == NULL)
+				key = new char[32];
+			memset(key, 0, 32);
+			strcpy(key, password.toAscii());
+			gcry_cipher_setkey(hd, key, 16);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
 			file->read((char*)&chead, sizeof(cryptedHeader));
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
-			if(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S')
-			{
-				for(int i = 0; i < head.entriescount; i++)
-				{    
-					struct entryHeader e;
-					file->read((char*)&e, sizeof(entryHeader));
-					gcry_cipher_decrypt(hd, &e, sizeof(entryHeader), NULL, 0);
-					char *entry = (char*)malloc(e.entryLength);
-					file->read(entry, e.entryLength);
-					gcry_cipher_decrypt(hd, entry, e.entryLength, NULL, 0);
-					char temp[500];
-					int start = 0;
-					memcpy(temp, &entry[start], e.nameLength);
-					start += e.nameLength;
-					temp[e.nameLength] = 0;
-					//templist.append(temp);
-					tempVector[0] = temp;
-					
-					memcpy(temp, &entry[start], e.urlLength);
-					start += e.urlLength;
-					temp[e.urlLength] = 0;
-					tempVector[1] = temp;
-					
-					memcpy(temp, &entry[start], e.usernameLength);
-					start += e.usernameLength;
-					temp[e.usernameLength] = 0;
-					tempVector[2] = temp;
-					
-					memcpy(temp, &entry[start], e.passwordLength);
-					start += e.passwordLength;
-					temp[e.passwordLength] = 0;
-					tempVector[3] = temp;
-					
-					memcpy(temp, &entry[start], e.notesLength);
-					start += e.notesLength;
-					temp[e.notesLength] = 0;
-					tempVector[4] = temp;
-					list.append(tempVector);
-					free(entry);
-				}
-			}
-			gcry_cipher_close(hd);
+			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
+				return INVALID_PASSWORD; 
 		}
 		else if(head.version == 2)
 		{
@@ -174,86 +166,127 @@ QList< QVector< QString> > DataAccess::read()
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 			gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
-			char keyhash[32];
-			gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
-			gcry_cipher_setkey(hd, (char*)&keyhash, 32);
+			if(key == NULL)
+			{
+				key = new char[32];
+				gcry_md_hash_buffer(GCRY_MD_SHA256, key, password.toUtf8().data(), password.toUtf8().size());
+			}
+			gcry_cipher_setkey(hd, key, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
 			file->read((char*)&chead, sizeof(cryptedHeader));
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
-			if(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S')
-			{
-				for(int i = 0; i < head.entriescount; i++)
-				{    
-					struct entryHeader e;
-					file->read((char*)&e, sizeof(entryHeader));
-					gcry_cipher_decrypt(hd, &e, sizeof(entryHeader), NULL, 0);
-					char *entry = (char*)malloc(e.entryLength);
-					file->read(entry, e.entryLength);
-					gcry_cipher_decrypt(hd, entry, e.entryLength, NULL, 0);
-					char temp[500];
-					int start = 0;
-					memcpy(temp, &entry[start], e.nameLength);
-					start += e.nameLength;
-					temp[e.nameLength] = 0;
-					//templist.append(temp);
-					tempVector[0] = QString::fromUtf8(temp);
-					
-					memcpy(temp, &entry[start], e.urlLength);
-					start += e.urlLength;
-					temp[e.urlLength] = 0;
-					tempVector[1] = QString::fromUtf8(temp);
-					
-					memcpy(temp, &entry[start], e.usernameLength);
-					start += e.usernameLength;
-					temp[e.usernameLength] = 0;
-					tempVector[2] = QString::fromUtf8(temp);
-					
-					memcpy(temp, &entry[start], e.passwordLength);
-					start += e.passwordLength;
-					temp[e.passwordLength] = 0;
-					tempVector[3] = QString::fromUtf8(temp);
-					
-					memcpy(temp, &entry[start], e.notesLength);
-					start += e.notesLength;
-					temp[e.notesLength] = 0;
-					tempVector[4] = QString::fromUtf8(temp);
-
-					list.append(tempVector);
-					free(entry);
-				}
-			}
-			gcry_cipher_close(hd);
+			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
+				return INVALID_PASSWORD;
 		}
+		else if(head.version == 3)
+		{
+			gcry_check_version(NULL);
+			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
+			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
+			err = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
+			if(err)
+				return GCRYPT_ERROR;
+			file->read((char*)&pbkdf2, sizeof(pbkdf2Header));
+			if(key == NULL)
+			{
+				key = new char[32];
+				err = gcry_kdf_derive(password.toUtf8().data(), password.toUtf8().size(), GCRY_KDF_PBKDF2, GCRY_MD_SHA256, pbkdf2.salt, sizeof(pbkdf2.salt), pbkdf2.iterations, 32, key);
+			}
+			gcry_cipher_setkey(hd, key, 32);
+			gcry_cipher_setiv(hd, head.IV, 16); 
+			struct cryptedHeader chead;
+			file->read((char*)&chead, sizeof(cryptedHeader));
+			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
+			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
+				return INVALID_PASSWORD;
+ 
+		}
+		else
+			return INVALID_PASSWORD;
+		for(int i = 0; i < head.entriescount; i++)
+		{    
+			struct entryHeader e;
+			file->read((char*)&e, sizeof(entryHeader));
+			gcry_cipher_decrypt(hd, &e, sizeof(entryHeader), NULL, 0);
+			char *entry = (char*)malloc(e.entryLength);
+			file->read(entry, e.entryLength);
+			gcry_cipher_decrypt(hd, entry, e.entryLength, NULL, 0);
+			char temp[500];
+			int start = 0;
+			memcpy(temp, &entry[start], e.nameLength);
+			start += e.nameLength;
+			temp[e.nameLength] = 0;
+			tempVector[0] = QString::fromUtf8(temp);
+					
+			memcpy(temp, &entry[start], e.urlLength);
+			start += e.urlLength;
+			temp[e.urlLength] = 0;
+			tempVector[1] = QString::fromUtf8(temp);
+					
+			memcpy(temp, &entry[start], e.usernameLength);
+			start += e.usernameLength;
+			temp[e.usernameLength] = 0;
+			tempVector[2] = QString::fromUtf8(temp);
+					
+			memcpy(temp, &entry[start], e.passwordLength);
+			start += e.passwordLength;
+			temp[e.passwordLength] = 0;
+			tempVector[3] = QString::fromUtf8(temp);
+					
+			memcpy(temp, &entry[start], e.notesLength);
+			start += e.notesLength;
+			temp[e.notesLength] = 0;
+			tempVector[4] = QString::fromUtf8(temp);
+
+			list.append(tempVector);
+			free(entry);
+		}
+		gcry_cipher_close(hd);
 	}
 	file->close();
-	return list;
+	return SUCCESS;
 }
 
-bool DataAccess::write(const QList< QVector< QString> > &data)
+errorCode DataAccess::write(const QList< QVector< QString> > &data)
 {
 	if(!file->open(QIODevice::Truncate | QIODevice::WriteOnly))
-		return false;
+		return FILE_ERROR;
 	struct header head;
+
 	head.id[0] = 'P';
 	head.id[1] = 'A';
 	head.id[2] = 'S';
-	head.version = 2;
+	head.version = 3;
 	head.entriescount = data.count();
 	
 	srand(time(0));
 	for(int i = 0; i < 16; i++)
-		head.IV[i] = rand();
+		head.IV[i] = rand() & 0xFF;
+
 	if( file->write((char*)&head, sizeof(header)) == -1 )
-		return false;
+		return FILE_ERROR;
+
 	gcry_check_version(NULL);
 	gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 	gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 	gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
-	char keyhash[32];
-	gcry_md_hash_buffer(GCRY_MD_SHA256, (char*)&keyhash, password.toUtf8().data(), password.toUtf8().size());
-	gcry_cipher_setkey(hd, (char*)&keyhash, 32);
+	if(key == NULL)
+	{
+		for(int i = 0; i < 8; i++)
+			pbkdf2.salt[i] = rand() & 0xFF;
+		pbkdf2.iterations = 10000;
+
+		key = new char[32];
+		err = gcry_kdf_derive(password.toUtf8().data(), password.toUtf8().size(), GCRY_KDF_PBKDF2, GCRY_MD_SHA256, pbkdf2.salt, sizeof(pbkdf2.salt), pbkdf2.iterations, 32, key);
+		if(err)
+			return GCRYPT_ERROR;
+	}
+	gcry_cipher_setkey(hd, key, 32);
 	gcry_cipher_setiv(hd, head.IV, 16); 
+
+	if( file->write((char*)&pbkdf2, sizeof(pbkdf2Header)) == -1 )
+		return FILE_ERROR;
 	
 	struct cryptedHeader chead;
 	chead.id[0] = 'P';
@@ -261,7 +294,7 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 	chead.id[2] = 'S';
 	gcry_cipher_encrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 	if( file->write((char*)&chead, sizeof(cryptedHeader)) == -1 )
-		return false;
+		return FILE_ERROR;
 
 	for(int i = 0; i < data.count(); i++)
 	{
@@ -284,19 +317,21 @@ bool DataAccess::write(const QList< QVector< QString> > &data)
 		gcry_cipher_encrypt(hd, &e, sizeof(entryHeader), NULL, 0);
 		gcry_cipher_encrypt(hd, entry, length, NULL, 0);
 		if( file->write((char*)&e, sizeof(entryHeader)) == -1 )
-			return false;
+			return FILE_ERROR;
 		if( file->write(entry, length) == -1 )
-			return false;
+			return FILE_ERROR;
 		free(entry);
 	}
 	gcry_cipher_close(hd);
 	file->close();
-	return true;
+	return SUCCESS;
 }
 
 void DataAccess::setPassword(const QString &password)
 {
 	this->password = password;
+	free(key);
+	key = NULL;
 }
 
 QString DataAccess::getPassword()
