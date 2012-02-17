@@ -14,33 +14,15 @@
 
 #define COLUMNCOUNT 5 //There are columns: "Name", "URL", "Username", "Password", "Notes"
 
-DataModel::DataModel(const QString &path,const QString &password, bool openExisting, QObject *parent) : QAbstractTableModel(parent)
+DataModel::DataModel(QObject *parent) : QAbstractTableModel(parent)
 {
-	database = new DataAccess(path, password);
-	errorCode err;
-	if(openExisting)
-		err = database->read(dataList);
-	else
-		err = database->write( QList< QVector< QString> >() );
-
-	if(err != SUCCESS)
-	{
-		QMessageBox box;
-		box.setWindowTitle(tr("QPass - error"));
-		box.setIcon(QMessageBox::Information);
-		if(err == FILE_ERROR)
-			box.setText(tr("Error with file access"));
-		else if(err == GCRYPT_ERROR)
-			box.setText(tr("libgcrypt library error"));
-		else if(err == INVALID_PASSWORD)
-			box.setText(tr("Invalid password"));
-		box.exec();
-	}
+	database = NULL;
 }
 
 DataModel::~DataModel()
 {
-	delete database;
+	if(database != NULL)
+		delete database;
 }
 
 
@@ -148,12 +130,6 @@ void DataModel::sort(int column, Qt::SortOrder order)
 	layoutChanged();
 }
 
-errorCode DataModel::checkDatabase(const QString &path,const QString &password)
-{
-	DataAccess database(path, password);
-	return database.checkDatabase();
-}
-
 errorCode DataModel::exportDatabase(const QString &path,const QString &password, int format)
 {
 	if(format == Native)
@@ -179,11 +155,9 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 	if(format == Native)
 	{
 		DataAccess databaseToImport(path, password);
-		int res = databaseToImport.checkDatabase();
+		int res = databaseToImport.read(data);
 		if(res != 0)
 			return res;
-		databaseToImport.read(data);
-		//data = databaseToImport.read();
 	}
 	else if(format == Csv)
 	{
@@ -213,7 +187,7 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 			endInsertRows();
 		}
 	}
-	if( !database->write(dataList) )
+	if( database->write(dataList) != SUCCESS)
 		return -3;
 	
 	return 0;
@@ -247,8 +221,22 @@ void DataModel::swapEntries(int firstIndex, int secondIndex)
 	database->write(dataList);
 }
 
-bool DataModel::saveDatabase()
+errorCode DataModel::saveDatabase()
 {
 	return database->write(dataList);
 }
 
+errorCode DataModel::openDatabase(const QString &path,const QString &password, bool openExisting)
+{
+	if(database != NULL)
+		delete database;
+
+	database = new DataAccess(path, password);
+	errorCode err;
+	if(openExisting)
+		err = database->read(dataList);
+	else
+		err = database->write( QList< QVector< QString> >() );
+	
+	return err;
+}

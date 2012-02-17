@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,20 +15,15 @@
 #include <QFile>
 
 #include "OtherDatabaseDialog.h"
-#include "DataModel.h"
 
-OtherDatabaseDialog::OtherDatabaseDialog(QWidget *parent) : QDialog(parent)
+OtherDatabaseDialog::OtherDatabaseDialog(DataModel *model, QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
 	passwordEdit2->setVisible(false);
 	retypePasswordLabel->setVisible(false);
+	this->model = model;
 
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
-}
-
-QString OtherDatabaseDialog::getPassword()
-{
-	return passwordEdit1->text();
 }
 
 QString OtherDatabaseDialog::getPath()
@@ -49,14 +44,6 @@ bool OtherDatabaseDialog::isSetAsDefault()
 void OtherDatabaseDialog::setAsDefault(bool isDefault)
 {
 	setAsDefaultBox->setChecked(isDefault);
-}
-
-int OtherDatabaseDialog::getMode()
-{
-	if(openExistingButton->isChecked())
-		return OpenExisting;
-	else
-		return CreateNew;
 }
 
 void OtherDatabaseDialog::setMode(int mode) 
@@ -87,8 +74,8 @@ void OtherDatabaseDialog::accept()
 {
 	if(openExistingButton->isChecked())
 	{
-		int ret = DataModel::checkDatabase(pathEdit->text(), passwordEdit1->text());
-		if(ret == -1)
+		errorCode ret = model->openDatabase(pathEdit->text(), passwordEdit1->text());
+		if(ret == INVALID_PASSWORD)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
@@ -97,11 +84,20 @@ void OtherDatabaseDialog::accept()
 			box.exec();
 			return;
 		}
-		else if(ret == -2)
+		else if(ret == FILE_ERROR)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
 			box.setText( tr("Error reading database or database doesn't exist") );
+			box.setIcon( QMessageBox::Critical );
+			box.exec();
+			return;
+		}
+		else if(ret == GCRYPT_ERROR)
+		{
+			QMessageBox box(this);
+			box.setWindowTitle("QPass");
+			box.setText( tr("libgcrypt library error") );
 			box.setIcon( QMessageBox::Critical );
 			box.exec();
 			return;
@@ -118,18 +114,25 @@ void OtherDatabaseDialog::accept()
 			box.exec();
 			return;
 		}
-		QFile file(pathEdit->text());
-		if(!file.open(QIODevice::ReadWrite))
+		errorCode ret = model->openDatabase(pathEdit->text(), passwordEdit1->text(), false);
+		if(ret == FILE_ERROR)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
 			box.setText( tr("Selected file is not writable") );
-			box.setIcon( QMessageBox::Warning );
+			box.setIcon( QMessageBox::Critical );
 			box.exec();
 			return;
 		}
-		file.close();
-		file.remove();
+		else if(ret == GCRYPT_ERROR)
+		{
+			QMessageBox box(this);
+			box.setWindowTitle("QPass");
+			box.setText( tr("libgcrypt library error") );
+			box.setIcon( QMessageBox::Critical );
+			box.exec();
+			return;
+		}
 	}
 	done(QDialog::Accepted);
 }

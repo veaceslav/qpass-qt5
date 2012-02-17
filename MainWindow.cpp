@@ -30,7 +30,7 @@
 #include "UpdateCheckerDialog.h"
 #include "qpass-config.h"
 
-MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(DataModel *model, QWidget *parent) : QMainWindow(parent)
 {
 	setWindowIcon(QIcon(":/icons/qpass.png"));
 
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	
 	readWindowState();
 	
-	model = new DataModel(path, password, dbExists, this);
+	this->model = model;
 	
 	proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setSourceModel( model );
@@ -405,11 +405,20 @@ void MainWindow::sortEntries(Qt::SortOrder order)
 {
 	selectionModel->clearSelection();
 	model->sort(0, order);
-	if(!model->saveDatabase())
+	errorCode err = model->saveDatabase();
+	if(err == FILE_ERROR)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
 		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
+	else if(err == GCRYPT_ERROR)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("libgcrypt library error");
 		box.setIcon( QMessageBox::Critical );
 		box.exec();
 	}
@@ -466,13 +475,23 @@ void MainWindow::removeSelectedItem()
 				box1.setIcon( QMessageBox::Critical );
 				box1.exec();
 			}
-			if(!model->saveDatabase())
+
+			errorCode err = model->saveDatabase();
+			if(err == FILE_ERROR)
 			{
-				QMessageBox box1(this);
-				box1.setWindowTitle( tr("QPass") );
-				box1.setText( tr("Error writing to database!") );
-				box1.setIcon( QMessageBox::Critical );
-				box1.exec();
+				QMessageBox box(this);
+				box.setWindowTitle( tr("QPass") );
+				box.setText("Error writing to database!");
+				box.setIcon( QMessageBox::Critical );
+				box.exec();
+			}
+			else if(err == GCRYPT_ERROR)
+			{
+				QMessageBox box(this);
+				box.setWindowTitle( tr("QPass") );
+				box.setText("libgcrypt library error");
+				box.setIcon( QMessageBox::Critical );
+				box.exec();
 			}
 		}
 	}
@@ -559,11 +578,21 @@ void MainWindow::saveItem(const QModelIndex &item)
 	proxyModel->setData( proxyModel->index( row, 2), userNameEdit->text());
 	proxyModel->setData( proxyModel->index( row, 3), passwordEdit->text());
 	proxyModel->setData( proxyModel->index( row, 4), notesEdit->toPlainText());
-	if(!model->saveDatabase())
+
+	errorCode err = model->saveDatabase();
+	if(err == FILE_ERROR)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
 		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
+	else if(err == GCRYPT_ERROR)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("libgcrypt library error");
 		box.setIcon( QMessageBox::Critical );
 		box.exec();
 	}

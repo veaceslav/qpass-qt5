@@ -74,7 +74,9 @@ void DatabaseImportDialog::accept()
 	}
 	if(qpaFormat->isChecked())
 	{
-		errorCode err = DataModel::checkDatabase( getPath(), getPassword());
+		DataModel model;
+		errorCode err = model.openDatabase(getPath(), getPassword());
+		//errorCode err = DataModel::checkDatabase( getPath(), getPassword());
 		if(err == INVALID_PASSWORD)
 		{
 			QMessageBox box(this);

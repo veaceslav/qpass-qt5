@@ -36,14 +36,8 @@ public:
 		Native,
 		Csv
 	};
-	/*! Initializes model and database.
-	 *
-	 * @param path Path to database.
-	 * @param password Password to database.
-	 * @param openExisting If true model will use existing database, if false model will create new.
-	 * @param parent Parent.
-	 */
-	DataModel(const QString &path,const QString &password, bool openExisting = true, QObject *parent = 0);
+
+	DataModel(QObject *parent = 0);
 	~DataModel();
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -54,21 +48,21 @@ public:
 	bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-	/*! Static function to check if given file is database and if password is correct.
-	 *
-	 * This function uses DataAccess::checkDatabase function to do it.
-	 *
-	 * @param path Path to database.
-	 * @param password Password to database.
-	 * @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
-	 */
-	static errorCode checkDatabase(const QString &path, const QString &password);
 	errorCode exportDatabase(const QString &path, const QString &password, int format = Native);
 	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native);
 	QString getPassword();
 	bool changePassword(const QString &newPassword);
 	void swapEntries(int firstIndex, int secondIndex);
-	bool saveDatabase();
+	errorCode saveDatabase();
+	/*! Opens database
+	 *
+	 * @param path Path to database.
+	 * @param password Password to database.
+	 * @param openExisting If true model will use existing database, if false model will create new.
+	 * @param parent Parent.
+	 * @return status code.
+	 */
+	errorCode openDatabase(const QString &path,const QString &password, bool openExisting = true);
 private:
 	QList< QVector< QString > > dataList;
 	DataAccess *database;

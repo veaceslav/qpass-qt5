@@ -80,6 +80,7 @@ class DataAccess : public QObject
 		* 
 		* Reads entries from encrypted file
 		*
+		* @param list List to put read data.
 		* @return status of operation.
 		*/
 		errorCode read(QList< QVector< QString> > &list);
@@ -91,11 +92,6 @@ class DataAccess : public QObject
 		* @return True if operation was successful, otherwise false.
 		*/
 		errorCode write(const QList< QVector< QString> > &data);
-		/*! Checks if given file is database and password is correct.
-		*
-		* @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
-		*/
-		errorCode checkDatabase();
 		/*! Changes password used to encryption and decryption database.
 		*
 		* @param password New password.

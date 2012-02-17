@@ -15,23 +15,19 @@
 #include "DataAccess.h"
 #include "PredefinedSettings.h"
 
-PreviousPasswordDialog::PreviousPasswordDialog(QString &databasePath, QWidget *parent) : QDialog(parent)
+PreviousPasswordDialog::PreviousPasswordDialog(DataModel *model, QString &databasePath, QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
 	databaseLocationLabel->setText(databasePath);
 	connect(buttonBox, SIGNAL(accepted()), this, SLOT(checkData()));
 	connect(openOtherButton, SIGNAL(clicked()), this, SLOT(acceptOtherDatabase()));
 	this->databasePath = databasePath;
-}
-
-QString PreviousPasswordDialog::getPassword()
-{
-	return passwordEdit->text();
+	this->model = model;
 }
 
 void PreviousPasswordDialog::checkData()
 {
-	errorCode res = DataModel::checkDatabase(databasePath, passwordEdit->text());
+	errorCode res = model->openDatabase(databasePath, passwordEdit->text());
 	if(res == INVALID_PASSWORD)
 	{
 		QMessageBox box(this);
@@ -46,6 +42,15 @@ void PreviousPasswordDialog::checkData()
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
 		box.setText( tr("Error opening database.") );
+		box.setIcon(QMessageBox::Critical);
+		box.exec();
+		done(QDialog::Rejected);
+	}
+	else if(res == GCRYPT_ERROR)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("libgcrypt library error.") );
 		box.setIcon(QMessageBox::Critical);
 		box.exec();
 		done(QDialog::Rejected);

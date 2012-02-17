@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,6 +15,8 @@
 
 #include <QDialog>
 
+#include "DataModel.h"
+
 #include "ui_OtherDatabaseDialog.h"
 
 class OtherDatabaseDialog : public QDialog, private Ui::OtherDatabaseDialog
@@ -22,19 +24,21 @@ class OtherDatabaseDialog : public QDialog, private Ui::OtherDatabaseDialog
 	Q_OBJECT;
 
 public:
-	OtherDatabaseDialog(QWidget *parent = 0);
-	QString getPassword();
+	OtherDatabaseDialog(DataModel *model, QWidget *parent = 0);
 	QString getPath();
 	void setPath(const QString &path);
 	bool isSetAsDefault();
 	void setAsDefault(bool isDefault);
-	int getMode();
 	void setMode(int mode);
 	enum Modes
 	{
 		OpenExisting,
 		CreateNew
 	};
+
+private:
+	DataModel *model;
+
 private slots:
 	void browse();
 	void accept();

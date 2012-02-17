@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,7 +35,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		 * Data passed to this function should be checked before and
 		 * should be correct.
 		 */
-		MainWindow(QString path, QString password, bool dbExists, QWidget *parent = 0);
+		MainWindow(DataModel *model, QWidget *parent = 0);
 		/*!
 		 * Returns true if there is unsaved entry
 		 */
