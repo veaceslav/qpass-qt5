@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -62,8 +62,8 @@ public:
 	 * @param password Password to database.
 	 * @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
 	 */
-	static int checkDatabase(const QString &path, const QString &password);
-	bool exportDatabase(const QString &path, const QString &password, int format = Native);
+	static errorCode checkDatabase(const QString &path, const QString &password);
+	errorCode exportDatabase(const QString &path, const QString &password, int format = Native);
 	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native);
 	QString getPassword();
 	bool changePassword(const QString &newPassword);

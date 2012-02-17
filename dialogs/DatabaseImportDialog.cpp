@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -74,7 +74,8 @@ void DatabaseImportDialog::accept()
 	}
 	if(qpaFormat->isChecked())
 	{
-		if(DataModel::checkDatabase( getPath(), getPassword() ) == -1)
+		errorCode err = DataModel::checkDatabase( getPath(), getPassword());
+		if(err == INVALID_PASSWORD)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle( tr("QPass") );
@@ -83,7 +84,7 @@ void DatabaseImportDialog::accept()
 			box.exec();
 			return;
 		}
-		if(DataModel::checkDatabase( getPath(), getPassword() ) == -2)
+		else if(err == FILE_ERROR)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle( tr("QPass") );

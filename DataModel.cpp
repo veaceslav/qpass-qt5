@@ -17,10 +17,25 @@
 DataModel::DataModel(const QString &path,const QString &password, bool openExisting, QObject *parent) : QAbstractTableModel(parent)
 {
 	database = new DataAccess(path, password);
+	errorCode err;
 	if(openExisting)
-		database->read(dataList);
+		err = database->read(dataList);
 	else
-		database->write( QList< QVector< QString> >() );
+		err = database->write( QList< QVector< QString> >() );
+
+	if(err != SUCCESS)
+	{
+		QMessageBox box;
+		box.setWindowTitle(tr("QPass - error"));
+		box.setIcon(QMessageBox::Information);
+		if(err == FILE_ERROR)
+			box.setText(tr("Error with file access"));
+		else if(err == GCRYPT_ERROR)
+			box.setText(tr("libgcrypt library error"));
+		else if(err == INVALID_PASSWORD)
+			box.setText(tr("Invalid password"));
+		box.exec();
+	}
 }
 
 DataModel::~DataModel()
@@ -133,13 +148,13 @@ void DataModel::sort(int column, Qt::SortOrder order)
 	layoutChanged();
 }
 
-int DataModel::checkDatabase(const QString &path,const QString &password)
+errorCode DataModel::checkDatabase(const QString &path,const QString &password)
 {
 	DataAccess database(path, password);
 	return database.checkDatabase();
 }
 
-bool DataModel::exportDatabase(const QString &path,const QString &password, int format)
+errorCode DataModel::exportDatabase(const QString &path,const QString &password, int format)
 {
 	if(format == Native)
 	{
@@ -149,10 +164,13 @@ bool DataModel::exportDatabase(const QString &path,const QString &password, int 
 	else if(format == Csv)
 	{
 		CsvFormat csv(path);
-		return csv.write(dataList);
+		if(csv.write(dataList))
+			return SUCCESS;
+		else
+			return FILE_ERROR;
 	}
 	else
-		return false;
+		return FILE_ERROR;
 }
 
 int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format)

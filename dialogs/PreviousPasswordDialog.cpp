@@ -31,7 +31,7 @@ QString PreviousPasswordDialog::getPassword()
 
 void PreviousPasswordDialog::checkData()
 {
-	int res = DataModel::checkDatabase(databasePath, passwordEdit->text());
+	errorCode res = DataModel::checkDatabase(databasePath, passwordEdit->text());
 	if(res == INVALID_PASSWORD)
 	{
 		QMessageBox box(this);

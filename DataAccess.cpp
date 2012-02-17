@@ -35,7 +35,8 @@ errorCode DataAccess::checkDatabase()
 		return FILE_ERROR;
 	}
 	struct header head;
-	file->read((char*)&head, sizeof(header));
+	if(!file->read((char*)&head, sizeof(header)))
+		return FILE_ERROR;
 	if(head.id[0] == 'P' && head.id[1] == 'A' && head.id[2] == 'S')
 	{
 		if(head.version == 1)
@@ -53,7 +54,8 @@ errorCode DataAccess::checkDatabase()
 			gcry_cipher_setkey(hd, key, 16);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
-			file->read((char*)&chead, sizeof(cryptedHeader));
+			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 			if(chead.id[0] != 'P' || chead.id[1] != 'A' || chead.id[2] != 'S')
 			{
@@ -79,7 +81,8 @@ errorCode DataAccess::checkDatabase()
 			gcry_cipher_setkey(hd, key, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
-			file->read((char*)&chead, sizeof(cryptedHeader));
+			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 			if(chead.id[0] != 'P' || chead.id[1] != 'A' || chead.id[2] != 'S')
 			{
@@ -97,7 +100,8 @@ errorCode DataAccess::checkDatabase()
 			err = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 			if(err)
 				return GCRYPT_ERROR;
-			file->read((char*)&pbkdf2, sizeof(pbkdf2Header));
+			if(!file->read((char*)&pbkdf2, sizeof(pbkdf2Header)))
+				return FILE_ERROR;
 			if(key == NULL)
 			{
 				key = new char[32];
@@ -106,7 +110,8 @@ errorCode DataAccess::checkDatabase()
 			gcry_cipher_setkey(hd, key, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
-			file->read((char*)&chead, sizeof(cryptedHeader));
+			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
 			{
@@ -128,18 +133,13 @@ errorCode DataAccess::checkDatabase()
 errorCode DataAccess::read(QList< QVector< QString> > &list)
 {
 	if(!file->open(QIODevice::ReadOnly))
-	{
-		QMessageBox box;
-		box.setWindowTitle( tr("QPass") );
-		box.setText( tr("Error opening database") );
-		box.setIcon(QMessageBox::Critical);
-		box.exec();
 		return FILE_ERROR;
-	}
+
 	QVector< QString > tempVector(5); //In this version there are 5 columns
 	file->seek(0);
 	struct header head;
-	file->read((char*)&head, sizeof(header));
+	if(!file->read((char*)&head, sizeof(header)))
+		return FILE_ERROR;
 	if(head.id[0] == 'P' && head.id[1] == 'A' && head.id[2] == 'S')
 	{
 		if(head.version == 1)
@@ -155,7 +155,8 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 			gcry_cipher_setkey(hd, key, 16);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
-			file->read((char*)&chead, sizeof(cryptedHeader));
+			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
 				return INVALID_PASSWORD; 
@@ -174,7 +175,8 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 			gcry_cipher_setkey(hd, key, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
-			file->read((char*)&chead, sizeof(cryptedHeader));
+			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
 				return INVALID_PASSWORD;
@@ -192,11 +194,14 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 			{
 				key = new char[32];
 				err = gcry_kdf_derive(password.toUtf8().data(), password.toUtf8().size(), GCRY_KDF_PBKDF2, GCRY_MD_SHA256, pbkdf2.salt, sizeof(pbkdf2.salt), pbkdf2.iterations, 32, key);
+				if(err)
+					return GCRYPT_ERROR;
 			}
 			gcry_cipher_setkey(hd, key, 32);
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
-			file->read((char*)&chead, sizeof(cryptedHeader));
+			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &chead, sizeof(cryptedHeader), NULL, 0);
 			if(!(chead.id[0] == 'P' && chead.id[1] == 'A' && chead.id[2] == 'S'))
 				return INVALID_PASSWORD;
