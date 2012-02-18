@@ -28,6 +28,7 @@ set(QPass_SOURCES
 	TrayIcon.cpp
 	UpdateChecker.cpp
 	CsvFormat.cpp
+	Benchmark.cpp
 	dialogs/PreviousPasswordDialog.cpp
 	dialogs/NewDatabaseDialog.cpp
 	dialogs/AboutDialog.cpp
@@ -46,6 +47,7 @@ set(QPass_HEADERS
 	DataModel.h 
 	TrayIcon.h
 	UpdateChecker.h
+	Benchmark.h
 	dialogs/PreviousPasswordDialog.h
 	dialogs/NewDatabaseDialog.h
 	dialogs/AboutDialog.h

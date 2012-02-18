@@ -312,7 +312,7 @@ void MainWindow::changePassword()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		if( model->changePassword( passwordDialog.getNewPassword() ) )
+		if( model->changePassword( passwordDialog.getNewPassword() ) == SUCCESS )
 		{
 			box.setText( tr("Password has been changed successfully.") );
 			box.setIcon( QMessageBox::Information ); 

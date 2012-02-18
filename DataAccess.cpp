@@ -178,7 +178,6 @@ errorCode DataAccess::write(const QList< QVector< QString> > &data)
 	{
 		for(int i = 0; i < 8; i++)
 			pbkdf2.salt[i] = rand() & 0xFF;
-		pbkdf2.iterations = 10000;
 
 		key = new char[32];
 		err = gcry_kdf_derive(password.toUtf8().data(), password.toUtf8().size(), GCRY_KDF_PBKDF2, GCRY_MD_SHA256, pbkdf2.salt, sizeof(pbkdf2.salt), pbkdf2.iterations, 32, key);
@@ -240,4 +239,19 @@ void DataAccess::setPassword(const QString &password)
 QString DataAccess::getPassword()
 {
 	return this->password;
+}
+
+void DataAccess::setNumberOfIterations(int iterations)
+{
+	if(key != NULL)
+	{
+		delete key;
+		key = NULL;
+	}
+	pbkdf2.iterations = iterations;
+}
+
+int DataAccess::getNumberOfIterations()
+{
+	return pbkdf2.iterations;
 }

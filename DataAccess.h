@@ -102,6 +102,8 @@ class DataAccess : public QObject
 		* @return password used to encrypt and decrypt.
 		*/
 		QString getPassword();
+		void setNumberOfIterations(int iterations);
+	 	int getNumberOfIterations();
 	private:
 		QString path; /**< Path to database. */
 		QString password; 

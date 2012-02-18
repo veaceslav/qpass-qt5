@@ -21,9 +21,16 @@ OtherDatabaseDialog::OtherDatabaseDialog(DataModel *model, QWidget *parent) : QD
 	setupUi(this);
 	passwordEdit2->setVisible(false);
 	retypePasswordLabel->setVisible(false);
+ 	benchmark = new Benchmark(this);
 	this->model = model;
 
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	connect(nextButton1, SIGNAL(clicked()), this, SLOT(next()));
+	connect(nextButton2, SIGNAL(clicked()), this, SLOT(next()));
+	connect(backButton1, SIGNAL(clicked()), this, SLOT(previous()));
+	connect(backButton2, SIGNAL(clicked()), this, SLOT(previous()));
+	connect(benchmarkButton, SIGNAL(clicked()), this, SLOT(runBenchmark()));
+	connect(benchmark, SIGNAL(finished()), this, SLOT(showResult()));
 }
 
 QString OtherDatabaseDialog::getPath()
@@ -114,7 +121,7 @@ void OtherDatabaseDialog::accept()
 			box.exec();
 			return;
 		}
-		errorCode ret = model->openDatabase(pathEdit->text(), passwordEdit1->text(), false);
+		errorCode ret = model->openDatabase(pathEdit->text(), passwordEdit1->text(), iterationsBox->value(), false);
 		if(ret == FILE_ERROR)
 		{
 			QMessageBox box(this);
@@ -135,4 +142,47 @@ void OtherDatabaseDialog::accept()
 		}
 	}
 	done(QDialog::Accepted);
+}
+
+void OtherDatabaseDialog::next()
+{
+	if(stackedWidget->currentIndex() == 0)
+	{
+		if(openExistingButton->isChecked())
+		{
+			passwordEdit2->setVisible(false);
+			retypePasswordLabel->setVisible(false);
+			nextButton2->setText(tr("OK"));
+		}
+		else
+		{
+			passwordEdit2->setVisible(true);
+			retypePasswordLabel->setVisible(true);
+			nextButton2->setText(tr("Next"));
+		}
+		stackedWidget->setCurrentIndex(stackedWidget->currentIndex()+1);
+	}
+	else if(stackedWidget->currentIndex() == 1 && openExistingButton->isChecked())
+	{
+		emit accept();		
+	}
+	else
+		stackedWidget->setCurrentIndex(stackedWidget->currentIndex()+1);
+}
+
+void OtherDatabaseDialog::previous()
+{
+	stackedWidget->setCurrentIndex(stackedWidget->currentIndex()-1);
+}
+
+void OtherDatabaseDialog::runBenchmark()
+{
+	resultLabel->setText(tr("Checking..."));
+	benchmark->setNumberOfIterations(iterationsBox->value());
+	benchmark->start();
+}
+
+void OtherDatabaseDialog::showResult()
+{
+	resultLabel->setText(QString::number(benchmark->getTime())+"s");
 }

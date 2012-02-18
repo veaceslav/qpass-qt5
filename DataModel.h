@@ -51,7 +51,7 @@ public:
 	errorCode exportDatabase(const QString &path, const QString &password, int format = Native);
 	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native);
 	QString getPassword();
-	bool changePassword(const QString &newPassword);
+	errorCode changePassword(const QString &newPassword);
 	void swapEntries(int firstIndex, int secondIndex);
 	errorCode saveDatabase();
 	/*! Opens database
@@ -62,7 +62,7 @@ public:
 	 * @param parent Parent.
 	 * @return status code.
 	 */
-	errorCode openDatabase(const QString &path,const QString &password, bool openExisting = true);
+	errorCode openDatabase(const QString &path,const QString &password, int iterations = 10000, bool openExisting = true);
 private:
 	QList< QVector< QString > > dataList;
 	DataAccess *database;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -10,23 +10,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef NEWDATABASEDIALOG_H
-#define NEWDATABASEDIALOG_H
+#ifndef BENCHMARK_H
+#define BENCHMARK_H
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include <QWidget>
-#include <QStackedWidget>
+#include <QThread>
 
-#include "ui_NewDatabaseDialog.h"
-
-/*!
- * Provides welcome dialog.
- */
-class NewDatabaseDialog : public QDialog, private Ui::NewDatabaseDialog
+class Benchmark : public QThread
 {
+	Q_OBJECT;
+
 	public:
-		NewDatabaseDialog(QWidget *parent = 0);
+		Benchmark(QObject *parent = 0);
+		void run();
+		double getTime();
+		void setNumberOfIterations(int iterations);
+	private:
+		double time;
+		int iterations;
 };
 
-#endif //NEWDATABASEDIALOG_H
+#endif //BENCHMARK_H

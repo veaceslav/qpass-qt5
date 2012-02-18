@@ -25,8 +25,6 @@ DataModel::~DataModel()
 		delete database;
 }
 
-
-
 QVariant DataModel::data(const QModelIndex &index, int role) const
 {
 	if(!index.isValid())
@@ -135,6 +133,7 @@ errorCode DataModel::exportDatabase(const QString &path,const QString &password,
 	if(format == Native)
 	{
 		DataAccess databaseToExport(path, password);
+		databaseToExport.setNumberOfIterations(database->getNumberOfIterations());
 		return databaseToExport.write(dataList);
 	}
 	else if(format == Csv)
@@ -198,7 +197,7 @@ QString DataModel::getPassword()
 	return database->getPassword();
 }
 
-bool DataModel::changePassword(const QString &newPassword)
+errorCode DataModel::changePassword(const QString &newPassword)
 {
 	database->setPassword(newPassword);
 	return database->write(dataList);
@@ -226,12 +225,13 @@ errorCode DataModel::saveDatabase()
 	return database->write(dataList);
 }
 
-errorCode DataModel::openDatabase(const QString &path,const QString &password, bool openExisting)
+errorCode DataModel::openDatabase(const QString &path,const QString &password,int iterations, bool openExisting)
 {
 	if(database != NULL)
 		delete database;
 
 	database = new DataAccess(path, password);
+	database->setNumberOfIterations(iterations);
 	errorCode err;
 	if(openExisting)
 		err = database->read(dataList);

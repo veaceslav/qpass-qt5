@@ -16,14 +16,22 @@
 #include <QDialog>
 
 #include "DataModel.h"
+#include "Benchmark.h"
 
 #include "ui_OtherDatabaseDialog.h"
 
+/*!
+ * Provides database select dialog and initializes database in provided model
+ * 
+ */
 class OtherDatabaseDialog : public QDialog, private Ui::OtherDatabaseDialog
 {
 	Q_OBJECT;
 
 public:
+	/*!
+	 * @param model Model which will be initialized with given data.
+	 */
 	OtherDatabaseDialog(DataModel *model, QWidget *parent = 0);
 	QString getPath();
 	void setPath(const QString &path);
@@ -37,11 +45,16 @@ public:
 	};
 
 private:
+	Benchmark *benchmark;
 	DataModel *model;
 
 private slots:
+	void next();
+	void previous();
 	void browse();
 	void accept();
+	void runBenchmark();
+	void showResult();
 };
 
 #endif
