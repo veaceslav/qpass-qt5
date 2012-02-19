@@ -91,7 +91,8 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 			err = gcry_cipher_open(&hd, GCRY_CIPHER_AES256, GCRY_CIPHER_MODE_CBC, 0);
 			if(err)
 				return GCRYPT_ERROR;
-			file->read((char*)&pbkdf2, sizeof(pbkdf2Header));
+			if(!file->read((char*)&pbkdf2, sizeof(pbkdf2Header)))
+				return FILE_ERROR;
 			if(key == NULL)
 			{
 				key = new char[32];
@@ -111,14 +112,19 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 		}
 		else
 			return INVALID_PASSWORD;
+
 		for(int i = 0; i < head.entriescount; i++)
 		{    
 			struct entryHeader e;
-			file->read((char*)&e, sizeof(entryHeader));
+			if(!file->read((char*)&e, sizeof(entryHeader)))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, &e, sizeof(entryHeader), NULL, 0);
+
 			char *entry = (char*)malloc(e.entryLength);
-			file->read(entry, e.entryLength);
+			if(!file->read(entry, e.entryLength))
+				return FILE_ERROR;
 			gcry_cipher_decrypt(hd, entry, e.entryLength, NULL, 0);
+
 			char temp[500];
 			int start = 0;
 			memcpy(temp, &entry[start], e.nameLength);
