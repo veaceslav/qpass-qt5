@@ -63,6 +63,8 @@ public:
 	 * @return status code.
 	 */
 	errorCode openDatabase(const QString &path,const QString &password, int iterations = 10000, bool openExisting = true);
+	int getNumberOfIterations();
+	void setNumberOfIterations(int iterations);
 private:
 	QList< QVector< QString > > dataList;
 	DataAccess *database;

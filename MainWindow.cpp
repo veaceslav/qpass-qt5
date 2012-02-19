@@ -220,11 +220,14 @@ void MainWindow::showPreferencesDialog()
 	preferences.setVisibleElementsAmount( trayIcon->getVisibleElementsAmount() );
 	preferences.setClipboardTimeout( clipboardTimeout );
 	preferences.setShowPassword( showPasswordByDefault );
+	preferences.setNumberOfIterations( model->getNumberOfIterations() );
 	if( preferences.exec() == QDialog::Accepted )
 	{
 		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
 		clipboardTimeout = preferences.getClipboardTimeout();
 		showPasswordByDefault = preferences.getShowPassword();
+		if(preferences.getNumberOfIterations() != model->getNumberOfIterations())
+			model->setNumberOfIterations(preferences.getNumberOfIterations());
 	}
 }
 

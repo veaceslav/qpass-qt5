@@ -240,3 +240,14 @@ errorCode DataModel::openDatabase(const QString &path,const QString &password,in
 	
 	return err;
 }
+
+int DataModel::getNumberOfIterations()
+{
+	return database->getNumberOfIterations();
+}
+
+void DataModel::setNumberOfIterations(int iterations)
+{
+	database->setNumberOfIterations(iterations);
+	database->write(dataList);
+}

@@ -51,6 +51,8 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 			memset(key, 0, 32);
 			strcpy(key, password.toAscii());
 			gcry_cipher_setkey(hd, key, 16);
+			delete key;
+			key = NULL;
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
 			if(!file->read((char*)&chead, sizeof(cryptedHeader)))
@@ -71,6 +73,8 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 				gcry_md_hash_buffer(GCRY_MD_SHA256, key, password.toUtf8().data(), password.toUtf8().size());
 			}
 			gcry_cipher_setkey(hd, key, 32);
+			delete key;
+			key = NULL;
 			gcry_cipher_setiv(hd, head.IV, 16); 
 			struct cryptedHeader chead;
 			if(!file->read((char*)&chead, sizeof(cryptedHeader)))

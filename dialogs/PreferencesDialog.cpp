@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,6 +15,8 @@
 PreferencesDialog::PreferencesDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
+	benchmark = NULL;
+	connect(benchmarkButton, SIGNAL(clicked()), this, SLOT(runBenchmark()));
 }
 
 void PreferencesDialog::setVisibleElementsAmount(int amount)
@@ -52,4 +54,31 @@ void PreferencesDialog::setShowPassword(bool show)
 bool PreferencesDialog::getShowPassword()
 {
 	return showPasswordBox->isChecked();
+}
+
+void PreferencesDialog::setNumberOfIterations(int iterations)
+{
+	iterationsBox->setValue(iterations);
+}
+
+int PreferencesDialog::getNumberOfIterations()
+{
+	return iterationsBox->value();
+}
+
+void PreferencesDialog::runBenchmark()
+{
+	if(benchmark == NULL)
+	{
+		benchmark = new Benchmark(this);
+		connect(benchmark, SIGNAL(finished()), this, SLOT(showResult()));
+	}
+	resultLabel->setText(tr("Checking..."));
+	benchmark->setNumberOfIterations(iterationsBox->value());
+	benchmark->start();
+}
+
+void PreferencesDialog::showResult()
+{
+	resultLabel->setText(QString::number(benchmark->getTime())+"s");
 }
