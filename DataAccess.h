@@ -56,6 +56,7 @@ struct entryHeader
 enum errorCode
 {
 	SUCCESS = 0,
+	SUCCESS_OLD_VERSION = 1,
 	INVALID_PASSWORD = -1,
 	GCRYPT_ERROR = -2,
 	FILE_ERROR = -3

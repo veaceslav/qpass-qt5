@@ -109,6 +109,14 @@ void OtherDatabaseDialog::accept()
 			box.exec();
 			return;
 		}
+		else if(ret == SUCCESS_OLD_VERSION)
+		{
+			QMessageBox box(this);
+			box.setWindowTitle( tr("QPass") );
+			box.setText( tr("This version of QPass uses new version of database. Your database has been converted to new version, but you can change default number of PBKDF2 iterations in options.") );
+			box.setIcon(QMessageBox::Information);
+			box.exec();
+		}
 	}
 	else
 	{

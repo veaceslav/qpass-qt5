@@ -34,6 +34,8 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 		return FILE_ERROR;
 
 	QVector< QString > tempVector(5); //In this version there are 5 columns
+	bool oldVersion = false;
+
 	file->seek(0);
 	struct header head;
 	if(!file->read((char*)&head, sizeof(header)))
@@ -42,6 +44,7 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 	{
 		if(head.version == 1)
 		{
+			oldVersion = true;
 			gcry_check_version(NULL);
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
@@ -63,6 +66,7 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 		}
 		else if(head.version == 2)
 		{
+			oldVersion = true;
 			gcry_check_version(NULL);
 			gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
 			gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
@@ -158,7 +162,11 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 		gcry_cipher_close(hd);
 	}
 	file->close();
-	return SUCCESS;
+
+	if(oldVersion)
+		return SUCCESS_OLD_VERSION;
+	else
+		return SUCCESS;
 }
 
 errorCode DataAccess::write(const QList< QVector< QString> > &data)

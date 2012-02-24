@@ -155,7 +155,7 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 	{
 		DataAccess databaseToImport(path, password);
 		int res = databaseToImport.read(data);
-		if(res != 0)
+		if(res < 0)
 			return res;
 	}
 	else if(format == Csv)
