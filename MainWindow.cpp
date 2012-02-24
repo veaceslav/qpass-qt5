@@ -454,6 +454,9 @@ void MainWindow::addItem()
 	}
 
 	selectionModel->setCurrentIndex( proxyModel->index( proxyModel->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
+
+    // Give focus to the name box so user can start typing right away
+    nameEdit->setFocus();
 }
 
 void MainWindow::removeSelectedItem()
