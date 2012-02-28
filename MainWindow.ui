@@ -497,17 +497,17 @@
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>&amp;Settings</string>
+     <string>S&amp;ettings</string>
     </property>
     <addaction name="actionPreferences"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
-     <string>Tools</string>
+     <string>Too&amp;ls</string>
     </property>
     <widget class="QMenu" name="menuSort_Entries">
      <property name="title">
-      <string>Sort entries</string>
+      <string>S&amp;ort entries</string>
      </property>
      <addaction name="actionSortAscending"/>
      <addaction name="actionSortDescending"/>
@@ -553,7 +553,7 @@
   </action>
   <action name="actionGeneratePassword">
    <property name="text">
-    <string>Generate password</string>
+    <string>&amp;Generate password</string>
    </property>
   </action>
   <action name="actionCheckForUpdates">
@@ -574,7 +574,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Show numbered characters</string>
+    <string>&amp;Show numbered characters</string>
    </property>
    <property name="toolTip">
     <string>Show password with numbered characters</string>
