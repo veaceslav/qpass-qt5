@@ -148,7 +148,7 @@ errorCode DataModel::exportDatabase(const QString &path,const QString &password,
 		return FILE_ERROR;
 }
 
-int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format)
+int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format, QVector<Columns> organization)
 {
 	QList< QVector< QString > > data;
 	if(format == Native)
@@ -167,6 +167,21 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 	}
 	else
 		return -4;//undefined format
+
+	if(!organization.isEmpty())
+	{
+		QVector< QString > temp(5);
+		QList< QVector< QString > >::iterator it;
+		for(it = data.begin(); it != data.end(); ++it)
+		{
+			temp[0] = (*it)[organization[DataModel::Name]];
+			temp[1] = (*it)[organization[DataModel::URL]];
+			temp[2] = (*it)[organization[DataModel::UserName]];
+			temp[3] = (*it)[organization[DataModel::Password]];
+			temp[4] = (*it)[organization[DataModel::Notes]];
+			*it = temp;
+		}
+	}
 
 	if(data.count() > 0)
 	{

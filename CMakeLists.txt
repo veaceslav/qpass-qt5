@@ -40,6 +40,7 @@ set(QPass_SOURCES
 	dialogs/UpdateCheckerDialog.cpp
     dialogs/OtherDatabaseDialog.cpp
     dialogs/PasswordViewer.cpp
+	dialogs/ColumnOrganizationDialog.cpp
 )
 set(QPass_HEADERS 
 	App.h
@@ -59,6 +60,7 @@ set(QPass_HEADERS
 	dialogs/UpdateCheckerDialog.h
     dialogs/OtherDatabaseDialog.h
     dialogs/PasswordViewer.h
+	dialogs/ColumnOrganizationDialog.h
 )
 set(QPass_UI 
 	MainWindow.ui
@@ -74,6 +76,7 @@ set(QPass_UI
 	dialogs/UpdateCheckerDialog.ui
     dialogs/OtherDatabaseDialog.ui
     dialogs/PasswordViewer.ui
+	dialogs/ColumnOrganizationDialog.ui
 )
 set(QPass_TS
 	translations/pl_PL.ts

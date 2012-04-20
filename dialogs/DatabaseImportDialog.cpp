@@ -20,7 +20,9 @@
 DatabaseImportDialog::DatabaseImportDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
+	changeColumnOrganizationButton->hide();
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	connect(changeColumnOrganizationButton, SIGNAL(clicked()), this, SLOT(showColumnOrganizationDialog()));
 }
 
 QString DatabaseImportDialog::getPassword()
@@ -47,6 +49,11 @@ int DatabaseImportDialog::getFormat()
 		return DataModel::Native;
 	else
 		return DataModel::Csv;
+}
+
+QVector<DataModel::Columns> DatabaseImportDialog::getColumnOrganization() const
+{
+	return organization;
 }
 
 void DatabaseImportDialog::browse()
@@ -97,4 +104,13 @@ void DatabaseImportDialog::accept()
 		}
 	}
 	done(QDialog::Accepted);
+}
+
+void DatabaseImportDialog::showColumnOrganizationDialog()
+{
+	ColumnOrganizationDialog dialog(this);
+	if(dialog.exec() == QDialog::Accepted)
+	{
+		organization = dialog.getColumnOrganization();
+	}
 }

@@ -10,37 +10,26 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef DATABASEIMPORTDIALOG_H
-#define DATABASEIMPORTDIALOG_H
+#ifndef COLUMNORGANIZATIONDIALOG_H
+#define COLUMNORGANIZATIONDIALOG_H
 
 #include <QDialog>
 #include <QString>
 
-#include "ui_DatabaseImportDialog.h"
-#include "ColumnOrganizationDialog.h"
+#include "ui_ColumnOrganizationDialog.h"
+#include "DataModel.h"
 
-
-class DatabaseImportDialog : public QDialog, private Ui::DatabaseImportDialog
+class ColumnOrganizationDialog : public QDialog, private Ui::ColumnOrganizationDialog
 {
 	Q_OBJECT;
-
-	QVector<DataModel::Columns> organization;//Default configuration when empty
 public:
-	DatabaseImportDialog(QWidget *parent);
-	QString getPassword();
-	QString getPath();
-	int getMode();
-	int getFormat();
+
+	ColumnOrganizationDialog(QWidget *parent = 0);
 	QVector<DataModel::Columns> getColumnOrganization() const;
-	enum mode
-	{
-		Append,
-		Replace
-	};
+
+
 private slots:
-	void showColumnOrganizationDialog();
-	void browse();
 	void accept();
 };
 
-#endif //DATABASEIMPORTDIALOG_H
+#endif

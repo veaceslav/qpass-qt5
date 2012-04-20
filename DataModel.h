@@ -36,6 +36,7 @@ public:
 		Native,
 		Csv
 	};
+	enum Columns {Name, URL, UserName, Password, Notes};
 
 	DataModel(QObject *parent = 0);
 	~DataModel();
@@ -49,7 +50,7 @@ public:
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 	errorCode exportDatabase(const QString &path, const QString &password, int format = Native);
-	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native);
+	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native, QVector<Columns> organization = QVector<Columns>());
 	QString getPassword();
 	errorCode changePassword(const QString &newPassword);
 	void swapEntries(int firstIndex, int secondIndex);

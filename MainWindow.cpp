@@ -293,7 +293,7 @@ void MainWindow::importDatabase()
 		}
 
 		int format = importDialog.getFormat();
-		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace, format);
+		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace, format, importDialog.getColumnOrganization());
 		if( res == SUCCESS )
 		{
 			box.setText( tr("Database has been imported successfully.") );
