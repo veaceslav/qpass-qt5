@@ -23,8 +23,8 @@ class ColumnOrganizationDialog : public QDialog, private Ui::ColumnOrganizationD
 {
 	Q_OBJECT;
 public:
-
 	ColumnOrganizationDialog(QWidget *parent = 0);
+	void setColumnOrganization(const QVector<DataModel::Columns> &organization);
 	QVector<DataModel::Columns> getColumnOrganization() const;
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -95,6 +95,7 @@ void DatabaseExportDialog::accept()
 void DatabaseExportDialog::showColumnOrganizationDialog()
 {
 	ColumnOrganizationDialog dialog(this);
+	dialog.setColumnOrganization(organization);
 	if(dialog.exec() == QDialog::Accepted)
 	{
 		organization = dialog.getColumnOrganization();

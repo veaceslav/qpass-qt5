@@ -109,6 +109,7 @@ void DatabaseImportDialog::accept()
 void DatabaseImportDialog::showColumnOrganizationDialog()
 {
 	ColumnOrganizationDialog dialog(this);
+	dialog.setColumnOrganization(organization);
 	if(dialog.exec() == QDialog::Accepted)
 	{
 		organization = dialog.getColumnOrganization();

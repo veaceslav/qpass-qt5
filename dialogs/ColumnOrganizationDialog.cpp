@@ -19,6 +19,18 @@ ColumnOrganizationDialog::ColumnOrganizationDialog(QWidget *parent) : QDialog(pa
 	setupUi(this);
 }
 
+void ColumnOrganizationDialog::setColumnOrganization(const QVector<DataModel::Columns> &organization)
+{
+	if(organization.size() == 5)
+	{
+		c1Box->setCurrentIndex(organization[0]);
+		c2Box->setCurrentIndex(organization[1]);
+		c3Box->setCurrentIndex(organization[2]);
+		c4Box->setCurrentIndex(organization[3]);
+		c5Box->setCurrentIndex(organization[4]);
+	}
+}
+
 QVector<DataModel::Columns> ColumnOrganizationDialog::getColumnOrganization() const
 {
 	QVector<DataModel::Columns> organization(5);
