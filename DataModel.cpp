@@ -128,7 +128,7 @@ void DataModel::sort(int column, Qt::SortOrder order)
 	layoutChanged();
 }
 
-errorCode DataModel::exportDatabase(const QString &path,const QString &password, int format)
+errorCode DataModel::exportDatabase(const QString &path, const QString &password, int format, QVector<Columns> organization)
 {
 	if(format == Native)
 	{
@@ -139,16 +139,40 @@ errorCode DataModel::exportDatabase(const QString &path,const QString &password,
 	else if(format == Csv)
 	{
 		CsvFormat csv(path);
-		if(csv.write(dataList))
-			return SUCCESS;
+
+		if(!organization.isEmpty())
+		{
+			QList< QVector< QString > > tempList;
+			QVector< QString > temp(5);
+			QList< QVector< QString > >::iterator it;
+
+			for(it = dataList.begin(); it != dataList.end(); ++it)
+			{
+				temp[0] = (*it)[organization[DataModel::Name]];
+				temp[1] = (*it)[organization[DataModel::URL]];
+				temp[2] = (*it)[organization[DataModel::UserName]];
+				temp[3] = (*it)[organization[DataModel::Password]];
+				temp[4] = (*it)[organization[DataModel::Notes]];
+				tempList.append(temp);
+			}
+			if(csv.write(tempList))
+				return SUCCESS;
+			else
+				return FILE_ERROR;
+		}
 		else
-			return FILE_ERROR;
+		{
+			if(csv.write(dataList))
+				return SUCCESS;
+			else
+				return FILE_ERROR;
+		}
 	}
 	else
 		return FILE_ERROR;
 }
 
-int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format, QVector<Columns> organization)
+int DataModel::importDatabase(const QString &path, const QString &password, bool replaceExisting, int format, QVector<Columns> organization)
 {
 	QList< QVector< QString > > data;
 	if(format == Native)
@@ -164,24 +188,24 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 		data = csv.read();
 		if(data.isEmpty())
 			return -2;
+
+		if(!organization.isEmpty())
+		{
+			QVector< QString > temp(5);
+			QList< QVector< QString > >::iterator it;
+			for(it = data.begin(); it != data.end(); ++it)
+			{
+				temp[0] = (*it)[organization[DataModel::Name]];
+				temp[1] = (*it)[organization[DataModel::URL]];
+				temp[2] = (*it)[organization[DataModel::UserName]];
+				temp[3] = (*it)[organization[DataModel::Password]];
+				temp[4] = (*it)[organization[DataModel::Notes]];
+				*it = temp;
+			}
+		}
 	}
 	else
 		return -4;//undefined format
-
-	if(!organization.isEmpty())
-	{
-		QVector< QString > temp(5);
-		QList< QVector< QString > >::iterator it;
-		for(it = data.begin(); it != data.end(); ++it)
-		{
-			temp[0] = (*it)[organization[DataModel::Name]];
-			temp[1] = (*it)[organization[DataModel::URL]];
-			temp[2] = (*it)[organization[DataModel::UserName]];
-			temp[3] = (*it)[organization[DataModel::Password]];
-			temp[4] = (*it)[organization[DataModel::Notes]];
-			*it = temp;
-		}
-	}
 
 	if(data.count() > 0)
 	{

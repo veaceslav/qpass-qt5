@@ -157,6 +157,16 @@ type password to it.</string>
        </property>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="changeColumnOrganizationButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Change column organization</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -200,8 +210,8 @@ type password to it.</string>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>252</x>
-     <y>308</y>
+     <x>261</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -216,8 +226,8 @@ type password to it.</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>320</x>
-     <y>308</y>
+     <x>329</x>
+     <y>302</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -232,12 +242,12 @@ type password to it.</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>182</x>
-     <y>105</y>
+     <x>319</x>
+     <y>98</y>
     </hint>
     <hint type="destinationlabel">
-     <x>171</x>
-     <y>243</y>
+     <x>308</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
@@ -252,8 +262,8 @@ type password to it.</string>
      <y>98</y>
     </hint>
     <hint type="destinationlabel">
-     <x>215</x>
-     <y>287</y>
+     <x>352</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>
@@ -264,12 +274,12 @@ type password to it.</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>200</x>
-     <y>128</y>
+     <x>337</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>193</x>
-     <y>248</y>
+     <x>330</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
@@ -280,12 +290,12 @@ type password to it.</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>247</x>
-     <y>129</y>
+     <x>366</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>319</x>
-     <y>283</y>
+     <x>375</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>
@@ -296,12 +306,12 @@ type password to it.</string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>162</x>
-     <y>104</y>
+     <x>299</x>
+     <y>98</y>
     </hint>
     <hint type="destinationlabel">
-     <x>39</x>
-     <y>246</y>
+     <x>49</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
@@ -316,8 +326,8 @@ type password to it.</string>
      <y>97</y>
     </hint>
     <hint type="destinationlabel">
-     <x>58</x>
-     <y>285</y>
+     <x>68</x>
+     <y>219</y>
     </hint>
    </hints>
   </connection>
@@ -328,12 +338,12 @@ type password to it.</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>143</x>
-     <y>131</y>
+     <x>280</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>60</x>
-     <y>242</y>
+     <x>70</x>
+     <y>188</y>
     </hint>
    </hints>
   </connection>
@@ -344,12 +354,28 @@ type password to it.</string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>165</x>
-     <y>128</y>
+     <x>302</x>
+     <y>124</y>
     </hint>
     <hint type="destinationlabel">
-     <x>74</x>
-     <y>271</y>
+     <x>84</x>
+     <y>219</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>changeColumnOrganizationButton</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>196</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>219</x>
+     <y>242</y>
     </hint>
    </hints>
   </connection>

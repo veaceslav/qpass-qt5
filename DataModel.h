@@ -49,7 +49,7 @@ public:
 	bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
 	void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
-	errorCode exportDatabase(const QString &path, const QString &password, int format = Native);
+	errorCode exportDatabase(const QString &path, const QString &password, int format = Native, QVector<Columns> organization = QVector<Columns>());
 	int importDatabase(const QString &path,const QString &password, bool replaceExisting = false, int format = Native, QVector<Columns> organization = QVector<Columns>());
 	QString getPassword();
 	errorCode changePassword(const QString &newPassword);

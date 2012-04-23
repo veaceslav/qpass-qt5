@@ -256,7 +256,7 @@ void MainWindow::exportDatabase()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		errorCode err = model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword(), exportDialog.getFormat() );
+		errorCode err = model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword(), exportDialog.getFormat(), exportDialog.getColumnOrganization());
 		if(err == SUCCESS)
 		{
 			box.setText( tr("Database has been exported successfully.") );
