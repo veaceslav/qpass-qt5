@@ -59,7 +59,7 @@ void PreviousPasswordDialog::checkData()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		box.setText( tr("This version of QPass uses new version of database. Your database has been converted to new version, but you can change default number of PBKDF2 iterations in options.") );
+		box.setText( tr("This version of QPass uses new version of database. Your database has been converted to new version. You can change default number of PBKDF2 iterations in settings.") );
 		box.setIcon(QMessageBox::Information);
 		box.exec();
 		done(QDialog::Accepted);
