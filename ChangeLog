@@ -1,3 +1,9 @@
+1.3.0
+	* Added option to modify CSV column organization
+	* Minor bugfixes
+	* Modified format of database(PBKDF2)
+	* This version of QPass uses PBKDF2-HMAC-SHA256 algorithm to derive encryption key. Thanks to that, database is more resistant to brute force attacks, because every password check requires constant(on the same machine) time to compute. This constant time can be almost unnoticable in normal use, but makes it significantly longer to try a lot of different password combinations. Number of PBKDF2 rounds(and proportional to them computation time) can be adjusted, to take for example 0.5 sec to compute on specified machine. New format is incompatible with old formats and only QPass 1.3.0 and above supports it.
+
 1.2.1
 	* Added italian translation
 
