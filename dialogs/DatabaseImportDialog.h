@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,22 +17,28 @@
 #include <QString>
 
 #include "ui_DatabaseImportDialog.h"
+#include "ColumnOrganizationDialog.h"
+
 
 class DatabaseImportDialog : public QDialog, private Ui::DatabaseImportDialog
 {
 	Q_OBJECT;
+
+	QVector<DataModel::Columns> organization;//Default configuration when empty
 public:
 	DatabaseImportDialog(QWidget *parent);
 	QString getPassword();
 	QString getPath();
 	int getMode();
 	int getFormat();
+	QVector<DataModel::Columns> getColumnOrganization() const;
 	enum mode
 	{
 		Append,
 		Replace
 	};
 private slots:
+	void showColumnOrganizationDialog();
 	void browse();
 	void accept();
 };

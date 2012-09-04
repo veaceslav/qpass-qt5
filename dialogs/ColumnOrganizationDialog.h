@@ -10,30 +10,26 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef DATABASEEXPORTDIALOG_H
-#define DATABASEEXPORTDIALOG_H
+#ifndef COLUMNORGANIZATIONDIALOG_H
+#define COLUMNORGANIZATIONDIALOG_H
 
 #include <QDialog>
 #include <QString>
 
-#include "ui_DatabaseExportDialog.h"
-#include "ColumnOrganizationDialog.h"
+#include "ui_ColumnOrganizationDialog.h"
+#include "DataModel.h"
 
-class DatabaseExportDialog : public QDialog, private Ui::DatabaseExportDialog
+class ColumnOrganizationDialog : public QDialog, private Ui::ColumnOrganizationDialog
 {
 	Q_OBJECT;
-
-	QVector<DataModel::Columns> organization;//Default configuration when empty
 public:
-	DatabaseExportDialog(QWidget *parent);
-	QString getPassword();
-	QString getPath();
-	int getFormat();
+	ColumnOrganizationDialog(QWidget *parent = 0);
+	void setColumnOrganization(const QVector<DataModel::Columns> &organization);
 	QVector<DataModel::Columns> getColumnOrganization() const;
+
+
 private slots:
-	void showColumnOrganizationDialog();
-	void browse();
 	void accept();
 };
 
-#endif //DATABASEEXPORTDIALOG_H
+#endif

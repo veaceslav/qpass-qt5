@@ -34,7 +34,7 @@ QList< QVector< QString > > CsvFormat::read()
 		QString line;
 		QString temporary;
 		bool first = true;
-		printf("nowy\n");
+
 		while(true)
 		{
 			ret = file.readLine(buffer, 1023);
@@ -55,10 +55,9 @@ QList< QVector< QString > > CsvFormat::read()
 				else
 					continue;
 			}
-			printf("cyk: %d\n",!first);
+
 			if(!first && (temporary.indexOf("\"") == -1))
 			{
-				printf("tu\n");
 				continue;
 			}
 			first = false;

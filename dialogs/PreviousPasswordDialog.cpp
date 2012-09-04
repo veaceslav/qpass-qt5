@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,26 +12,23 @@
 
 #include "PreviousPasswordDialog.h"
 #include "DataModel.h"
+#include "DataAccess.h"
 #include "PredefinedSettings.h"
 
-PreviousPasswordDialog::PreviousPasswordDialog(QString &databasePath, QWidget *parent) : QDialog(parent)
+PreviousPasswordDialog::PreviousPasswordDialog(DataModel *model, QString &databasePath, QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
 	databaseLocationLabel->setText(databasePath);
 	connect(buttonBox, SIGNAL(accepted()), this, SLOT(checkData()));
 	connect(openOtherButton, SIGNAL(clicked()), this, SLOT(acceptOtherDatabase()));
 	this->databasePath = databasePath;
-}
-
-QString PreviousPasswordDialog::getPassword()
-{
-	return passwordEdit->text();
+	this->model = model;
 }
 
 void PreviousPasswordDialog::checkData()
 {
-	int res = DataModel::checkDatabase(databasePath, passwordEdit->text());
-	if(res == -1)
+	errorCode res = model->openDatabase(databasePath, passwordEdit->text());
+	if(res == INVALID_PASSWORD)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("Incorrect password - QPass") );
@@ -40,7 +37,7 @@ void PreviousPasswordDialog::checkData()
 		box.exec();
 		return;
 	}
-	else if(res == -2)
+	else if(res == FILE_ERROR)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
@@ -49,7 +46,25 @@ void PreviousPasswordDialog::checkData()
 		box.exec();
 		done(QDialog::Rejected);
 	}
-	else
+	else if(res == GCRYPT_ERROR)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("libgcrypt library error.") );
+		box.setIcon(QMessageBox::Critical);
+		box.exec();
+		done(QDialog::Rejected);
+	}
+	else if(res == SUCCESS_OLD_VERSION)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText( tr("This version of QPass uses new version of database. Your database has been converted to new version. You can change default number of PBKDF2 iterations in settings.") );
+		box.setIcon(QMessageBox::Information);
+		box.exec();
+		done(QDialog::Accepted);
+	}
+	else if(res == 0)
 		done(QDialog::Accepted);
 }
 

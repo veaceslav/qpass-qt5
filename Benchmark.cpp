@@ -10,30 +10,39 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef DATABASEEXPORTDIALOG_H
-#define DATABASEEXPORTDIALOG_H
+#include "Benchmark.h"
 
-#include <QDialog>
-#include <QString>
+#include <cstdio>
+#include <ctime>
+#include <gcrypt.h>
 
-#include "ui_DatabaseExportDialog.h"
-#include "ColumnOrganizationDialog.h"
+using namespace std;
 
-class DatabaseExportDialog : public QDialog, private Ui::DatabaseExportDialog
+Benchmark::Benchmark(QObject *parent) : QThread(parent)
 {
-	Q_OBJECT;
+}
 
-	QVector<DataModel::Columns> organization;//Default configuration when empty
-public:
-	DatabaseExportDialog(QWidget *parent);
-	QString getPassword();
-	QString getPath();
-	int getFormat();
-	QVector<DataModel::Columns> getColumnOrganization() const;
-private slots:
-	void showColumnOrganizationDialog();
-	void browse();
-	void accept();
-};
+void Benchmark::run()
+{
+	gcry_check_version(NULL);
+	gcry_control (GCRYCTL_DISABLE_SECMEM, 0);
+	gcry_control (GCRYCTL_INITIALIZATION_FINISHED, 0);
 
-#endif //DATABASEEXPORTDIALOG_H
+	QString password("some password");
+	char salt[8];
+	char key[32];
+
+	clock_t before = clock();
+	gcry_kdf_derive(password.toUtf8().data(), password.toUtf8().size(), GCRY_KDF_PBKDF2, GCRY_MD_SHA256, salt, sizeof(salt), iterations, 32, key);
+	time = double(clock()-before)/CLOCKS_PER_SEC;
+}
+
+double Benchmark::getTime()
+{
+	return time;
+}
+
+void Benchmark::setNumberOfIterations(int iterations)
+{
+	this->iterations = iterations;
+}

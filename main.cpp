@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +24,7 @@
 #include <QLocalServer>
 #endif
 
+#include "App.h"
 #include "MainWindow.h"
 #include "PredefinedSettings.h"
 #include "PreviousPasswordDialog.h"
@@ -44,7 +45,7 @@ QString getDatabasePath()
 		return PredefinedSettings::databasePath();
 }
 
-void setDatabasePath(QString &path) 
+void setDatabasePath(QString path) 
 {
 #ifdef PORTABLE
 	QSettings settings("settings.ini", QSettings::IniFormat);
@@ -56,7 +57,8 @@ void setDatabasePath(QString &path)
 
 int main(int argc, char *argv[])
 {
-	QApplication app(argc, argv);
+//	QApplication app(argc, argv);
+	App app(argc, argv);
 	
 	app.setWindowIcon(QIcon(":/icons/qpass.png"));
 
@@ -102,62 +104,50 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 #endif
-	QString password;
 	QString path = getDatabasePath();
 	bool dbExists;
 
+	DataModel model;
+
 	if(QFile::exists( path ))
 	{
-		dbExists = true;
-		PreviousPasswordDialog dialog(path);
+		PreviousPasswordDialog dialog(&model, path);
 		int res = dialog.exec();
-		if(res == QDialog::Accepted)
-			password = dialog.getPassword();
-		else if(res == 2) //"open other database" was clicked
+
+		if(res == 2) //"open other database" was clicked
 		{
-			OtherDatabaseDialog otherDatabaseDialog;
+			OtherDatabaseDialog otherDatabaseDialog(&model);
 			int ret = otherDatabaseDialog.exec();
 			if(ret != QDialog::Accepted)
 				return 0;
 			else
 			{
-				if(otherDatabaseDialog.getMode() == OtherDatabaseDialog::CreateNew)
-					dbExists = false;
-				else
-					dbExists = true;
-
-				password = otherDatabaseDialog.getPassword();
-				path = otherDatabaseDialog.getPath();
 				if(otherDatabaseDialog.isSetAsDefault())
-					setDatabasePath(path);
+					setDatabasePath(otherDatabaseDialog.getPath());
 			}
 		}
-		else
+		else if(res != QDialog::Accepted)
 			return 0;
 	}
 	else
 	{
-		dbExists = false;
 		NewDatabaseDialog dialog;
 		if(dialog.exec() != QDialog::Accepted)
 			return 0;
-		OtherDatabaseDialog other;
+		OtherDatabaseDialog other(&model);
 		other.setAsDefault(true);
 		other.setMode(OtherDatabaseDialog::CreateNew);
 		other.setPath(path);
 		if(other.exec() != QDialog::Accepted)
 			return 0;
-		password = other.getPassword();
-		path = other.getPath();
-		if(other.getMode() == OtherDatabaseDialog::CreateNew)
-			dbExists = false;
-		else
-			dbExists = true;
+
 		if(other.isSetAsDefault())
-			setDatabasePath(path);
+			setDatabasePath(other.getPath());
 	}
 
-	MainWindow mainWindow( path, password, dbExists);
-	
+	MainWindow mainWindow(&model);
+
+	app.setMainWindow(&mainWindow);	
+
 	return app.exec();
 }

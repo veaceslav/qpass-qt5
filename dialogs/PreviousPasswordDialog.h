@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,22 +16,25 @@
 
 #include <QDialog>
 
+#include "DataModel.h"
+
 #include "ui_PreviousPasswordDialog.h"
 
 /*!
- * Provides current password entry dialog.
+ * Provides current password entry dialog and initializes database in provided model
+ * 
  */
 class PreviousPasswordDialog : public QDialog, private Ui::PreviousPasswordDialog
 {
 	Q_OBJECT
 	public:
-		PreviousPasswordDialog(QString &databasePath, QWidget *parent = 0);
-		/*! 
-		* Returns password provided by the user.
-		*/
-		QString getPassword();
+		/*!
+		 * @param model Model which will be initialized with given data.
+		 */
+		PreviousPasswordDialog(DataModel *model, QString &databasePath, QWidget *parent = 0);
 	private:
 		QString databasePath;
+		DataModel *model;
 	private slots:
 		void checkData();
 		void acceptOtherDatabase();

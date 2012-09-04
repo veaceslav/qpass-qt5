@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,9 @@
 DatabaseImportDialog::DatabaseImportDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
+	changeColumnOrganizationButton->hide();
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	connect(changeColumnOrganizationButton, SIGNAL(clicked()), this, SLOT(showColumnOrganizationDialog()));
 }
 
 QString DatabaseImportDialog::getPassword()
@@ -49,6 +51,11 @@ int DatabaseImportDialog::getFormat()
 		return DataModel::Csv;
 }
 
+QVector<DataModel::Columns> DatabaseImportDialog::getColumnOrganization() const
+{
+	return organization;
+}
+
 void DatabaseImportDialog::browse()
 {
 	QFileDialog dialog(this);
@@ -74,7 +81,10 @@ void DatabaseImportDialog::accept()
 	}
 	if(qpaFormat->isChecked())
 	{
-		if(DataModel::checkDatabase( getPath(), getPassword() ) == -1)
+		DataModel model;
+		errorCode err = model.openDatabase(getPath(), getPassword());
+		//errorCode err = DataModel::checkDatabase( getPath(), getPassword());
+		if(err == INVALID_PASSWORD)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle( tr("QPass") );
@@ -83,7 +93,7 @@ void DatabaseImportDialog::accept()
 			box.exec();
 			return;
 		}
-		if(DataModel::checkDatabase( getPath(), getPassword() ) == -2)
+		else if(err == FILE_ERROR)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle( tr("QPass") );
@@ -94,4 +104,14 @@ void DatabaseImportDialog::accept()
 		}
 	}
 	done(QDialog::Accepted);
+}
+
+void DatabaseImportDialog::showColumnOrganizationDialog()
+{
+	ColumnOrganizationDialog dialog(this);
+	dialog.setColumnOrganization(organization);
+	if(dialog.exec() == QDialog::Accepted)
+	{
+		organization = dialog.getColumnOrganization();
+	}
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,6 +21,47 @@
 #include <QObject>
 #include <gcrypt.h>
 
+struct header
+{
+	char id[3]; //PAS
+	int version; //2
+	int entriescount;
+	char IV[16];
+};
+
+struct cryptedHeader
+{
+	char id[3]; //PAS
+	char space[13];
+};
+
+struct pbkdf2Header
+{
+	char salt[8];
+	int iterations;
+	char space[4];
+};
+
+struct entryHeader
+{
+	short int entryLength;
+	short int nameLength;
+	short int urlLength;
+	short int usernameLength;
+	short int passwordLength;
+	short int notesLength;
+	char space[4];
+};
+
+enum errorCode
+{
+	SUCCESS = 0,
+	SUCCESS_OLD_VERSION = 1,
+	INVALID_PASSWORD = -1,
+	GCRYPT_ERROR = -2,
+	FILE_ERROR = -3
+};
+
 /*! 
  * This class provides a access to encrypted data.
  */
@@ -38,11 +79,12 @@ class DataAccess : public QObject
 		~DataAccess();
 		/*! Returns stored data.
 		* 
-		* Returns stored decrypted data list.
+		* Reads entries from encrypted file
 		*
-		* @return Decrypted data.
+		* @param list List to put read data.
+		* @return status of operation.
 		*/
-		QList< QVector< QString> > read();
+		errorCode read(QList< QVector< QString> > &list);
 		/*! Writes data to encrypted file.
 		*
 		* This function encrypts data and writes it to a file.
@@ -50,12 +92,7 @@ class DataAccess : public QObject
 		* @param data Data to write.
 		* @return True if operation was successful, otherwise false.
 		*/
-		bool write(const QList< QVector< QString> > &data);
-		/*! Checks if given file is database and password is correct.
-		*
-		* @return 0 if header of database is ok and password is correct, -1 if password is incorrect, -2 if file is corrupted.
-		*/
-		int checkDatabase();
+		errorCode write(const QList< QVector< QString> > &data);
 		/*! Changes password used to encryption and decryption database.
 		*
 		* @param password New password.
@@ -66,36 +103,18 @@ class DataAccess : public QObject
 		* @return password used to encrypt and decrypt.
 		*/
 		QString getPassword();
+		void setNumberOfIterations(int iterations);
+	 	int getNumberOfIterations();
 	private:
 		QString path; /**< Path to database. */
 		QString password; 
+		char *key;
+		struct pbkdf2Header pbkdf2;
 		QFile *file;
 		gcry_cipher_handle *hd;
+		gcry_error_t err;
 };
 
-struct header
-{
-	char id[3]; //PAS
-	int version; //2
-	int entriescount;
-	char IV[16];
-};
 
-struct cryptedHeader
-{
-	char id[3]; //PAS
-	char space[13];
-};
-
-struct entryHeader
-{
-	short int entryLength;
-	short int nameLength;
-	short int urlLength;
-	short int usernameLength;
-	short int passwordLength;
-	short int notesLength;
-	char space[4];
-};
 
 #endif //DATAACCESS_H

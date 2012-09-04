@@ -164,6 +164,16 @@ to it and importing mode. </string>
        </layout>
       </widget>
      </item>
+     <item row="4" column="1">
+      <widget class="QPushButton" name="changeColumnOrganizationButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Change column organization</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -240,12 +250,12 @@ to it and importing mode. </string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>142</x>
-     <y>107</y>
+     <x>247</x>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel">
-     <x>158</x>
-     <y>210</y>
+     <x>263</x>
+     <y>194</y>
     </hint>
    </hints>
   </connection>
@@ -256,12 +266,12 @@ to it and importing mode. </string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>139</x>
-     <y>137</y>
+     <x>244</x>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
-     <x>122</x>
-     <y>209</y>
+     <x>227</x>
+     <y>194</y>
     </hint>
    </hints>
   </connection>
@@ -272,12 +282,12 @@ to it and importing mode. </string>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>136</x>
-     <y>112</y>
+     <x>241</x>
+     <y>104</y>
     </hint>
     <hint type="destinationlabel">
-     <x>39</x>
-     <y>209</y>
+     <x>49</x>
+     <y>194</y>
     </hint>
    </hints>
   </connection>
@@ -288,12 +298,28 @@ to it and importing mode. </string>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>229</x>
-     <y>136</y>
+     <x>334</x>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
-     <x>64</x>
-     <y>211</y>
+     <x>74</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>csvFormat</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>changeColumnOrganizationButton</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>183</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>193</x>
+     <y>268</y>
     </hint>
    </hints>
   </connection>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,7 +20,9 @@
 DatabaseExportDialog::DatabaseExportDialog(QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
+	changeColumnOrganizationButton->hide();
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
+	connect(changeColumnOrganizationButton, SIGNAL(clicked()), this, SLOT(showColumnOrganizationDialog()));
 }
 
 QString DatabaseExportDialog::getPassword()
@@ -39,6 +41,11 @@ int DatabaseExportDialog::getFormat()
 		return DataModel::Native;
 	else
 		return DataModel::Csv;
+}
+
+QVector<DataModel::Columns> DatabaseExportDialog::getColumnOrganization() const
+{
+	return organization;
 }
 
 void DatabaseExportDialog::browse()
@@ -83,4 +90,14 @@ void DatabaseExportDialog::accept()
 		return;
 	}
 	done(QDialog::Accepted);
+}
+
+void DatabaseExportDialog::showColumnOrganizationDialog()
+{
+	ColumnOrganizationDialog dialog(this);
+	dialog.setColumnOrganization(organization);
+	if(dialog.exec() == QDialog::Accepted)
+	{
+		organization = dialog.getColumnOrganization();
+	}
 }

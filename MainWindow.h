@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,7 +35,18 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		 * Data passed to this function should be checked before and
 		 * should be correct.
 		 */
-		MainWindow(QString path, QString password, bool dbExists, QWidget *parent = 0);
+		MainWindow(DataModel *model, QWidget *parent = 0);
+		/*!
+		 * Returns true if there is unsaved entry
+		 */
+		bool isUnsaved();
+	public slots:
+		/*!
+		* This slot saves changes on actually selected item or provided item.
+		*
+		* @param item Item to save.
+		*/
+		void saveItem(const QModelIndex &item = QModelIndex());
 	private:
 		/*! All data should be accesed through proxyModel, only functions such as exportDatabase,
 		 * importDatabase, changePassword etc. should be accessed directly through model.
@@ -94,12 +105,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 		* State of save button is used to determine if entry was edited or not.
 		*/
 		void enableSaveButton();
-		/*!
-		* This slot saves changes on actually selected item or provided item.
-		*
-		* @param item Item to save.
-		*/
-		void saveItem(const QModelIndex &item = QModelIndex());
 		void copyURL();
 		void goToURL();
 		void copyUserName();

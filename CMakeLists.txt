@@ -4,8 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 FIND_PACKAGE(Qt4 4.7 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
 
-SET(QPASS_VERSION "1.2.1")
-SET(QPASS_WIN_VERSION 1,2,1,0)
+SET(QPASS_VERSION "1.3.1")
+SET(QPASS_WIN_VERSION 1,3,1,0)
 
 INCLUDE(${QT_USE_FILE}) 
 
@@ -20,6 +20,7 @@ SET(INCLUDE_DIR
 
 set(QPass_SOURCES 
 	main.cpp 
+	App.cpp
 	MainWindow.cpp 
 	DataModel.cpp 
 	DataAccess.cpp
@@ -27,6 +28,7 @@ set(QPass_SOURCES
 	TrayIcon.cpp
 	UpdateChecker.cpp
 	CsvFormat.cpp
+	Benchmark.cpp
 	dialogs/PreviousPasswordDialog.cpp
 	dialogs/NewDatabaseDialog.cpp
 	dialogs/AboutDialog.cpp
@@ -38,12 +40,15 @@ set(QPass_SOURCES
 	dialogs/UpdateCheckerDialog.cpp
     dialogs/OtherDatabaseDialog.cpp
     dialogs/PasswordViewer.cpp
+	dialogs/ColumnOrganizationDialog.cpp
 )
 set(QPass_HEADERS 
+	App.h
 	MainWindow.h 
 	DataModel.h 
 	TrayIcon.h
 	UpdateChecker.h
+	Benchmark.h
 	dialogs/PreviousPasswordDialog.h
 	dialogs/NewDatabaseDialog.h
 	dialogs/AboutDialog.h
@@ -55,6 +60,7 @@ set(QPass_HEADERS
 	dialogs/UpdateCheckerDialog.h
     dialogs/OtherDatabaseDialog.h
     dialogs/PasswordViewer.h
+	dialogs/ColumnOrganizationDialog.h
 )
 set(QPass_UI 
 	MainWindow.ui
@@ -70,12 +76,14 @@ set(QPass_UI
 	dialogs/UpdateCheckerDialog.ui
     dialogs/OtherDatabaseDialog.ui
     dialogs/PasswordViewer.ui
+	dialogs/ColumnOrganizationDialog.ui
 )
 set(QPass_TS
 	translations/pl_PL.ts
    translations/qt_pl.ts
 	translations/it_IT.ts
 	translations/qt_it.ts
+	translations/nl_NL.ts
 )
 include_directories(${INCLUDE_DIR})
 QT4_ADD_TRANSLATION(QPass_QM ${QPass_TS})

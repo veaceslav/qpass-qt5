@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,20 +15,22 @@
 #include <QFile>
 
 #include "OtherDatabaseDialog.h"
-#include "DataModel.h"
 
-OtherDatabaseDialog::OtherDatabaseDialog(QWidget *parent) : QDialog(parent)
+OtherDatabaseDialog::OtherDatabaseDialog(DataModel *model, QWidget *parent) : QDialog(parent)
 {
 	setupUi(this);
 	passwordEdit2->setVisible(false);
 	retypePasswordLabel->setVisible(false);
+ 	benchmark = new Benchmark(this);
+	this->model = model;
 
 	connect(browseButton, SIGNAL(clicked()), this, SLOT(browse()));
-}
-
-QString OtherDatabaseDialog::getPassword()
-{
-	return passwordEdit1->text();
+	connect(nextButton1, SIGNAL(clicked()), this, SLOT(next()));
+	connect(nextButton2, SIGNAL(clicked()), this, SLOT(next()));
+	connect(backButton1, SIGNAL(clicked()), this, SLOT(previous()));
+	connect(backButton2, SIGNAL(clicked()), this, SLOT(previous()));
+	connect(benchmarkButton, SIGNAL(clicked()), this, SLOT(runBenchmark()));
+	connect(benchmark, SIGNAL(finished()), this, SLOT(showResult()));
 }
 
 QString OtherDatabaseDialog::getPath()
@@ -49,14 +51,6 @@ bool OtherDatabaseDialog::isSetAsDefault()
 void OtherDatabaseDialog::setAsDefault(bool isDefault)
 {
 	setAsDefaultBox->setChecked(isDefault);
-}
-
-int OtherDatabaseDialog::getMode()
-{
-	if(openExistingButton->isChecked())
-		return OpenExisting;
-	else
-		return CreateNew;
 }
 
 void OtherDatabaseDialog::setMode(int mode) 
@@ -87,8 +81,8 @@ void OtherDatabaseDialog::accept()
 {
 	if(openExistingButton->isChecked())
 	{
-		int ret = DataModel::checkDatabase(pathEdit->text(), passwordEdit1->text());
-		if(ret == -1)
+		errorCode ret = model->openDatabase(pathEdit->text(), passwordEdit1->text());
+		if(ret == INVALID_PASSWORD)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
@@ -97,7 +91,7 @@ void OtherDatabaseDialog::accept()
 			box.exec();
 			return;
 		}
-		else if(ret == -2)
+		else if(ret == FILE_ERROR)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
@@ -105,6 +99,23 @@ void OtherDatabaseDialog::accept()
 			box.setIcon( QMessageBox::Critical );
 			box.exec();
 			return;
+		}
+		else if(ret == GCRYPT_ERROR)
+		{
+			QMessageBox box(this);
+			box.setWindowTitle("QPass");
+			box.setText( tr("libgcrypt library error") );
+			box.setIcon( QMessageBox::Critical );
+			box.exec();
+			return;
+		}
+		else if(ret == SUCCESS_OLD_VERSION)
+		{
+			QMessageBox box(this);
+			box.setWindowTitle( tr("QPass") );
+			box.setText( tr("This version of QPass uses new version of database. Your database has been converted to new version. You can change default number of PBKDF2 iterations in settings.") );
+			box.setIcon(QMessageBox::Information);
+			box.exec();
 		}
 	}
 	else
@@ -118,18 +129,68 @@ void OtherDatabaseDialog::accept()
 			box.exec();
 			return;
 		}
-		QFile file(pathEdit->text());
-		if(!file.open(QIODevice::ReadWrite))
+		errorCode ret = model->openDatabase(pathEdit->text(), passwordEdit1->text(), iterationsBox->value(), false);
+		if(ret == FILE_ERROR)
 		{
 			QMessageBox box(this);
 			box.setWindowTitle("QPass");
 			box.setText( tr("Selected file is not writable") );
-			box.setIcon( QMessageBox::Warning );
+			box.setIcon( QMessageBox::Critical );
 			box.exec();
 			return;
 		}
-		file.close();
-		file.remove();
+		else if(ret == GCRYPT_ERROR)
+		{
+			QMessageBox box(this);
+			box.setWindowTitle("QPass");
+			box.setText( tr("libgcrypt library error") );
+			box.setIcon( QMessageBox::Critical );
+			box.exec();
+			return;
+		}
 	}
 	done(QDialog::Accepted);
+}
+
+void OtherDatabaseDialog::next()
+{
+	if(stackedWidget->currentIndex() == 0)
+	{
+		if(openExistingButton->isChecked())
+		{
+			passwordEdit2->setVisible(false);
+			retypePasswordLabel->setVisible(false);
+			nextButton2->setText(tr("OK"));
+		}
+		else
+		{
+			passwordEdit2->setVisible(true);
+			retypePasswordLabel->setVisible(true);
+			nextButton2->setText(tr("Next"));
+		}
+		stackedWidget->setCurrentIndex(stackedWidget->currentIndex()+1);
+	}
+	else if(stackedWidget->currentIndex() == 1 && openExistingButton->isChecked())
+	{
+		emit accept();		
+	}
+	else
+		stackedWidget->setCurrentIndex(stackedWidget->currentIndex()+1);
+}
+
+void OtherDatabaseDialog::previous()
+{
+	stackedWidget->setCurrentIndex(stackedWidget->currentIndex()-1);
+}
+
+void OtherDatabaseDialog::runBenchmark()
+{
+	resultLabel->setText(tr("Checking..."));
+	benchmark->setNumberOfIterations(iterationsBox->value());
+	benchmark->start();
+}
+
+void OtherDatabaseDialog::showResult()
+{
+	resultLabel->setText(QString::number(benchmark->getTime())+"s");
 }

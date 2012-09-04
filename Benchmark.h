@@ -10,30 +10,23 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef DATABASEEXPORTDIALOG_H
-#define DATABASEEXPORTDIALOG_H
+#ifndef BENCHMARK_H
+#define BENCHMARK_H
 
-#include <QDialog>
-#include <QString>
+#include <QThread>
 
-#include "ui_DatabaseExportDialog.h"
-#include "ColumnOrganizationDialog.h"
-
-class DatabaseExportDialog : public QDialog, private Ui::DatabaseExportDialog
+class Benchmark : public QThread
 {
 	Q_OBJECT;
 
-	QVector<DataModel::Columns> organization;//Default configuration when empty
-public:
-	DatabaseExportDialog(QWidget *parent);
-	QString getPassword();
-	QString getPath();
-	int getFormat();
-	QVector<DataModel::Columns> getColumnOrganization() const;
-private slots:
-	void showColumnOrganizationDialog();
-	void browse();
-	void accept();
+	public:
+		Benchmark(QObject *parent = 0);
+		void run();
+		double getTime();
+		void setNumberOfIterations(int iterations);
+	private:
+		double time;
+		int iterations;
 };
 
-#endif //DATABASEEXPORTDIALOG_H
+#endif //BENCHMARK_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,21 +14,16 @@
 
 #define COLUMNCOUNT 5 //There are columns: "Name", "URL", "Username", "Password", "Notes"
 
-DataModel::DataModel(const QString &path,const QString &password, bool openExisting, QObject *parent) : QAbstractTableModel(parent)
+DataModel::DataModel(QObject *parent) : QAbstractTableModel(parent)
 {
-	database = new DataAccess(path, password);
-	if(openExisting)
-		dataList = database->read();
-	else
-		database->write( QList< QVector< QString> >() );
+	database = NULL;
 }
 
 DataModel::~DataModel()
 {
-	delete database;
+	if(database != NULL)
+		delete database;
 }
-
-
 
 QVariant DataModel::data(const QModelIndex &index, int role) const
 {
@@ -133,38 +128,59 @@ void DataModel::sort(int column, Qt::SortOrder order)
 	layoutChanged();
 }
 
-int DataModel::checkDatabase(const QString &path,const QString &password)
-{
-	DataAccess database(path, password);
-	return database.checkDatabase();
-}
-
-bool DataModel::exportDatabase(const QString &path,const QString &password, int format)
+errorCode DataModel::exportDatabase(const QString &path, const QString &password, int format, QVector<Columns> organization)
 {
 	if(format == Native)
 	{
 		DataAccess databaseToExport(path, password);
+		databaseToExport.setNumberOfIterations(database->getNumberOfIterations());
 		return databaseToExport.write(dataList);
 	}
 	else if(format == Csv)
 	{
 		CsvFormat csv(path);
-		return csv.write(dataList);
+
+		if(!organization.isEmpty())
+		{
+			QList< QVector< QString > > tempList;
+			QVector< QString > temp(5);
+			QList< QVector< QString > >::iterator it;
+
+			for(it = dataList.begin(); it != dataList.end(); ++it)
+			{
+				temp[0] = (*it)[organization[DataModel::Name]];
+				temp[1] = (*it)[organization[DataModel::URL]];
+				temp[2] = (*it)[organization[DataModel::UserName]];
+				temp[3] = (*it)[organization[DataModel::Password]];
+				temp[4] = (*it)[organization[DataModel::Notes]];
+				tempList.append(temp);
+			}
+			if(csv.write(tempList))
+				return SUCCESS;
+			else
+				return FILE_ERROR;
+		}
+		else
+		{
+			if(csv.write(dataList))
+				return SUCCESS;
+			else
+				return FILE_ERROR;
+		}
 	}
 	else
-		return false;
+		return FILE_ERROR;
 }
 
-int DataModel::importDatabase(const QString &path,const QString &password, bool replaceExisting, int format)
+int DataModel::importDatabase(const QString &path, const QString &password, bool replaceExisting, int format, QVector<Columns> organization)
 {
 	QList< QVector< QString > > data;
 	if(format == Native)
 	{
 		DataAccess databaseToImport(path, password);
-		int res = databaseToImport.checkDatabase();
-		if(res != 0)
+		int res = databaseToImport.read(data);
+		if(res < 0)
 			return res;
-		data = databaseToImport.read();
 	}
 	else if(format == Csv)
 	{
@@ -172,6 +188,21 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 		data = csv.read();
 		if(data.isEmpty())
 			return -2;
+
+		if(!organization.isEmpty())
+		{
+			QVector< QString > temp(5);
+			QList< QVector< QString > >::iterator it;
+			for(it = data.begin(); it != data.end(); ++it)
+			{
+				temp[0] = (*it)[organization[DataModel::Name]];
+				temp[1] = (*it)[organization[DataModel::URL]];
+				temp[2] = (*it)[organization[DataModel::UserName]];
+				temp[3] = (*it)[organization[DataModel::Password]];
+				temp[4] = (*it)[organization[DataModel::Notes]];
+				*it = temp;
+			}
+		}
 	}
 	else
 		return -4;//undefined format
@@ -194,7 +225,7 @@ int DataModel::importDatabase(const QString &path,const QString &password, bool 
 			endInsertRows();
 		}
 	}
-	if( !database->write(dataList) )
+	if( database->write(dataList) != SUCCESS)
 		return -3;
 	
 	return 0;
@@ -205,7 +236,7 @@ QString DataModel::getPassword()
 	return database->getPassword();
 }
 
-bool DataModel::changePassword(const QString &newPassword)
+errorCode DataModel::changePassword(const QString &newPassword)
 {
 	database->setPassword(newPassword);
 	return database->write(dataList);
@@ -228,8 +259,34 @@ void DataModel::swapEntries(int firstIndex, int secondIndex)
 	database->write(dataList);
 }
 
-bool DataModel::saveDatabase()
+errorCode DataModel::saveDatabase()
 {
 	return database->write(dataList);
 }
 
+errorCode DataModel::openDatabase(const QString &path,const QString &password,int iterations, bool openExisting)
+{
+	if(database != NULL)
+		delete database;
+
+	database = new DataAccess(path, password);
+	database->setNumberOfIterations(iterations);
+	errorCode err;
+	if(openExisting)
+		err = database->read(dataList);
+	else
+		err = database->write( QList< QVector< QString> >() );
+	
+	return err;
+}
+
+int DataModel::getNumberOfIterations()
+{
+	return database->getNumberOfIterations();
+}
+
+void DataModel::setNumberOfIterations(int iterations)
+{
+	database->setNumberOfIterations(iterations);
+	database->write(dataList);
+}

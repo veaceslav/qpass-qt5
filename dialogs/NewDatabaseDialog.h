@@ -21,7 +21,7 @@
 #include "ui_NewDatabaseDialog.h"
 
 /*!
- * Provides dialog to prompt how to create new database.
+ * Provides welcome dialog.
  */
 class NewDatabaseDialog : public QDialog, private Ui::NewDatabaseDialog
 {

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (c) 2010-2011 Mateusz Piękos <mateuszpiekos@gmail.com>      *
+ *   Copyright (c) 2010-2012 Mateusz Piękos <mateuszpiekos@gmail.com>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,7 +30,7 @@
 #include "UpdateCheckerDialog.h"
 #include "qpass-config.h"
 
-MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(DataModel *model, QWidget *parent) : QMainWindow(parent)
 {
 	setWindowIcon(QIcon(":/icons/qpass.png"));
 
@@ -49,7 +49,7 @@ MainWindow::MainWindow(QString path, QString password, bool dbExists, QWidget *p
 	
 	readWindowState();
 	
-	model = new DataModel(path, password, dbExists, this);
+	this->model = model;
 	
 	proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setSourceModel( model );
@@ -220,11 +220,14 @@ void MainWindow::showPreferencesDialog()
 	preferences.setVisibleElementsAmount( trayIcon->getVisibleElementsAmount() );
 	preferences.setClipboardTimeout( clipboardTimeout );
 	preferences.setShowPassword( showPasswordByDefault );
+	preferences.setNumberOfIterations( model->getNumberOfIterations() );
 	if( preferences.exec() == QDialog::Accepted )
 	{
 		trayIcon->setVisibleElementsAmount( preferences.getVisibleElementsAmount() );
 		clipboardTimeout = preferences.getClipboardTimeout();
 		showPasswordByDefault = preferences.getShowPassword();
+		if(preferences.getNumberOfIterations() != model->getNumberOfIterations())
+			model->setNumberOfIterations(preferences.getNumberOfIterations());
 	}
 }
 
@@ -253,7 +256,8 @@ void MainWindow::exportDatabase()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		if(model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword(), exportDialog.getFormat() ))
+		errorCode err = model->exportDatabase( exportDialog.getPath(), exportDialog.getPassword(), exportDialog.getFormat(), exportDialog.getColumnOrganization());
+		if(err == SUCCESS)
 		{
 			box.setText( tr("Database has been exported successfully.") );
 			box.setIcon(QMessageBox::Information);
@@ -289,8 +293,8 @@ void MainWindow::importDatabase()
 		}
 
 		int format = importDialog.getFormat();
-		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace, format);
-		if( res == 0 )
+		int res = model->importDatabase(importDialog.getPath(), importDialog.getPassword(), replace, format, importDialog.getColumnOrganization());
+		if( res == SUCCESS )
 		{
 			box.setText( tr("Database has been imported successfully.") );
 			box.setIcon(QMessageBox::Information);
@@ -311,7 +315,7 @@ void MainWindow::changePassword()
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
-		if( model->changePassword( passwordDialog.getNewPassword() ) )
+		if( model->changePassword( passwordDialog.getNewPassword() ) == SUCCESS )
 		{
 			box.setText( tr("Password has been changed successfully.") );
 			box.setIcon( QMessageBox::Information ); 
@@ -404,11 +408,20 @@ void MainWindow::sortEntries(Qt::SortOrder order)
 {
 	selectionModel->clearSelection();
 	model->sort(0, order);
-	if(!model->saveDatabase())
+	errorCode err = model->saveDatabase();
+	if(err == FILE_ERROR)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
 		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
+	else if(err == GCRYPT_ERROR)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("libgcrypt library error");
 		box.setIcon( QMessageBox::Critical );
 		box.exec();
 	}
@@ -441,6 +454,9 @@ void MainWindow::addItem()
 	}
 
 	selectionModel->setCurrentIndex( proxyModel->index( proxyModel->rowCount()-1, 0 ), QItemSelectionModel::SelectCurrent);
+
+    // Give focus to the name box so user can start typing right away
+    nameEdit->setFocus();
 }
 
 void MainWindow::removeSelectedItem()
@@ -465,13 +481,23 @@ void MainWindow::removeSelectedItem()
 				box1.setIcon( QMessageBox::Critical );
 				box1.exec();
 			}
-			if(!model->saveDatabase())
+
+			errorCode err = model->saveDatabase();
+			if(err == FILE_ERROR)
 			{
-				QMessageBox box1(this);
-				box1.setWindowTitle( tr("QPass") );
-				box1.setText( tr("Error writing to database!") );
-				box1.setIcon( QMessageBox::Critical );
-				box1.exec();
+				QMessageBox box(this);
+				box.setWindowTitle( tr("QPass") );
+				box.setText("Error writing to database!");
+				box.setIcon( QMessageBox::Critical );
+				box.exec();
+			}
+			else if(err == GCRYPT_ERROR)
+			{
+				QMessageBox box(this);
+				box.setWindowTitle( tr("QPass") );
+				box.setText("libgcrypt library error");
+				box.setIcon( QMessageBox::Critical );
+				box.exec();
 			}
 		}
 	}
@@ -558,11 +584,21 @@ void MainWindow::saveItem(const QModelIndex &item)
 	proxyModel->setData( proxyModel->index( row, 2), userNameEdit->text());
 	proxyModel->setData( proxyModel->index( row, 3), passwordEdit->text());
 	proxyModel->setData( proxyModel->index( row, 4), notesEdit->toPlainText());
-	if(!model->saveDatabase())
+
+	errorCode err = model->saveDatabase();
+	if(err == FILE_ERROR)
 	{
 		QMessageBox box(this);
 		box.setWindowTitle( tr("QPass") );
 		box.setText("Error writing to database!");
+		box.setIcon( QMessageBox::Critical );
+		box.exec();
+	}
+	else if(err == GCRYPT_ERROR)
+	{
+		QMessageBox box(this);
+		box.setWindowTitle( tr("QPass") );
+		box.setText("libgcrypt library error");
 		box.setIcon( QMessageBox::Critical );
 		box.exec();
 	}
@@ -757,4 +793,9 @@ void MainWindow::openFAQ()
 void MainWindow::clearClipboard() 
 {
 	QApplication::clipboard()->clear();
+}
+
+bool MainWindow::isUnsaved()
+{
+	return saveButton->isEnabled();
 }
