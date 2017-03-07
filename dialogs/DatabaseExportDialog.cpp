@@ -55,12 +55,12 @@ void DatabaseExportDialog::browse()
 	
 	if(qpaFormat->isChecked())
 	{
-		dialog.setFilter("QPass database files (*.qpa);;All Files (*)");
+        dialog.setNameFilter("QPass database files (*.qpa);;All Files (*)");
 		dialog.setDefaultSuffix("qpa");
 	}
 	else if(csvFormat->isChecked())
 	{
-		dialog.setFilter("CSV files (*.csv);;All Files (*)");
+        dialog.setNameFilter("CSV files (*.csv);;All Files (*)");
 		dialog.setDefaultSuffix("csv");
 	}
 	if(dialog.exec() == QDialog::Accepted)

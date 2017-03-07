@@ -119,7 +119,11 @@ else(WIN32)
 	ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
 endif(WIN32)
 
-TARGET_LINK_LIBRARIES(qpass Qt5::Widgets Qt5::Network ${LIBGCRYPT} ${LIBGPGERROR})
+TARGET_LINK_LIBRARIES(qpass 
+                      Qt5::Widgets
+                      Qt5::Network
+                      ${LIBGCRYPT}
+                      ${LIBGPGERROR})
 
 install(TARGETS qpass DESTINATION ${QPASS_BIN_DIR})
 install(FILES ${QPass_QM} DESTINATION ${QPASS_DATA_DIR}/translations)

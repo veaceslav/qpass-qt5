@@ -60,9 +60,9 @@ void DatabaseImportDialog::browse()
 {
 	QFileDialog dialog(this);
 	if(qpaFormat->isChecked())
-		dialog.setFilter( tr("QPass database files (*.qpa);;All Files (*)") );
+        dialog.setNameFilter( tr("QPass database files (*.qpa);;All Files (*)") );
 	else if(csvFormat->isChecked())
-		dialog.setFilter( tr("CSV files (*.csv);;All Files (*)") );
+        dialog.setNameFilter( tr("CSV files (*.csv);;All Files (*)") );
 	dialog.setFileMode( QFileDialog::ExistingFile );
 	if(dialog.exec() == QDialog::Accepted)
 		pathEdit->setText( dialog.selectedFiles().at(0));

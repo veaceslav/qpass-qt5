@@ -52,7 +52,7 @@ errorCode DataAccess::read(QList< QVector< QString> > &list)
 			if(key == NULL)
 				key = new char[32];
 			memset(key, 0, 32);
-			strcpy(key, password.toAscii());
+            strcpy(key, password.toLatin1());
 			gcry_cipher_setkey(hd, key, 16);
 			delete key;
 			key = NULL;
