@@ -2,12 +2,15 @@ PROJECT(QPass)
 
 cmake_minimum_required(VERSION 2.8)
 
-FIND_PACKAGE(Qt4 4.7 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
+#FIND_PACKAGE(Qt4 4.7 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
+
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5LinguistTools REQUIRED)
+find_package(Qt5Network REQUIRED)
 
 SET(QPASS_VERSION "1.3.1")
 SET(QPASS_WIN_VERSION 1,3,1,0)
 
-INCLUDE(${QT_USE_FILE}) 
 
 FIND_LIBRARY(LIBGCRYPT "gcrypt")
 FIND_LIBRARY(LIBGPGERROR "gpg-error")
@@ -86,10 +89,10 @@ set(QPass_TS
 	translations/nl_NL.ts
 )
 include_directories(${INCLUDE_DIR})
-QT4_ADD_TRANSLATION(QPass_QM ${QPass_TS})
-QT4_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
-QT4_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
-QT4_ADD_RESOURCES(QPass_RCC_SRCS images/qpass.qrc)
+QT5_CREATE_TRANSLATION(QPass_QM ${QPass_TS})
+QT5_WRAP_UI(QPass_UI_HDRS ${QPass_UI})
+QT5_WRAP_CPP(QPass_HEADERS_MOC ${QPass_HEADERS})
+QT5_ADD_RESOURCES(QPass_RCC_SRCS images/qpass.qrc)
 
 #if you are going to change below values look and change values in PredefinedSettings.cpp if necessary
 if(WIN32)
@@ -116,7 +119,7 @@ else(WIN32)
 	ADD_EXECUTABLE(qpass ${QPass_SOURCES} ${QPass_HEADERS_MOC} ${QPass_UI_HDRS} ${QPass_RCC_SRCS} ${QPass_QM})
 endif(WIN32)
 
-TARGET_LINK_LIBRARIES(qpass ${QT_LIBRARIES} ${LIBGCRYPT} ${LIBGPGERROR})
+TARGET_LINK_LIBRARIES(qpass Qt5::Widgets Qt5::Network ${LIBGCRYPT} ${LIBGPGERROR})
 
 install(TARGETS qpass DESTINATION ${QPASS_BIN_DIR})
 install(FILES ${QPass_QM} DESTINATION ${QPASS_DATA_DIR}/translations)
