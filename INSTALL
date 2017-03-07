@@ -1,5 +1,5 @@
 REQUIREMENTS:
-Qt >= 4.7
+Qt >= 5.x
 libgcrypt
 
 The simplest way to build and install QPass is to type this commands

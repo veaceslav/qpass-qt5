@@ -6,11 +6,16 @@ Each entry can contain name, url, username, password and description.
 It can stay running in tray so your data can be close at hand. With
 password generator you can generate strong passwords. 
 
-QPass is written in C++ and it uses Qt4 and libgcrypt as GUI and
+QPass is written in C++ and it uses Qt5 and libgcrypt as GUI and
 cryptographic library.
 
+
+NOTE: This is port to Qt5
+
+Original project can be found here
 More information can be found on http://qpass.sourceforge.net
 
-If you have questions, ideas to new features or want to report a bug
-write to me at: mateuszpiekos@gmail.com
+Original Author: mateuszpiekos at gmail.com
+
+Qt5 Port: Veaceslav Munteanu <veaceslav {dot} munteanu90 at gmail dot com>
 
