@@ -2,14 +2,12 @@ PROJECT(QPass)
 
 cmake_minimum_required(VERSION 2.8)
 
-#FIND_PACKAGE(Qt4 4.7 COMPONENTS QtCore QtGui QtNetwork REQUIRED)
-
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
 find_package(Qt5Network REQUIRED)
 
-SET(QPASS_VERSION "1.3.1")
-SET(QPASS_WIN_VERSION 1,3,1,0)
+SET(QPASS_VERSION "2.0.0")
+SET(QPASS_WIN_VERSION 2,0,0,0)
 
 
 FIND_LIBRARY(LIBGCRYPT "gcrypt")
